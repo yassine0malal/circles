@@ -5,11 +5,11 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://username.github.io',
+  base: '/repo-name',
   vite: {
     plugins: [tailwindcss()],
     css: {
-      // This explicitly defines the block Tailwind v4 is searching for,
-      // preventing the "devSourcemap of undefined" crash.
       devSourcemap: true
     }
   }
