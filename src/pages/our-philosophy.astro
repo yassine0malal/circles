@@ -1,0 +1,244 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const values = [
+  {
+    title: 'Healing in Connection',
+    desc: 'We believe that growth happens when we feel truly seen. Our circles create space for authentic connection, where vulnerability becomes strength and shared experience becomes medicine.',
+    icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z'
+  },
+  {
+    title: 'Guided by Professionals',
+    desc: 'Every circle is led by a licensed therapist trained in group dynamics. They don\'t lecture — they hold space, ask questions, and ensure everyone feels safe to share at their own pace.',
+    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+  },
+  {
+    title: 'Intentional Design',
+    desc: 'From the size of our groups to the structure of each session, every detail is considered. We limit circles to 8 participants so every voice has room to breathe.',
+    icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
+  },
+  {
+    title: 'Beyond the Session',
+    desc: 'Healing doesn\'t end when the circle closes. We provide reflection prompts, resources, and ongoing support to help you integrate what you discover into daily life.',
+    icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6'
+  }
+];
+
+const team = [
+  {
+    name: 'Dr. Sarah Chen',
+    role: 'Founder & Clinical Director',
+    cred: 'PhD, Licensed Psychologist',
+    bio: 'After years of private practice, Sarah recognized that isolation was the silent barrier to healing. She founded Circle Share to bring the power of community into mental health care.',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop&crop=face'
+  },
+  {
+    name: 'Marcus Williams',
+    role: 'Head of Facilitator Training',
+    cred: 'LCSW, Certified Group Therapist',
+    bio: 'Marcus oversees the selection and training of every Circle Share facilitator, ensuring they meet our standards of empathy, presence, and clinical excellence.',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop&crop=face'
+  },
+  {
+    name: 'Amara Okafor',
+    role: 'Community & Wellness Lead',
+    cred: 'MA, Mindfulness-Based Stress Reduction',
+    bio: 'Amara designs the between-session experiences — reflection prompts, wellness resources, and community events that extend the circle beyond the video call.',
+    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop&crop=face'
+  }
+];
+
+const stats = [
+  { value: '12,000+', label: 'Sessions facilitated' },
+  { value: '98%', label: 'Would recommend to a friend' },
+  { value: '47', label: 'States with active circles' },
+  { value: '4.9', label: 'Average session rating' }
+];
+---
+
+<Layout title='Our Philosophy — Circle Share'>
+  <main class="pb-24">
+
+    {/* Hero */}
+    <section class="relative pt-24 pb-20 lg:pt-32 lg:pb-28 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-warm-100/50 to-transparent pointer-events-none" />
+      
+      <div class="max-w-4xl mx-auto text-center relative">
+        <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-6">
+          Our Philosophy
+        </p>
+        <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-medium text-warm-900 leading-[0.95] mb-8">
+          We believe healing<br />
+          happens <span class="italic text-olive">together</span>
+        </h1>
+        <p class="text-lg md:text-xl font-light text-warm-500 max-w-2xl mx-auto leading-relaxed">
+          Circle Share was born from a simple truth: we are not meant to carry our struggles alone. 
+          In community, we find the courage to face what hurts — and the strength to grow beyond it.
+        </p>
+      </div>
+    </section>
+
+    {/* Values Grid */}
+    <section class="px-6 py-20 lg:py-28 bg-warm-100">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-4">What we stand for</p>
+          <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900">
+            The principles that guide us
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          {values.map((val, i) => (
+            <div class="group bg-white rounded-2xl p-8 lg:p-10 border border-warm-200/60 hover:shadow-lg hover:shadow-warm-900/5 transition-all duration-500">
+              <div class="w-12 h-12 rounded-xl bg-warm-100 flex items-center justify-center mb-6 group-hover:bg-olive/10 transition-colors duration-500">
+                <svg class="w-6 h-6 text-warm-700 group-hover:text-olive transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={val.icon}/>
+                </svg>
+              </div>
+              <h3 class="font-serif text-xl font-medium text-warm-900 mb-3">{val.title}</h3>
+              <p class="text-sm font-light text-warm-600 leading-[1.8]">{val.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Origin Story */}
+    <section class="px-6 py-20 lg:py-28 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div class="relative">
+          <div class="aspect-[4/5] rounded-2xl overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=1000&fit=crop&q=80" 
+              alt="People in a healing circle" 
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-cream rounded-2xl -z-10 hidden lg:block" />
+          <div class="absolute -top-6 -left-6 w-24 h-24 bg-warm-200 rounded-2xl -z-10 hidden lg:block" />
+        </div>
+
+        <div class="lg:pl-8">
+          <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-6">Our story</p>
+          <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900 leading-tight mb-8">
+            From isolation to<br />
+            <span class="italic text-olive">intentional community</span>
+          </h2>
+          <div class="space-y-5 text-base font-light text-warm-600 leading-[1.8]">
+            <p>
+              In 2019, our founder Dr. Sarah Chen sat across from yet another patient who had made progress in individual therapy, but still felt profoundly alone. The patient had the tools, but lacked the community to practice them.
+            </p>
+            <p>
+              That moment sparked a question: What if therapy wasn't just a one-on-one conversation, but a shared experience? What if healing could happen in circles — small, intentional, professionally guided?
+            </p>
+            <p>
+              Circle Share began as an experiment with eight people in a Brooklyn living room. Today, it has grown into a movement — thousands of participants across the country, finding connection, support, and transformation in community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Stats Band */}
+    <section class="px-6 py-16 lg:py-20 bg-warm-800">
+      <div class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        {stats.map(stat => (
+          <div class="text-center">
+            <p class="font-serif text-4xl lg:text-5xl font-medium text-cream mb-2">{stat.value}</p>
+            <p class="text-sm font-light text-warm-300">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Team */}
+    <section class="px-6 py-20 lg:py-28 max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-4">The people behind it</p>
+        <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900">
+          Meet our leadership
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+        {team.map(person => (
+          <article class="group">
+            <div class="aspect-[3/4] rounded-2xl overflow-hidden mb-6 bg-warm-200">
+              <img 
+                src={person.image} 
+                alt={person.name}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+            </div>
+            <h3 class="font-serif text-xl font-medium text-warm-900 mb-1">{person.name}</h3>
+            <p class="text-sm font-medium text-olive mb-1">{person.role}</p>
+            <p class="text-xs text-warm-400 mb-4">{person.cred}</p>
+            <p class="text-sm font-light text-warm-600 leading-[1.7]">{person.bio}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {/* Approach Detail */}
+    <section class="px-6 py-20 lg:py-28 bg-warm-100">
+      <div class="max-w-4xl mx-auto text-center">
+        <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-6">Our approach</p>
+        <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900 leading-tight mb-8">
+          Trauma-informed.<br />
+          Evidence-based.<br />
+          <span class="italic text-olive">Deeply human.</span>
+        </h2>
+        <p class="text-base font-light text-warm-600 leading-[1.8] max-w-2xl mx-auto mb-12">
+          Every Circle Share session is grounded in proven therapeutic modalities — CBT, mindfulness, somatic experiencing, and psychodynamic theory. But what makes us different is how we deliver them: through the power of shared experience, guided by professionals who truly care.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+          <div class="bg-white rounded-xl p-6 border border-warm-200/60">
+            <p class="text-xs font-bold tracking-wider uppercase text-warm-400 mb-3">01</p>
+            <h4 class="font-serif text-lg font-medium text-warm-900 mb-2">Assess</h4>
+            <p class="text-sm font-light text-warm-600 leading-relaxed">We match you to circles based on your needs, goals, and comfort level — never a one-size-fits-all approach.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 border border-warm-200/60">
+            <p class="text-xs font-bold tracking-wider uppercase text-warm-400 mb-3">02</p>
+            <h4 class="font-serif text-lg font-medium text-warm-900 mb-2">Connect</h4>
+            <p class="text-sm font-light text-warm-600 leading-relaxed">Join your circle and meet others who understand. Your facilitator ensures everyone feels safe and heard.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 border border-warm-200/60">
+            <p class="text-xs font-bold tracking-wider uppercase text-warm-400 mb-3">03</p>
+            <h4 class="font-serif text-lg font-medium text-warm-900 mb-2">Grow</h4>
+            <p class="text-sm font-light text-warm-600 leading-relaxed">Between sessions, receive reflection prompts and resources. Return each week with deeper self-understanding.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* CTA */}
+    <section class="px-6 py-20 lg:py-28 text-center">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900 leading-tight mb-6">
+          Ready to begin your journey?
+        </h2>
+        <p class="text-base font-light text-warm-500 leading-relaxed mb-10">
+          Whether you're navigating grief, anxiety, life transitions, or simply seeking deeper connection — there's a circle waiting for you.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a 
+            href="/circles" 
+            class="px-8 py-4 bg-warm-800 text-cream text-sm font-medium tracking-wide rounded-full hover:bg-olive transition-all duration-500 hover:shadow-lg hover:shadow-warm-800/20 hover:-translate-y-0.5"
+          >
+            Explore Circles
+          </a>
+          <a 
+            href="/therapists" 
+            class="px-8 py-4 border border-warm-300 text-warm-800 text-sm font-medium tracking-wide rounded-full hover:border-warm-500 hover:bg-white transition-all duration-500"
+          >
+            Meet Our Therapists
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</Layout>
