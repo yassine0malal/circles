@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import "../styles/global.css";
 
 interface Props {
   title: string;
@@ -23,30 +24,7 @@ const { title } = Astro.props;
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
   
-  <style>
-    @import "tailwindcss"; 
-    @import url('https://googleapis.com');
 
-    @theme {
-      --font-serif: 'Playfair Display', serif;
-      --font-sans: 'DM Sans', sans-serif;
-      --font-bona: 'Bona Nova', serif;
-
-      --color-warm-50: #faf9f6;
-      --color-warm-100: #f3f0ea;
-      --color-warm-200: #e8e2d9;
-      --color-warm-300: #d5cdc0;
-      --color-warm-400: #b0a594;
-      --color-warm-500: #8a7d6b;
-      --color-warm-600: #6b5f4f;
-      --color-warm-700: #4a4237;
-      --color-warm-800: #2d2822;
-      --color-warm-900: #1a1714;
-      --color-olive: #5c6b4a;
-      --color-olive-dark: #3d4a30;
-      --color-cream: #f5f1eb;
-    }
-  </style>
 </head>
 <body class="bg-warm-50 text-warm-900 antialiased selection:bg-warm-200 selection:text-warm-900">
   <Header/>

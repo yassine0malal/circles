@@ -1,0 +1,31 @@
+---
+// src/components/CircleCard.astro
+const { title, category, facilitator, date, time, spots, location, image, price } = Astro.props;
+---
+
+<article class="bg-white rounded-2xl border border-warm-100 overflow-hidden hover:shadow-lg hover:shadow-warm-900/5 hover:-translate-y-1 transition-all duration-500 group cursor-pointer">
+  <div class="relative h-40 overflow-hidden">
+    <img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-warm-800 text-[10px] font-semibold px-2.5 py-1 rounded-full">
+      {price}
+    </span>
+  </div>
+  <div class="p-4">
+    <div class="flex items-start gap-2 mb-2">
+      <h3 class=" text-base font-medium text-warm-900 group-hover:text-olive transition-colors">{title}</h3>
+      <span class="shrink-0 mt-0.5 px-2 py-0.5 bg-warm-100 text-warm-600 text-[10px] font-medium rounded-full uppercase">{category}</span>
+    </div>
+    <div class="flex items-center gap-1.5 mb-3">
+      <div class="w-5 h-5 rounded-full bg-warm-200 flex items-center justify-center text-[8px] text-warm-600">{facilitator.charAt(0)}</div>
+      <span class="text-xs text-warm-500">{facilitator}</span>
+    </div>
+    <div class="flex items-center gap-3 text-[11px] text-warm-400">
+      <span>{date}</span>
+      <span>{time}</span>
+      <span>{spots}</span>
+    </div>
+    <div class="flex items-center gap-1 text-[11px] text-warm-400 mt-1">
+      <span>{location}</span>
+    </div>
+  </div>
+</article>

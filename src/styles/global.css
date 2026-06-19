@@ -1,1 +1,41 @@
 @import "tailwindcss";
+
+@theme {
+
+    --color-brand-dark: #1A2E26;
+    --color-brand-cream: #FDFBF7;
+    --color-brand-accent: #E2AF47;
+
+    --color-success: #bdd600;
+
+
+
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'DM Sans', sans-serif;
+    --font-bona: 'Bona Nova', serif;
+
+    --color-warm-50: #faf9f6;
+    --color-warm-100: #f3f0ea;
+    --color-warm-200: #e8e2d9;
+    --color-warm-300: #d5cdc0;
+    --color-warm-400: #b0a594;
+    --color-warm-500: #8a7d6b;
+    --color-warm-600: #6b5f4f;
+    --color-warm-700: #4a4237;
+    --color-warm-800: #2d2822;
+    --color-warm-900: #1a1714;
+    --color-olive: #5c6b4a;
+    --color-olive-dark: #3d4a30;
+    --color-cream: #f5f1eb;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("https://fonts.gstatic.com/s/onest/v9/gNMKW3F-SZuj7xmS-HY6EQ.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+html,
+body {
+  font-family: "Onest", sans-serif;
+}
