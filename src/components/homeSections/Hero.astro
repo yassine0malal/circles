@@ -1,0 +1,76 @@
+---
+---
+ <!-- TODO: i should make some space between the hero page and header navbar   -->
+<header 
+  class="relative-mt-[74px] overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,#322341_0%,#241B2E_58%,#1F1728_100%)] pt-[252px] lg:pt-[230px] pb-[110px] text-[#F6ECE3]"
+>    
+  {/* Glow */}
+<div 
+    class="pointer-events-none absolute left-1/2 top-[44%] sm:top-[46%] h-[85vw] w-[85vw] min-h-[280px] min-w-[280px] max-h-[520px] max-w-[520px] -translate-x-1/2 -translate-y-1/2 blur-[8px] sm:blur-[6px]"
+    style="background: radial-gradient(circle, rgba(224,163,92,.22) 0%, rgba(193,111,114,.10) 38%, transparent 66%);"
+  />
+
+  {/* Floating Rings */}
+  <div class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-90" aria-hidden="true">
+    <svg 
+      viewBox="0 0 1100 700" 
+      fill="none" 
+      class="h-auto w-[min(1100px,150%)] origin-center animate-[drift_13s_ease-in-out_infinite]"
+    >
+      <circle cx="550" cy="350" r="120" stroke="#E0A35C" stroke-width="1.4" opacity=".55" />
+      <circle cx="550" cy="350" r="210" stroke="#C16F72" stroke-width="1.2" opacity=".42" />
+      <circle cx="550" cy="350" r="310" stroke="#6E8B7A" stroke-width="1.2" opacity=".3" />
+      <circle cx="550" cy="350" r="420" stroke="#C16F72" stroke-width="1" opacity=".18" />
+      <circle cx="430" cy="350" r="150" stroke="#C16F72" stroke-width="1.2" opacity=".4" />
+      <circle cx="670" cy="350" r="150" stroke="#6E8B7A" stroke-width="1.2" opacity=".4" />
+    </svg>
+  </div>
+
+  {/* Content */}
+  <div class="relative z-10 mx-auto max-w-[780px] px-4 text-center">
+    
+    <span class="mb-[22px] inline-block text-[#E0A35C]">Circles of belonging</span>
+    
+    <h1 class="mb-[22px] font-serif text-[clamp(2.7rem,6.4vw,5rem)] font-light leading-[1.03] tracking-[-0.03em]">
+      Some things heal better<br />
+      in a <em class="italic text-[#C16F72]">circle</em>.
+    </h1>
+    
+    <p class="mx-auto mb-9 max-w-[54ch] text-[1.18rem] leading-[1.6] text-[rgba(246,236,227,0.82)]">
+      Find therapy and healing circles led by real, licensed people — see who runs them, what they cost, and how many seats are left. Then join directly, with nothing tracked and no one in the middle.
+    </p>
+    
+    <div class="flex flex-wrap justify-center gap-3.5">
+      <a 
+        href="#discover" 
+        class="inline-flex items-center gap-2 rounded-full bg-[#F6ECE3] px-6 py-3 text-sm font-medium text-[#241B2E] transition-colors hover:bg-white"
+      >
+        Find your circle
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h9M8 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a 
+        href="#facilitators" 
+        class="inline-flex items-center rounded-full border border-[rgba(246,236,227,0.35)] px-6 py-3 text-sm font-medium text-[#F6ECE3] backdrop-blur-sm transition-colors hover:border-[rgba(246,236,227,0.6)] hover:bg-[rgba(246,236,227,0.08)]"
+      >
+        I lead a circle
+      </a>
+    </div>
+    
+    <p class="mt-[26px] text-[0.82rem] tracking-[0.04em] text-[rgba(246,236,227,0.6)]">
+      <span class="font-semibold text-[rgba(246,236,227,0.85)]">No trackers.</span>
+      <span class="mx-2">·</span>
+      <span class="font-semibold text-[rgba(246,236,227,0.85)]">No commission.</span>
+      <span class="mx-2">·</span>
+      <span class="font-semibold text-[rgba(246,236,227,0.85)]">No middleman.</span>
+    </p>
+  </div>
+</header>
+
+<style>
+  @keyframes drift {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-14px) scale(1.012); }
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+export interface Props {
+    title: string;
+    expanded?: boolean;
+}
+
+const { title, expanded = true } = Astro.props;
+---
+
+<div class="filter-section" data-expanded={String(expanded)}>
+    <button
+        class="filter-header flex items-center justify-between w-full text-sm font-semibold text-ink mb-4 group"
+        aria-expanded={expanded ? "true" : "false"}
+    >
+        <span>{title}</span>
+        <svg
+            class="w-4 h-4 text-ink-soft transition-transform duration-200 group-aria-expanded:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+        </svg>
+    </button>
+    <div class="filter-body">
+        <slot />
+    </div>
+</div>

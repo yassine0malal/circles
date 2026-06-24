@@ -57,21 +57,27 @@ const stats = [
 ---
 
 <Layout title='Our Philosophy — Circle Share'>
+  <!-- <div class="h-22 linear bg-[linear-gradient(160deg,#241B2E_0%,#2A2135_50%,#574B63_100%)]">
+
+  </div> -->
+   <div class="h-23 backdrop-blur-md border-b border-line transition-[background,backdrop-filter] duration-300 ease-in-out">
+</div>
   <main class="pb-24">
+
 
     {/* Hero */}
     <section class="relative pt-24 pb-20 lg:pt-32 lg:pb-28 px-6 overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-warm-100/50 to-transparent pointer-events-none" />
+      <div class="absolute inset-0 bg-gradient-to-b from-raised/50 to-transparent pointer-events-none" />
       
       <div class="max-w-4xl mx-auto text-center relative">
-        <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-6">
+        <p class="text-xs font-light tracking-[0.3em] uppercase text-ink-soft/70 mb-6">
           Our Philosophy
         </p>
-        <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-medium text-warm-900 leading-[0.95] mb-8">
+        <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-medium text-ink leading-[0.95] mb-8">
           We believe healing<br />
-          happens <span class="italic text-olive">together</span>
+          happens <span class="italic text-sage">together</span>
         </h1>
-        <p class="text-lg md:text-xl font-light text-warm-500 max-w-2xl mx-auto leading-relaxed">
+        <p class="text-lg md:text-xl font-light text-ink-soft/70 max-w-2xl mx-auto leading-relaxed">
           Circle Share was born from a simple truth: we are not meant to carry our struggles alone. 
           In community, we find the courage to face what hurts — and the strength to grow beyond it.
         </p>
@@ -79,25 +85,25 @@ const stats = [
     </section>
 
     {/* Values Grid */}
-    <section class="px-6 py-20 lg:py-28 bg-warm-100">
+    <section class="px-6 py-20 lg:py-28 bg-raised">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-          <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-4">What we stand for</p>
-          <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900">
+          <p class="text-xs font-light tracking-[0.3em] uppercase text-ink-soft/70 mb-4">What we stand for</p>
+          <h2 class="font-display text-3xl md:text-4xl font-medium text-ink">
             The principles that guide us
           </h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {values.map((val, i) => (
-            <div class="group bg-white rounded-2xl p-8 lg:p-10 border border-warm-200/60 hover:shadow-lg hover:shadow-warm-900/5 transition-all duration-500">
-              <div class="w-12 h-12 rounded-xl bg-warm-100 flex items-center justify-center mb-6 group-hover:bg-olive/10 transition-colors duration-500">
-                <svg class="w-6 h-6 text-warm-700 group-hover:text-olive transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="group bg-white rounded-2xl p-8 lg:p-10 border border-line hover:shadow-lg hover:shadow-ink/10 transition-all duration-500">
+              <div class="w-12 h-12 rounded-xl bg-raised flex items-center justify-center mb-6 group-hover:bg-sage/10 transition-colors duration-500">
+                <svg class="w-6 h-6 text-ink-soft group-hover:text-sage transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={val.icon}/>
                 </svg>
               </div>
-              <h3 class="font-serif text-xl font-medium text-warm-900 mb-3">{val.title}</h3>
-              <p class="text-sm font-light text-warm-600 leading-[1.8]">{val.desc}</p>
+              <h3 class="font-display text-xl font-medium text-ink mb-3">{val.title}</h3>
+              <p class="text-sm font-light text-ink-soft/90 leading-[1.8]">{val.desc}</p>
             </div>
           ))}
         </div>
@@ -116,16 +122,16 @@ const stats = [
             />
           </div>
           <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-cream rounded-2xl -z-10 hidden lg:block" />
-          <div class="absolute -top-6 -left-6 w-24 h-24 bg-warm-200 rounded-2xl -z-10 hidden lg:block" />
+          <div class="absolute -top-6 -left-6 w-24 h-24 bg-cream rounded-2xl -z-10 hidden lg:block" />
         </div>
 
         <div class="lg:pl-8">
-          <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-6">Our story</p>
-          <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900 leading-tight mb-8">
+          <p class="text-xs font-light tracking-[0.3em] uppercase text-ink-soft/70 mb-6">Our story</p>
+          <h2 class="font-display text-3xl md:text-4xl font-medium text-ink leading-tight mb-8">
             From isolation to<br />
-            <span class="italic text-olive">intentional community</span>
+            <span class="italic text-sage">intentional community</span>
           </h2>
-          <div class="space-y-5 text-base font-light text-warm-600 leading-[1.8]">
+          <div class="space-y-5 text-base font-light text-ink-soft/90 leading-[1.8]">
             <p>
               In 2019, our founder Dr. Sarah Chen sat across from yet another patient who had made progress in individual therapy, but still felt profoundly alone. The patient had the tools, but lacked the community to practice them.
             </p>
@@ -141,12 +147,12 @@ const stats = [
     </section>
 
     {/* Stats Band */}
-    <section class="px-6 py-16 lg:py-20 bg-warm-800">
+    <section class="px-6 py-16 lg:py-20 bg-ink">
       <div class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
         {stats.map(stat => (
           <div class="text-center">
-            <p class="font-serif text-4xl lg:text-5xl font-medium text-cream mb-2">{stat.value}</p>
-            <p class="text-sm font-light text-warm-300">{stat.label}</p>
+            <p class="font-display text-4xl lg:text-5xl font-medium text-cream mb-2">{stat.value}</p>
+            <p class="text-sm font-light text-mist">{stat.label}</p>
           </div>
         ))}
       </div>
@@ -155,8 +161,8 @@ const stats = [
     {/* Team */}
     <section class="px-6 py-20 lg:py-28 max-w-6xl mx-auto">
       <div class="text-center mb-16">
-        <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-4">The people behind it</p>
-        <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900">
+        <p class="text-xs font-light tracking-[0.3em] uppercase text-ink-soft/70 mb-4">The people behind it</p>
+        <h2 class="font-display text-3xl md:text-4xl font-medium text-ink">
           Meet our leadership
         </h2>
       </div>
@@ -164,7 +170,7 @@ const stats = [
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
         {team.map(person => (
           <article class="group">
-            <div class="aspect-[3/4] rounded-2xl overflow-hidden mb-6 bg-warm-200">
+            <div class="aspect-[3/4] rounded-2xl overflow-hidden mb-6 bg-cream">
               <img 
                 src={person.image} 
                 alt={person.name}
@@ -172,43 +178,43 @@ const stats = [
                 loading="lazy"
               />
             </div>
-            <h3 class="font-serif text-xl font-medium text-warm-900 mb-1">{person.name}</h3>
-            <p class="text-sm font-medium text-olive mb-1">{person.role}</p>
-            <p class="text-xs text-warm-400 mb-4">{person.cred}</p>
-            <p class="text-sm font-light text-warm-600 leading-[1.7]">{person.bio}</p>
+            <h3 class="font-display text-xl font-medium text-ink mb-1">{person.name}</h3>
+            <p class="text-sm font-medium text-sage mb-1">{person.role}</p>
+            <p class="text-xs text-ink-soft/50 mb-4">{person.cred}</p>
+            <p class="text-sm font-light text-ink-soft/90 leading-[1.7]">{person.bio}</p>
           </article>
         ))}
       </div>
     </section>
 
     {/* Approach Detail */}
-    <section class="px-6 py-20 lg:py-28 bg-warm-100">
+    <section class="px-6 py-20 lg:py-28 bg-raised">
       <div class="max-w-4xl mx-auto text-center">
-        <p class="text-xs font-light tracking-[0.3em] uppercase text-warm-500 mb-6">Our approach</p>
-        <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900 leading-tight mb-8">
+        <p class="text-xs font-light tracking-[0.3em] uppercase text-ink-soft/70 mb-6">Our approach</p>
+        <h2 class="font-display text-3xl md:text-4xl font-medium text-ink leading-tight mb-8">
           Trauma-informed.<br />
           Evidence-based.<br />
-          <span class="italic text-olive">Deeply human.</span>
+          <span class="italic text-sage">Deeply human.</span>
         </h2>
-        <p class="text-base font-light text-warm-600 leading-[1.8] max-w-2xl mx-auto mb-12">
+        <p class="text-base font-light text-ink-soft/90 leading-[1.8] max-w-2xl mx-auto mb-12">
           Every Circle Share session is grounded in proven therapeutic modalities — CBT, mindfulness, somatic experiencing, and psychodynamic theory. But what makes us different is how we deliver them: through the power of shared experience, guided by professionals who truly care.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
-          <div class="bg-white rounded-xl p-6 border border-warm-200/60">
-            <p class="text-xs font-bold tracking-wider uppercase text-warm-400 mb-3">01</p>
-            <h4 class="font-serif text-lg font-medium text-warm-900 mb-2">Assess</h4>
-            <p class="text-sm font-light text-warm-600 leading-relaxed">We match you to circles based on your needs, goals, and comfort level — never a one-size-fits-all approach.</p>
+          <div class="bg-white rounded-xl p-6 border border-line">
+            <p class="text-xs font-bold tracking-wider uppercase text-ink-soft/50 mb-3">01</p>
+            <h4 class="font-display text-lg font-medium text-ink mb-2">Assess</h4>
+            <p class="text-sm font-light text-ink-soft/90 leading-relaxed">We match you to circles based on your needs, goals, and comfort level — never a one-size-fits-all approach.</p>
           </div>
-          <div class="bg-white rounded-xl p-6 border border-warm-200/60">
-            <p class="text-xs font-bold tracking-wider uppercase text-warm-400 mb-3">02</p>
-            <h4 class="font-serif text-lg font-medium text-warm-900 mb-2">Connect</h4>
-            <p class="text-sm font-light text-warm-600 leading-relaxed">Join your circle and meet others who understand. Your facilitator ensures everyone feels safe and heard.</p>
+          <div class="bg-white rounded-xl p-6 border border-line">
+            <p class="text-xs font-bold tracking-wider uppercase text-ink-soft/50 mb-3">02</p>
+            <h4 class="font-display text-lg font-medium text-ink mb-2">Connect</h4>
+            <p class="text-sm font-light text-ink-soft/90 leading-relaxed">Join your circle and meet others who understand. Your facilitator ensures everyone feels safe and heard.</p>
           </div>
-          <div class="bg-white rounded-xl p-6 border border-warm-200/60">
-            <p class="text-xs font-bold tracking-wider uppercase text-warm-400 mb-3">03</p>
-            <h4 class="font-serif text-lg font-medium text-warm-900 mb-2">Grow</h4>
-            <p class="text-sm font-light text-warm-600 leading-relaxed">Between sessions, receive reflection prompts and resources. Return each week with deeper self-understanding.</p>
+          <div class="bg-white rounded-xl p-6 border border-line">
+            <p class="text-xs font-bold tracking-wider uppercase text-ink-soft/50 mb-3">03</p>
+            <h4 class="font-display text-lg font-medium text-ink mb-2">Grow</h4>
+            <p class="text-sm font-light text-ink-soft/90 leading-relaxed">Between sessions, receive reflection prompts and resources. Return each week with deeper self-understanding.</p>
           </div>
         </div>
       </div>
@@ -217,22 +223,22 @@ const stats = [
     {/* CTA */}
     <section class="px-6 py-20 lg:py-28 text-center">
       <div class="max-w-2xl mx-auto">
-        <h2 class="font-serif text-3xl md:text-4xl font-medium text-warm-900 leading-tight mb-6">
+        <h2 class="font-display text-3xl md:text-4xl font-medium text-ink leading-tight mb-6">
           Ready to begin your journey?
         </h2>
-        <p class="text-base font-light text-warm-500 leading-relaxed mb-10">
+        <p class="text-base font-light text-ink-soft/70 leading-relaxed mb-10">
           Whether you're navigating grief, anxiety, life transitions, or simply seeking deeper connection — there's a circle waiting for you.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a 
             href="/circles" 
-            class="px-8 py-4 bg-warm-800 text-cream text-sm font-medium tracking-wide rounded-full hover:bg-olive transition-all duration-500 hover:shadow-lg hover:shadow-warm-800/20 hover:-translate-y-0.5"
+            class="px-8 py-4 bg-ink text-cream text-sm font-medium tracking-wide rounded-full hover:bg-sage transition-all duration-500 hover:shadow-lg hover:shadow-ink/10 hover:-translate-y-0.5"
           >
             Explore Circles
           </a>
           <a 
             href="/therapists" 
-            class="px-8 py-4 border border-warm-300 text-warm-800 text-sm font-medium tracking-wide rounded-full hover:border-warm-500 hover:bg-white transition-all duration-500"
+            class="px-8 py-4 border border-line text-ink-2 text-sm font-medium tracking-wide rounded-full hover:border-line hover:bg-white transition-all duration-500"
           >
             Meet Our Therapists
           </a>

@@ -1,0 +1,122 @@
+export const therapists = [
+  {
+    name: "Art Kosmopoulos",
+    credentials: "Psychologist, PhD",
+    verified: true,
+    endorsed: 3,
+    location: "Brooklyn, NY 11242",
+    bio: "It takes a lot of courage to ask for help...",
+    phone: "(516) 774-3154",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face",
+    lat: 40.6892,
+    lng: -73.9412
+  },
+  {
+    name: "Alex Shiflett",
+    credentials: "Counselor, LMHC",
+    verified: true,
+    endorsed: 3,
+    location: "Brooklyn, NY 11242",
+    bio: "Hello! My name is Alex...",
+    phone: "(929) 531-5957",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face",
+    lat: 40.6782,
+    lng: -73.9502
+  },
+  {
+    name: "Mikaela Francis",
+    credentials: "Counselor, LMHC",
+    verified: true,
+    endorsed: 2,
+    location: "Brooklyn, NY 11224",
+    bio: "Many people seek therapy...",
+    phone: "(917) 352-3625",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face",
+    lat: 40.6452,
+    lng: -73.9202
+  },
+  {
+    name: "Pinny Feintuch",
+    credentials: "Psychologist, PsyD",
+    verified: true,
+    endorsed: 1,
+    location: "Brooklyn, NY 11230",
+    bio: "It is a sign of bravery...",
+    phone: "(347) 566-9024",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face",
+    lat: 40.6252,
+    lng: -73.9602
+  },
+  {
+    name: "Malky Katz",
+    credentials: "Clinical Social Work/Therapist, LCSW",
+    verified: false,
+    endorsed: 0,
+    location: "Brooklyn, NY 11210",
+    bio: "Life can feel heavy...",
+    phone: "(929) 470-3987",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face",
+    lat: 40.6592,
+    lng: -73.9352
+  },
+  {
+    name: "Daniel Tan",
+    credentials: "Clinical Social Work/Therapist, LCSW",
+    verified: true,
+    endorsed: 2,
+    location: "Brooklyn, NY 11201",
+    bio: "Everyone inevitably feels down...",
+    phone: "(646) 350-0624",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+    lat: 40.7082,
+    lng: -73.9552
+  },
+  {
+    name: "Natela H Simkhaev",
+    credentials: "Verified",
+    verified: true,
+    endorsed: 0,
+    location: "Brooklyn, NY 11238",
+    bio: "You may be feeling overwhelmed...",
+    phone: "(718) 524-3193",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face",
+    lat: 40.6682,
+    lng: -73.9842
+  },
+  {
+    name: "Shari Appolon",
+    credentials: "Clinical Social Work/Therapist, LCSW-R",
+    verified: true,
+    endorsed: 6,
+    location: "Brooklyn, NY 11201",
+    bio: "Taking the initial step...",
+    phone: "(718) 866-3549",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face",
+    lat: 40.7282,
+    lng: -73.9442
+  },
+  {
+    name: "Allie Semenza",
+    credentials: "Clinical Social Work/Therapist, LCSW",
+    verified: true,
+    endorsed: 3,
+    location: "Brooklyn, NY 11238",
+    bio: "I work with adults...",
+    phone: "(646) 466-5007",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face",
+    lat: 40.6782,
+    lng: -73.9942
+  },
+  {
+    name: "Zhanna Beyl",
+    credentials: "Clinical Social Work/Therapist, LCSW",
+    verified: true,
+    endorsed: 2,
+    location: "Brooklyn, NY 11234",
+    bio: "Too often we settle for less...",
+    phone: "(833) 712-8534",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face",
+    lat: 40.6152,
+    lng: -73.9442
+  }
+];

@@ -1,17 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import StatsSection from '../components/StatsSection.astro';
-import CirclesSection from '../components/CirclesSection.astro';
-import AboutSection from '../components/AboutSection.astro';
-import CompanionSection from '../components/CompanionSection.astro';
-import TestimonialsSection from '../components/TestimonialsSection.astro';
-import Newsletter from '../components/Newsletter.astro';
+import Hero from '../components/homeSections/Hero.astro';
+import StatsSection from '../components/homeSections/StatsSection.astro';
+import CirclesSection from '../components/homeSections/CirclesSection.astro';
+import AboutSection from '../components/homeSections/AboutSection.astro';
+import CompanionSection from '../components/homeSections/CompanionSection.astro';
+import TestimonialsSection from '../components/homeSections/TestimonialsSection.astro';
+import Newsletter from '../components/homeSections/Newsletter.astro';
+import HeaderHome from '../components/headers/HeaderHome.astro';
 
 export const prerender = true;
 ---
 
-<Layout title='Circle Share — A safe space for healing & connection'>
+<Layout title='Circle Share — A safe space for healing & connection' showHeader={false} >
+  <HeaderHome/>
   <Hero />
   <StatsSection />
   <CirclesSection />

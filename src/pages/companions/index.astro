@@ -1,0 +1,292 @@
+---
+import MapTherapists from "../../components/MapTherapists.astro";
+import CompanionCard from "../../components/ComapnionCard.astro";
+import Layout from "../../layouts/Layout.astro";
+import { therapists } from "../../data/therapists";
+import FilterModal from "../../components/filter/FilterModal.astro";
+
+const filters = {
+  gender: ["All", "Female", "Male", "In Person", "Online"],
+  modality: ["In Person", "Online"],
+};
+
+const nearby = [
+  "Brooklyn Navy Yard", "Forest Hills", "Glendale", "Howard Beach",
+  "Long Island City", "Maspeth", "Middle Village", "New York",
+  "Ozone Park", "Sunnyside", "Woodhaven", "Woodside",
+];
+
+const stats = [
+  { label: "Number of Therapists in Brooklyn, NY", value: "3,000+", icon: "users" },
+  { label: "Average cost per session", value: "$180", icon: "dollar" },
+  { label: "Average years in practice", value: "10 Years", icon: "calendar" },
+];
+
+const faqs = [
+  {
+    q: "How can I find a therapist in Brooklyn?",
+    a: "Search for therapists or counselors by inputting your city, town, or suburb; or zip code; or a provider's name into the search bar. From there, you can filter providers by the issues they treat, cost, insurance, gender, and other factors to find providers who are well-suited to your needs.",
+  },
+  {
+    q: "Is everyone in the directory a licensed therapist?",
+    a: "The directory lists providers who offer legitimate mental health services to the public, including psychologists, psychiatrists, social workers, and counselors.",
+  },
+  {
+    q: "What's the difference between a psychologist, a therapist, and a counselor?",
+    a: "The terms 'therapist' and 'counselor' are used somewhat interchangeably, but generally therapists offer longer-term, mental health care, while counselors offer shorter-term care that may focus on one domain, such as marriage, career, or academic challenges.",
+  },
+  {
+    q: "What type of therapy is right for me?",
+    a: "The type of therapy best suited to a particular individual depends on several factors, including their primary reason for seeking therapy, their preferred timeline, and their personality and preferences.",
+  },
+  {
+    q: "How much does therapy cost?",
+    a: "The cost of therapy depends on a number of variables, including location and the therapist's experience and training. On average, a therapy session in the United States could cost between $100 and $200 or more.",
+  },
+];
+---
+
+<Layout title="Companions in Brooklyn, NY — Circle Share">
+  <div class="h-23 backdrop-blur-md border-b border-line transition-[background,backdrop-filter] duration-300 ease-in-out"></div>
+
+  <main class="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
+    
+    {/* Page Header */}
+    <section class="pt-12 pb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
+        <h1 class="text-3xl md:text-4xl font-medium text-ink">
+          Companions in Brooklyn, NY
+        </h1>
+
+        <div class="flex items-center gap-3">
+          <div class="relative inline-flex items-center bg-raised border border-line rounded-full p-1">
+            <div 
+              id="toggle-pill" 
+              class="absolute top-1 bottom-1 bg-ink rounded-full transition-all duration-300 ease-out z-0"
+              style="left: 4px; width: 0px;"
+            ></div>
+            <button 
+              id="btn-inperson" 
+              class="relative z-10 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 text-cream"
+            >
+              In Person
+            </button>
+            <button 
+              id="btn-virtual" 
+              class="relative z-10 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 text-ink-soft"
+            >
+              Virtual
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Map */}
+    <div 
+      id="map-wrapper" 
+      class="overflow-hidden transition-all duration-500 ease-out"
+      style="max-height: 500px; opacity: 1; margin-bottom: 24px;"
+    >
+      <div class="flex items-center justify-between">
+        <MapTherapists therapists={therapists} />
+      </div>
+    </div>
+
+    {/* Filter Bar */}
+    <div class="mb-10 pb-8">
+      <div class="flex flex-wrap items-center justify-between gap-3 border border-line p-3 rounded-[8px] w-full">
+        <div class="flex flex-wrap items-center gap-3">
+          {filters.gender.map((filter, i) => (
+            <button class={`px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 ${i === 0 ? "bg-ink text-cream hover:bg-sage" : "border border-line text-ink-soft/90 hover:border-line hover:text-ink"}`}>
+              {filter}
+            </button>
+          ))}
+        </div>
+        <button 
+          id="open-filters-btn"
+          class="group relative px-6 py-2.5 overflow-hidden rounded-[8px] text-cream text-sm font-medium transition-transform active:scale-[0.98] z-0"
+        >
+          <div class="absolute inset-0 bg-[linear-gradient(160deg,#241B2E_0%,#2A2135_50%,#574B63_100%)] transition-opacity duration-300 group-hover:opacity-0 -z-10"></div>
+          <div class="absolute inset-0 bg-rose opacity-0 transition-opacity duration-300 group-hover:opacity-100 -z-10"></div>
+          <span class="relative z-10">All Filters</span>
+        </button>
+      </div>
+    </div>
+
+    {/* Therapist List */}
+    <div class="space-y-6">
+      {therapists.map((t) => <CompanionCard therapist={t} />)}
+    </div>
+
+    {/* Pagination */}
+    <div class="flex items-center justify-center gap-2 mt-12">
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+        <a href={`?page=${n}`} class={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${n === 1 ? "bg-ink text-cream" : "text-ink-soft/90 hover:bg-raised hover:text-ink"}`}>
+          {n}
+        </a>
+      ))}
+      <span class="text-ink-soft/50 px-2">...</span>
+      <a href="?page=10" class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium text-ink-soft/90 hover:bg-raised hover:text-ink transition-all">Next →</a>
+    </div>
+
+    {/* More Options */}
+    <section class="mt-20">
+      <h2 class="text-center text-2xl font-medium text-ink mb-8">See more therapy options for Brooklyn</h2>
+      <div class="flex justify-center gap-4">
+        {["Psychiatrists", "Treatment Centers", "Support Groups"].map((tab) => (
+          <button class="px-6 py-3 border border-line rounded-full text-sm font-medium text-ink-soft/90 hover:border-line hover:text-ink transition-all">{tab}</button>
+        ))}
+      </div>
+    </section>
+
+    {/* Nearby Searches */}
+    <section class="mt-16 bg-raised/50 rounded-2xl p-8 lg:p-10">
+      <h3 class="text-lg font-medium text-ink mb-6">Nearby Searches for Brooklyn</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {nearby.map((city) => (
+          <a href={`/therapists?location=${city.toLowerCase().replace(/\s+/g, "-")}`} class="text-sm text-ink-soft/90 hover:text-sage hover:underline underline-offset-4 transition-colors py-1">{city}</a>
+        ))}
+      </div>
+      <a href="#" class="inline-block mt-6 text-sm font-medium text-sage hover:underline underline-offset-4">See More Therapists</a>
+    </section>
+
+    {/* Stats */}
+    <section class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {stats.map((stat) => (
+        <div class="bg-white rounded-2xl border border-line p-8 text-center">
+          <div class="w-12 h-12 rounded-full bg-raised flex items-center justify-center mx-auto mb-4 text-ink-soft">
+            {stat.icon === "users" && (
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            )}
+            {stat.icon === "dollar" && (
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            )}
+            {stat.icon === "calendar" && (
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            )}
+          </div>
+          <p class="text-3xl font-medium text-ink mb-1">{stat.value}</p>
+          <p class="text-sm font-light text-ink-soft/70">{stat.label}</p>
+        </div>
+      ))}
+    </section>
+
+    {/* Treatment Stats */}
+    <section class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-white rounded-2xl border border-line p-8">
+        <h4 class="text-lg font-medium text-ink mb-6">Therapists who prioritize treating:</h4>
+        <div class="space-y-4">
+          {[
+            { label: "Anxiety", pct: 94 },
+            { label: "Social Anxiety", pct: 94 },
+            { label: "Health Anxiety", pct: 94 },
+            { label: "Depression", pct: 88 },
+            { label: "Relationship Issues", pct: 81 },
+          ].map((item) => (
+            <div class="flex items-center gap-4">
+              <span class="text-sm text-ink-soft/90 w-40 shrink-0">{item.label}</span>
+              <div class="flex-1 h-2 bg-raised rounded-full overflow-hidden">
+                <div class="h-full bg-sage rounded-full" style={`width: ${item.pct}%`} />
+              </div>
+              <span class="text-sm font-medium text-ink w-10 text-right">{item.pct}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-line p-8">
+        <h4 class="text-lg font-medium text-ink mb-6">Top 3 insurances accepted</h4>
+        <div class="space-y-4">
+          {[
+            { label: "Aetna", pct: 88 },
+            { label: "Cigna and Evernorth", pct: 72 },
+            { label: "UnitedHealthcare UHC | UBH", pct: 58 },
+          ].map((item) => (
+            <div class="flex items-center gap-4">
+              <span class="text-sm text-ink-soft/90 w-48 shrink-0">{item.label}</span>
+              <div class="flex-1 h-2 bg-raised rounded-full overflow-hidden">
+                <div class="h-full bg-ink rounded-full" style={`width: ${item.pct}%`} />
+              </div>
+              <span class="text-sm font-medium text-ink w-10 text-right">{item.pct}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* FAQ */}
+    <section class="flex flex-col justify-center mt-20 max-w-3xl">
+      <h2 class="text-2xl font-medium text-ink mb-8">FAQs — About Therapy and Counseling</h2>
+      <div class="space-y-3">
+        {faqs.map((faq) => (
+          <details class="group bg-white rounded-xl border border-line open:border-line transition-colors">
+            <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+              <span class="font-medium text-ink text-sm">{faq.q}</span>
+              <span class="w-6 h-6 rounded-full bg-raised flex items-center justify-center text-ink-soft/90 group-open:rotate-45 transition-transform duration-300">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </span>
+            </summary>
+            <div class="px-6 pb-6 text-sm font-light text-ink-soft/90 leading-relaxed">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+  </main>
+</Layout>
+
+{/* Filter Modal — self-contained component */}
+<FilterModal resultCount="500+" />
+
+<script>
+  // ── Map Toggle (In Person / Virtual) ──
+  const btnInPerson = document.getElementById('btn-inperson') as HTMLElement;
+  const btnVirtual = document.getElementById('btn-virtual') as HTMLElement;
+  const pill = document.getElementById('toggle-pill') as HTMLElement;
+  const mapWrapper = document.getElementById('map-wrapper') as HTMLElement;
+
+  function positionPill(activeBtn: HTMLElement) {
+    const container = pill.parentElement as HTMLElement;
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    pill.style.width = `${activeBtn.offsetWidth}px`;
+    pill.style.left = `${btnRect.left - containerRect.left}px`;
+  }
+
+  function setMode(mode: 'inperson' | 'virtual') {
+    if (mode === 'virtual') {
+      positionPill(btnVirtual);
+      btnVirtual.classList.replace('text-ink-soft', 'text-cream');
+      btnInPerson.classList.replace('text-cream', 'text-ink-soft');
+      mapWrapper.style.maxHeight = `${mapWrapper.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        mapWrapper.style.maxHeight = '0px';
+        mapWrapper.style.opacity = '0';
+        mapWrapper.style.marginBottom = '0px';
+      });
+    } else {
+      positionPill(btnInPerson);
+      btnInPerson.classList.replace('text-ink-soft', 'text-cream');
+      btnVirtual.classList.replace('text-cream', 'text-ink-soft');
+      mapWrapper.style.maxHeight = '500px';
+      mapWrapper.style.opacity = '1';
+      mapWrapper.style.marginBottom = '24px';
+    }
+  }
+
+  positionPill(btnInPerson);
+  btnInPerson.addEventListener('click', () => setMode('inperson'));
+  btnVirtual.addEventListener('click', () => setMode('virtual'));
+  window.addEventListener('resize', () => {
+    const isVirtual = btnVirtual.classList.contains('text-cream');
+    positionPill(isVirtual ? btnVirtual : btnInPerson);
+  });
+</script>

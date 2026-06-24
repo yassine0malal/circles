@@ -1,41 +1,118 @@
 @import "tailwindcss";
 
 @theme {
+ /* Primary text */
+--color-ink: #2A2135;          /* Deep Plum */
+--color-ink-2: #241B2E;        /* Dark Plum */
+--color-ink-soft: #574B63;     /* Muted Plum */
 
-    --color-brand-dark: #1A2E26;
-    --color-brand-cream: #FDFBF7;
-    --color-brand-accent: #E2AF47;
+/* Backgrounds */
+--color-canvas: #F8F2EE;       /* Warm Canvas */
+--color-raised: #FFFDFB;       /* Ivory White */
 
-    --color-success: #bdd600;
+/* Accent colors */
+--color-rose: #C16F72;         /* Dusty Rose */
+--color-rose-ink: #A8504C;     /* Deep Rose */
 
+/* Secondary accents */
+--color-amber: #E0A35C;        /* Soft Amber */
+--color-sage: #6E8B7A;         /* Sage Green */
+--color-sage-deep: #4F6B5B;    /* Deep Sage */
 
+/* Supporting colors */
+--color-mist: #EBE0D8;         /* Warm Mist */
+--color-cream: #F6ECE3;        /* Soft Cream */
 
-    --font-serif: 'Playfair Display', serif;
-    --font-sans: 'DM Sans', sans-serif;
-    --font-bona: 'Bona Nova', serif;
+/* Borders */
+--color-line: rgba(42, 33, 53, .10); /* Subtle Border */
 
-    --color-warm-50: #faf9f6;
-    --color-warm-100: #f3f0ea;
-    --color-warm-200: #e8e2d9;
-    --color-warm-300: #d5cdc0;
-    --color-warm-400: #b0a594;
-    --color-warm-500: #8a7d6b;
-    --color-warm-600: #6b5f4f;
-    --color-warm-700: #4a4237;
-    --color-warm-800: #2d2822;
-    --color-warm-900: #1a1714;
-    --color-olive: #5c6b4a;
-    --color-olive-dark: #3d4a30;
-    --color-cream: #f5f1eb;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Hanken Grotesk", system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
 }
-@font-face {
-  font-family: "Onest";
-  src: url("https://fonts.gstatic.com/s/onest/v9/gNMKW3F-SZuj7xmS-HY6EQ.woff2")
-    format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
+
 html,
 body {
-  font-family: "Onest", sans-serif;
+  font-family: var(--font-body);
 }
+
+/* Base custom utility classes from home.astro */
+/* .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: .95rem;
+  padding: 13px 24px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-rose);
+  outline-offset: 3px;
+}
+
+.btn .arr {
+  transition: transform .2s ease;
+}
+
+.btn:hover .arr {
+  transform: translateX(3px);
+}
+
+.btn-cream {
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+
+.btn-cream:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .28);
+}
+
+.btn-line-dark {
+  background: transparent;
+  color: var(--color-cream);
+  border-color: rgba(246, 236, 227, .32);
+}
+
+.btn-line-dark:hover {
+  border-color: var(--color-cream);
+}
+
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-cream);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(42, 33, 53, .05), 0 18px 44px rgba(42, 33, 53, .10);
+}
+
+.btn-warm {
+  background: var(--color-rose);
+  color: #fff;
+}
+
+.btn-warm:hover {
+  background: var(--color-rose-ink);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-line);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-ink);
+  background: var(--color-raised);
+} */

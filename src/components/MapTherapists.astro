@@ -18,13 +18,13 @@ const { therapists } = Astro.props;
 
 <div
   id="therapist-map" 
-  class="w-full h-[420px] rounded-2xl border border-warm-200 overflow-hidden mb-10 relative z-0"
+  class="w-full h-[420px] rounded-2xl border border-line overflow-hidden mb-10 relative z-0"
   data-therapists={JSON.stringify(therapists)}
 >
   {/* Badge: lowered from z-[400] to z-10 since parent now has stacking context */}
-  <div class="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-warm-200 shadow-sm">
-    <p class="text-xs font-medium text-warm-700">
-      <span class="text-olive font-bold">{therapists.length}</span> therapists near you
+  <div class="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-line shadow-sm">
+    <p class="text-xs font-medium text-ink-soft">
+      <span class="text-sage font-bold">{therapists.length}</span> therapists near you
     </p>
   </div>
 </div>

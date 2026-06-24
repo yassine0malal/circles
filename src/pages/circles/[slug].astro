@@ -31,8 +31,8 @@ export const prerender = true;
           class="w-full h-full object-cover"
         />
         {/* Dark Gradient Overlay — heavier on left for text readability */}
-        <div class="absolute inset-0 bg-gradient-to-r from-warm-900/80 via-warm-900/50 to-transparent" />
-        <div class="absolute inset-0 bg-gradient-to-t from-warm-900/60 via-transparent to-transparent" />
+        <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-warm-900/50 to-transparent" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
       </div>
 
       {/* Content */}
@@ -70,33 +70,33 @@ export const prerender = true;
     <div class="max-w-4xl mx-auto px-6 -mt-8">
       
       {/* Quick Info Bar */}
-      <div class="bg-white rounded-2xl border border-warm-200/60 p-6 shadow-sm flex flex-wrap items-center gap-6 lg:gap-10">
+      <div class="bg-white rounded-2xl border border-line p-6 shadow-sm flex flex-wrap items-center gap-6 lg:gap-10">
         <div class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-warm-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-ink-soft/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
-          <span class="text-sm font-medium text-warm-700">{circle.format}</span>
+          <span class="text-sm font-medium text-ink-soft">{circle.format}</span>
         </div>
         <div class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-warm-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-ink-soft/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
-          <span class="text-sm font-medium text-warm-700">{circle.frequency}</span>
+          <span class="text-sm font-medium text-ink-soft">{circle.frequency}</span>
         </div>
         <div class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-warm-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-ink-soft/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"/>
           </svg>
-          <span class="text-sm font-medium text-warm-700">
+          <span class="text-sm font-medium text-ink-soft">
             {circle.currentMembers} / {circle.maxMembers} Members
           </span>
         </div>
         <div class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-warm-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-ink-soft/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
-          <span class="text-sm font-medium text-warm-700">
+          <span class="text-sm font-medium text-ink-soft">
             Next: {dateStr} • {timeStr}
           </span>
         </div>
@@ -109,18 +109,18 @@ export const prerender = true;
           
           {/* Who Is It For */}
           <section>
-            <h2 class=" text-2xl font-medium text-warm-900 mb-4">Who this circle is for</h2>
-            <p class="text-base font-medium text-warm-600 leading-[1.8]">
+            <h2 class=" text-2xl font-medium text-ink mb-4">Who this circle is for</h2>
+            <p class="text-base font-medium text-ink-soft/90 leading-[1.8]">
               {circle.whoIsItFor}
             </p>
           </section>
 
           {/* Challenges */}
           <section>
-            <h2 class=" text-2xl font-medium text-warm-900 mb-4">Challenges we address</h2>
+            <h2 class=" text-2xl font-medium text-ink mb-4">Challenges we address</h2>
             <div class="flex flex-wrap gap-2">
               {circle.challenges.map(tag => (
-                <span class="px-4 py-2 bg-warm-100 text-warm-700 text-sm font-medium rounded-full border border-warm-200/60">
+                <span class="px-4 py-2 bg-raised text-ink-soft text-sm font-medium rounded-full border border-line">
                   {tag}
                 </span>
               ))}
@@ -129,16 +129,16 @@ export const prerender = true;
 
           {/* What You'll Work On */}
           <section>
-            <h2 class=" text-2xl font-medium text-warm-900 mb-4">What you'll work on</h2>
+            <h2 class=" text-2xl font-medium text-ink mb-4">What you'll work on</h2>
             <ul class="space-y-3">
               {circle.whatYoullWorkOn.map(item => (
                 <li class="flex items-start gap-3">
-                  <span class="w-5 h-5 rounded-full bg-olive/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <svg class="w-3 h-3 text-olive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span class="w-5 h-5 rounded-full bg-sage/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-3 h-3 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
                     </svg>
                   </span>
-                  <span class="text-base font-medium text-warm-700">{item}</span>
+                  <span class="text-base font-medium text-ink-soft">{item}</span>
                 </li>
               ))}
             </ul>
@@ -146,16 +146,16 @@ export const prerender = true;
 
           {/* Session Structure */}
           <section>
-            <h2 class=" text-2xl font-medium text-warm-900 mb-4">How sessions are structured</h2>
+            <h2 class=" text-2xl font-medium text-ink mb-4">How sessions are structured</h2>
             <div class="space-y-4">
               {circle.sessionStructure.map((step, i) => (
-                <div class="flex items-center gap-4 p-4 bg-white rounded-xl border border-warm-100">
-                  <span class="w-8 h-8 rounded-full bg-warm-800 text-cream flex items-center justify-center text-xs font-medium shrink-0">
+                <div class="flex items-center gap-4 p-4 bg-white rounded-xl border border-line">
+                  <span class="w-8 h-8 rounded-full bg-ink text-cream flex items-center justify-center text-xs font-medium shrink-0">
                     {i + 1}
                   </span>
                   <div>
-                    <p class="text-sm font-medium text-warm-900">{step.activity}</p>
-                    <p class="text-xs text-warm-400">{step.duration}</p>
+                    <p class="text-sm font-medium text-ink">{step.activity}</p>
+                    <p class="text-xs text-ink-soft/50">{step.duration}</p>
                   </div>
                 </div>
               ))}
@@ -164,14 +164,14 @@ export const prerender = true;
 
           {/* Community Rules */}
           <section>
-            <h2 class=" text-2xl font-medium text-warm-900 mb-4">Community agreements</h2>
+            <h2 class=" text-2xl font-medium text-ink mb-4">Community agreements</h2>
             <div class="grid grid-cols-2 gap-3">
               {circle.rules.map(rule => (
-                <div class="flex items-center gap-3 p-4 bg-warm-50 rounded-xl">
-                  <svg class="w-5 h-5 text-olive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-3 p-4 bg-canvas rounded-xl">
+                  <svg class="w-5 h-5 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  <span class="text-sm font-medium text-warm-700">{rule}</span>
+                  <span class="text-sm font-medium text-ink-soft">{rule}</span>
                 </div>
               ))}
             </div>
@@ -183,46 +183,46 @@ export const prerender = true;
         <div class="space-y-6">
           
           {/* Facilitator Card */}
-          <div class="bg-white rounded-2xl border border-warm-200/60 p-6 shadow-sm">
-            <p class="text-xs font-medium tracking-wider uppercase text-warm-400 mb-4">Your facilitator</p>
+          <div class="bg-white rounded-2xl border border-line p-6 shadow-sm">
+            <p class="text-xs font-medium tracking-wider uppercase text-ink-soft/50 mb-4">Your facilitator</p>
             <div class="flex items-center gap-4 mb-4">
-              <div class="w-16 h-16 rounded-xl overflow-hidden bg-warm-100">
+              <div class="w-16 h-16 rounded-xl overflow-hidden bg-raised">
                 <img src={circle.facilitator.photo} alt={circle.facilitator.name} class="w-full h-full object-cover" />
               </div>
               <div>
-                <h3 class=" text-lg font-medium text-warm-900">{circle.facilitator.name}</h3>
-                <p class="text-xs text-warm-500">{circle.facilitator.credentials}</p>
+                <h3 class=" text-lg font-medium text-ink">{circle.facilitator.name}</h3>
+                <p class="text-xs text-ink-soft/70">{circle.facilitator.credentials}</p>
               </div>
             </div>
             <div class="space-y-2 text-sm">
-              <p class="text-warm-600"><span class="text-warm-400">{circle.facilitator.experience}</span> experience</p>
-              <p class="text-warm-600"><span class="text-warm-400">{circle.facilitator.specialization}</span></p>
+              <p class="text-ink-soft/90"><span class="text-ink-soft/50">{circle.facilitator.experience}</span> experience</p>
+              <p class="text-ink-soft/90"><span class="text-ink-soft/50">{circle.facilitator.specialization}</span></p>
             </div>
-            <p class="text-sm font-medium text-warm-600 leading-relaxed mt-4">
+            <p class="text-sm font-medium text-ink-soft/90 leading-relaxed mt-4">
               {circle.facilitator.bio}
             </p>
           </div>
 
           {/* Join Card */}
-          <div class="bg-warm-800 rounded-2xl p-6 text-cream">
-            <p class="text-xs font-medium tracking-wider uppercase text-warm-300 mb-2">Join this circle</p>
+          <div class="bg-ink rounded-2xl p-6 text-cream">
+            <p class="text-xs font-medium tracking-wider uppercase text-mist mb-2">Join this circle</p>
             <p class=" text-3xl font-medium mb-1">{circle.price}</p>
-            <p class="text-sm text-warm-300 mb-6">{circle.pricingModel}</p>
+            <p class="text-sm text-mist mb-6">{circle.pricingModel}</p>
             
             <div class="space-y-3 mb-6">
-              <div class="flex items-center gap-2 text-sm text-warm-200">
+              <div class="flex items-center gap-2 text-sm text-cream">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
                 {circle.level}
               </div>
-              <div class="flex items-center gap-2 text-sm text-warm-200">
+              <div class="flex items-center gap-2 text-sm text-cream">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
                 {circle.frequency} sessions
               </div>
-              <div class="flex items-center gap-2 text-sm text-warm-200">
+              <div class="flex items-center gap-2 text-sm text-cream">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
@@ -230,18 +230,18 @@ export const prerender = true;
               </div>
             </div>
 
-            <button class="w-full py-3.5 bg-cream text-warm-900 text-sm font-medium rounded-full hover:bg-white transition-colors duration-300">
+            <button class="w-full py-3.5 bg-cream text-ink text-sm font-medium rounded-full hover:bg-white transition-colors duration-300">
               Join Circle
             </button>
-            <p class="text-xs text-warm-400 text-center mt-3">
+            <p class="text-xs text-ink-soft/50 text-center mt-3">
               Next session {dateStr} at {timeStr}
             </p>
           </div>
 
           {/* Level Badge */}
-          <div class="bg-white rounded-2xl border border-warm-200/60 p-6 text-center">
-            <p class="text-xs font-medium tracking-wider uppercase text-warm-400 mb-2">Experience Level</p>
-            <p class=" text-xl font-medium text-warm-900">{circle.level}</p>
+          <div class="bg-white rounded-2xl border border-line p-6 text-center">
+            <p class="text-xs font-medium tracking-wider uppercase text-ink-soft/50 mb-2">Experience Level</p>
+            <p class=" text-xl font-medium text-ink">{circle.level}</p>
           </div>
 
         </div>
