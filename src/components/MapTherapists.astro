@@ -17,50 +17,70 @@ const { therapists } = Astro.props;
 ---
 
 <div
-  id="therapist-map" 
+  id="therapist-map"
   class="w-full h-[420px] rounded-2xl border border-line overflow-hidden mb-10 relative z-0"
   data-therapists={JSON.stringify(therapists)}
 >
-  {/* Badge: lowered from z-[400] to z-10 since parent now has stacking context */}
-  <div class="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-line shadow-sm">
+  <div
+    class="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-line shadow-sm"
+  >
     <p class="text-xs font-medium text-ink-soft">
-      <span class="text-sage font-bold">{therapists.length}</span> therapists near you
+      <span class="text-sage font-bold">{therapists.length}</span> therapists near
+      you
     </p>
   </div>
 </div>
 
 <link
-  rel="stylesheet" 
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
-  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
-  crossorigin="" 
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""
 />
 
 <script>
-  import L from 'leaflet';
+  import L from "leaflet";
+
+  // Redeclare interface inside <script> so TypeScript knows the shape
+  interface Therapist {
+    name: string;
+    credentials: string;
+    location: string;
+    phone: string;
+    lat: number;
+    lng: number;
+    image: string;
+  }
 
   (function initMap() {
-    const mapEl = document.getElementById('therapist-map');
+    const mapEl = document.getElementById("therapist-map");
     if (!mapEl) return;
 
-    const therapists = JSON.parse(mapEl.dataset.therapists || '[]');
+    // Cast parsed JSON so therapists is typed
+    const therapists = JSON.parse(
+      mapEl.dataset.therapists || "[]",
+    ) as Therapist[];
 
-    const map = L.map('therapist-map', {
+    const map = L.map("therapist-map", {
       zoomControl: false,
       scrollWheelZoom: false,
     }).setView([40.6782, -73.9442], 12);
 
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    L.control.zoom({ position: "bottomright" }).addTo(map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 19,
-    }).addTo(map);
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: "abcd",
+        maxZoom: 19,
+      },
+    ).addTo(map);
 
     const createCustomIcon = () => {
       return L.divIcon({
-        className: 'custom-marker',
+        className: "custom-marker",
         html: `
           <div style="
             width: 36px; 
@@ -86,12 +106,16 @@ const { therapists } = Astro.props;
       });
     };
 
-    const bounds = [];
-    
-    therapists.forEach((t) => {
-      const marker = L.marker([t.lat, t.lng], { icon: createCustomIcon() }).addTo(map);
-      
-      marker.bindPopup(`
+    // Explicitly type bounds as LatLngExpression array
+    const bounds = L.latLngBounds([]);
+
+    therapists.forEach((t: Therapist) => {
+      const marker = L.marker([t.lat, t.lng], {
+        icon: createCustomIcon(),
+      }).addTo(map);
+
+      marker.bindPopup(
+        `
         <div style="font-family: 'DM Sans', system-ui, sans-serif; min-width: 240px; padding: 4px;">
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
             <img src="${t.image}" alt="${t.name}" style="width: 48px; height: 48px; border-radius: 10px; object-fit: cover; border: 2px solid #e8e2d9;">
@@ -120,22 +144,25 @@ const { therapists } = Astro.props;
             ${t.phone}
           </a>
         </div>
-      `, {
-        closeButton: false,
-        className: 'custom-popup',
-      });
+      `,
+        {
+          closeButton: false,
+          className: "custom-popup",
+        },
+      );
 
-      bounds.push([t.lat, t.lng]);
+      bounds.extend([t.lat, t.lng]);
     });
 
-    if (bounds.length > 0) {
-      map.fitBounds(bounds, { 
+    // The fitBounds call stays the same:
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, {
         padding: [60, 60],
         maxZoom: 14,
       });
     }
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `
       .custom-marker:hover > div {
         transform: scale(1.15) !important;

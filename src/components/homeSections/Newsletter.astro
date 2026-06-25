@@ -7,7 +7,7 @@
     Receive reflections, circle openings, and insights for a healthier mind.
   </p>
 
-  <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" onsubmit="event.preventDefault();">
+  <form id="newsletter-form" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
     <input 
       type="email" 
       placeholder="your@email.com" 
@@ -19,3 +19,13 @@
   </form>
   <p class="text-xs font-light text-ink-soft/50 mt-6">By subscribing you agree to our privacy policy</p>
 </section>
+
+<script>
+  const form = document.getElementById("newsletter-form");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // TODO: wire up your newsletter API here
+    });
+  }
+</script>

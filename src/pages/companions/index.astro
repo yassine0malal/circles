@@ -93,26 +93,38 @@ const faqs = [
       </div>
     </div>
 
-    {/* Filter Bar */}
-    <div class="mb-10 pb-8">
-      <div class="flex flex-wrap items-center justify-between gap-3 border border-line p-3 rounded-[8px] w-full">
-        <div class="flex flex-wrap items-center gap-3">
-          {filters.gender.map((filter, i) => (
-            <button class={`px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 ${i === 0 ? "bg-ink text-cream hover:bg-sage" : "border border-line text-ink-soft/90 hover:border-line hover:text-ink"}`}>
-              {filter}
-            </button>
-          ))}
-        </div>
+   {/* Filter Bar */}
+<div class="mb-10 pb-8">
+  <div class="flex flex-wrap items-center justify-between gap-3 border border-line p-3 rounded-[8px] w-full">
+    <div class="flex flex-wrap items-center gap-3">
+      {filters.gender.map((filter, i) => (
         <button 
-          id="open-filters-btn"
-          class="group relative px-6 py-2.5 overflow-hidden rounded-[8px] text-cream text-sm font-medium transition-transform active:scale-[0.98] z-0"
+          class={`filter-btn px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 ${i === 0 ? "bg-ink text-cream" : "border border-line text-ink-soft/90 hover:border-line hover:text-ink"}`}
+          data-filter={filter}
         >
-          <div class="absolute inset-0 bg-[linear-gradient(160deg,#241B2E_0%,#2A2135_50%,#574B63_100%)] transition-opacity duration-300 group-hover:opacity-0 -z-10"></div>
-          <div class="absolute inset-0 bg-rose opacity-0 transition-opacity duration-300 group-hover:opacity-100 -z-10"></div>
-          <span class="relative z-10">All Filters</span>
+          {filter}
         </button>
-      </div>
+      ))}
     </div>
+    <button 
+      id="open-filters-btn"
+      class="group relative px-6 py-2.5 overflow-hidden rounded-[8px] text-cream text-sm font-medium transition-transform active:scale-[0.98] z-0"
+    >
+      <div class="absolute inset-0 bg-[linear-gradient(160deg,#241B2E_0%,#2A2135_50%,#574B63_100%)] transition-opacity duration-300 group-hover:opacity-0 -z-10"></div>
+      <div class="absolute inset-0 bg-rose opacity-0 transition-opacity duration-300 group-hover:opacity-100 -z-10"></div>
+      <span class="relative z-10">All Filters</span>
+    </button>
+  </div>
+</div>
+
+{/* Therapist List */}
+<div class="space-y-6" id="companion-list">
+  {therapists.map((t) => (
+    <div class="companion-card" data-gender={t.gender} data-modality={t.modality}>
+      <CompanionCard therapist={t} />
+    </div>
+  ))}
+</div>
 
     {/* Therapist List */}
     <div class="space-y-6">
@@ -288,5 +300,46 @@ const faqs = [
   window.addEventListener('resize', () => {
     const isVirtual = btnVirtual.classList.contains('text-cream');
     positionPill(isVirtual ? btnVirtual : btnInPerson);
+  });
+
+  // ── Filter Buttons ──
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const companionCards = document.querySelectorAll('.companion-card');
+  let activeFilter = 'All';
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter') || 'All';
+      activeFilter = filter;
+
+      // Update visual state
+      filterButtons.forEach((b) => {
+        const isActive = b.getAttribute('data-filter') === filter;
+        if (isActive) {
+          b.classList.remove('border', 'border-line', 'text-ink-soft/90');
+          b.classList.add('bg-ink', 'text-cream');
+        } else {
+          b.classList.remove('bg-ink', 'text-cream');
+          b.classList.add('border', 'border-line', 'text-ink-soft/90');
+        }
+      });
+
+      // Filter cards
+      companionCards.forEach((card) => {
+        const cardGender = card.getAttribute('data-gender') || '';
+        const cardModality = card.getAttribute('data-modality') || '';
+        
+        let show = false;
+        if (filter === 'All') {
+          show = true;
+        } else if (filter === 'Female' || filter === 'Male') {
+          show = cardGender === filter;
+        } else if (filter === 'In Person' || filter === 'Online') {
+          show = cardModality === filter;
+        }
+
+        (card as HTMLElement).style.display = show ? '' : 'none';
+      });
+    });
   });
 </script>
