@@ -6,7 +6,7 @@ import { therapists } from "../../data/therapists";
 import FilterModal from "../../components/filter/FilterModal.astro";
 
 const filters = {
-  gender: ["All", "Female", "Male", "In Person", "Online"],
+  gender: ["All", "Female", "Male", "In Person", "Online", "Relief-Oriented", "Values-Oriented"],
   modality: ["In Person", "Online"],
 };
 
@@ -93,42 +93,42 @@ const faqs = [
       </div>
     </div>
 
-   {/* Filter Bar */}
-<div class="mb-10 pb-8">
-  <div class="flex flex-wrap items-center justify-between gap-3 border border-line p-3 rounded-[8px] w-full">
-    <div class="flex flex-wrap items-center gap-3">
-      {filters.gender.map((filter, i) => (
+    {/* Filter Bar */}
+    <div class="mb-10 pb-8">
+      <div class="flex flex-wrap items-center justify-between gap-3 border border-line p-3 rounded-[8px] w-full">
+        <div class="flex flex-wrap items-center gap-3">
+          {filters.gender.map((filter, i) => (
+            <button 
+              class={`filter-btn px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 ${i === 0 ? "bg-ink text-cream" : "border border-line text-ink-soft/90 hover:border-line hover:text-ink"}`}
+              data-filter={filter}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
         <button 
-          class={`filter-btn px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 ${i === 0 ? "bg-ink text-cream" : "border border-line text-ink-soft/90 hover:border-line hover:text-ink"}`}
-          data-filter={filter}
+          id="open-filters-btn"
+          class="group relative px-6 py-2.5 overflow-hidden rounded-[8px] text-cream text-sm font-medium transition-transform active:scale-[0.98] z-0"
         >
-          {filter}
+          <div class="absolute inset-0 bg-[linear-gradient(160deg,#241B2E_0%,#2A2135_50%,#574B63_100%)] transition-opacity duration-300 group-hover:opacity-0 -z-10"></div>
+          <div class="absolute inset-0 bg-rose opacity-0 transition-opacity duration-300 group-hover:opacity-100 -z-10"></div>
+          <span class="relative z-10">All Filters</span>
         </button>
+      </div>
+    </div>
+
+    {/* Therapist List — SINGLE LIST with data attributes for all filters */}
+    <div class="space-y-6" id="companion-list">
+      {therapists.map((t) => (
+        <div 
+          class="companion-card" 
+          data-gender={t.gender} 
+          data-modality={t.modality}
+          data-orientation={t.orientation || 'relief-oriented'}
+        >
+          <CompanionCard therapist={t} />
+        </div>
       ))}
-    </div>
-    <button 
-      id="open-filters-btn"
-      class="group relative px-6 py-2.5 overflow-hidden rounded-[8px] text-cream text-sm font-medium transition-transform active:scale-[0.98] z-0"
-    >
-      <div class="absolute inset-0 bg-[linear-gradient(160deg,#241B2E_0%,#2A2135_50%,#574B63_100%)] transition-opacity duration-300 group-hover:opacity-0 -z-10"></div>
-      <div class="absolute inset-0 bg-rose opacity-0 transition-opacity duration-300 group-hover:opacity-100 -z-10"></div>
-      <span class="relative z-10">All Filters</span>
-    </button>
-  </div>
-</div>
-
-{/* Therapist List */}
-<div class="space-y-6" id="companion-list">
-  {therapists.map((t) => (
-    <div class="companion-card" data-gender={t.gender} data-modality={t.modality}>
-      <CompanionCard therapist={t} />
-    </div>
-  ))}
-</div>
-
-    {/* Therapist List */}
-    <div class="space-y-6">
-      {therapists.map((t) => <CompanionCard therapist={t} />)}
     </div>
 
     {/* Pagination */}
@@ -307,39 +307,66 @@ const faqs = [
   const companionCards = document.querySelectorAll('.companion-card');
   let activeFilter = 'All';
 
+  function applyFilter(filter: string) {
+    activeFilter = filter;
+
+    // Update visual state of buttons
+    filterButtons.forEach((b) => {
+      const btnFilter = b.getAttribute('data-filter') || 'All';
+      const isActive = btnFilter === filter;
+      
+      if (isActive) {
+        b.classList.remove('border', 'border-line', 'text-ink-soft/90');
+        b.classList.add('bg-ink', 'text-cream');
+      } else {
+        b.classList.remove('bg-ink', 'text-cream');
+        b.classList.add('border', 'border-line', 'text-ink-soft/90');
+      }
+    });
+
+    // Filter cards
+    companionCards.forEach((card) => {
+      const cardGender = card.getAttribute('data-gender') || '';
+      const cardModality = card.getAttribute('data-modality') || '';
+      const cardOrientation = card.getAttribute('data-orientation') || '';
+      
+      let show = false;
+      if (filter === 'All') {
+        show = true;
+      } else if (filter === 'Female' || filter === 'Male') {
+        show = cardGender === filter;
+      } else if (filter === 'In Person' || filter === 'Online') {
+        show = cardModality === filter;
+      } else if (filter === 'Relief-Oriented') {
+        show = cardOrientation === 'relief-oriented';
+      } else if (filter === 'Values-Oriented') {
+        show = cardOrientation === 'values-driven';
+      }
+
+      (card as HTMLElement).style.display = show ? '' : 'none';
+    });
+  }
+
+  // Click handlers
   filterButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const filter = btn.getAttribute('data-filter') || 'All';
-      activeFilter = filter;
-
-      // Update visual state
-      filterButtons.forEach((b) => {
-        const isActive = b.getAttribute('data-filter') === filter;
-        if (isActive) {
-          b.classList.remove('border', 'border-line', 'text-ink-soft/90');
-          b.classList.add('bg-ink', 'text-cream');
-        } else {
-          b.classList.remove('bg-ink', 'text-cream');
-          b.classList.add('border', 'border-line', 'text-ink-soft/90');
-        }
-      });
-
-      // Filter cards
-      companionCards.forEach((card) => {
-        const cardGender = card.getAttribute('data-gender') || '';
-        const cardModality = card.getAttribute('data-modality') || '';
-        
-        let show = false;
-        if (filter === 'All') {
-          show = true;
-        } else if (filter === 'Female' || filter === 'Male') {
-          show = cardGender === filter;
-        } else if (filter === 'In Person' || filter === 'Online') {
-          show = cardModality === filter;
-        }
-
-        (card as HTMLElement).style.display = show ? '' : 'none';
-      });
+      applyFilter(filter);
     });
   });
+
+  // ── Check URL parameter on page load ──
+  function checkUrlParams() {
+    const url = new URL(window.location.href);
+    const orientation = url.searchParams.get('orientation');
+
+    if (orientation === 'symptom-relief') {
+      applyFilter('Relief-Oriented');
+    } else if (orientation === 'values-driven') {
+      applyFilter('Values-Oriented');
+    }
+  }
+
+  // Run on page load
+  checkUrlParams();
 </script>

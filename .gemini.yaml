@@ -1,0 +1,62 @@
+version: 1
+
+agent:
+  name: gemini-cli
+  mode: analysis-first
+
+rules:
+  mandatory_plan_before_action: true
+  require_user_approval: true
+
+  allowed_actions:
+    - read_files
+    - explain_code
+    - suggest_changes
+    - git_status
+    - git_diff
+
+  forbidden_actions:
+    - write_files
+    - delete_files
+    - run_commands
+    - execute_git_mutations
+    - install_dependencies
+    - commit_code
+    - push_code
+    - reset_git_state
+
+workflow:
+  steps:
+    - analyze
+    - plan
+    - wait_for_approval
+    - implement
+    - review_diff
+    - stop
+
+git_policy:
+  allow_git_write_commands: false
+
+  allowed_git_commands:
+    - status
+    - diff
+    - log
+
+  blocked_git_commands:
+    - add
+    - commit
+    - push
+    - pull
+    - merge
+    - rebase
+    - reset
+    - restore
+    - clean
+    - checkout
+    - switch
+
+safety:
+  never_touch:
+    - .env
+    - production
+    - secrets

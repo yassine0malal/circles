@@ -367,3 +367,10 @@ export const insurances = [
   { id: "in-workplace", label: "Workplace Options" },
   { id: "in-zelis", label: "Zelis Healthcare" },
 ];
+
+export const circleTypeFilters = [
+  { id: "ct-relational", label: "Relational/Process" },
+  { id: "ct-mindfulness", label: "Mindfulness/Somatic" },
+  { id: "ct-psychoeducational", label: "Psychoeducational/Skills" },
+  { id: "ct-support", label: "Support/Mutual-Aid" },
+];

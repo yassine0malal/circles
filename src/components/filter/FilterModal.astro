@@ -4,9 +4,19 @@ import CheckboxItem from "./CheckboxItem.astro";
 import PillItem from "./PillItem.astro";
 import CheckboxGrid from "./CheckboxGrid.astro";
 import {
-  popularFilters, genderFilters, sessionFilters, ageFilters,
-  ethnicityFilters, faithFilters, priceIndividual, priceCouples,
-  specialties, therapyTypes, languages, insurances
+  popularFilters,
+  circleTypeFilters,        // ← new import
+  genderFilters,
+  sessionFilters,
+  ageFilters,
+  ethnicityFilters,
+  faithFilters,
+  priceIndividual,
+  priceCouples,
+  specialties,
+  therapyTypes,
+  languages,
+  insurances,
 } from "../../data/filters";
 
 export interface Props {
@@ -16,94 +26,145 @@ export interface Props {
 const { resultCount = "500+" } = Astro.props;
 ---
 
-<div id="filter-overlay" class="fixed inset-0 z-[60] bg-ink/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
-  <div id="filter-modal" class="absolute right-0 top-0 bottom-0 w-full max-w-[600px] bg-white shadow-2xl shadow-ink/20 transform translate-x-full transition-transform duration-300 ease-out flex flex-col" role="dialog" aria-modal="true" aria-labelledby="filter-title">
-    
+<div
+  id="filter-overlay"
+  class="fixed inset-0 z-[60] bg-ink/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+  aria-hidden="true"
+>
+  <div
+    id="filter-modal"
+    class="absolute right-0 top-0 bottom-0 w-full max-w-[600px] bg-white shadow-2xl shadow-ink/20 transform translate-x-full transition-transform duration-300 ease-out flex flex-col"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="filter-title"
+  >
     {/* Header */}
     <div class="flex items-center justify-between px-6 py-5 border-b border-line">
       <h2 id="filter-title" class="text-xl font-medium text-ink">Filters</h2>
-      <button id="close-filters-btn" class="w-9 h-9 rounded-full bg-raised flex items-center justify-center text-ink-soft hover:text-ink hover:bg-mist transition-colors" aria-label="Close filters">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      <button
+        id="close-filters-btn"
+        class="w-9 h-9 rounded-full bg-raised flex items-center justify-center text-ink-soft hover:text-ink hover:bg-mist transition-colors"
+        aria-label="Close filters"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
       </button>
     </div>
 
     {/* Content */}
     <div class="flex-1 overflow-y-auto px-6 py-6 space-y-6">
-      
+      {/* ─── Popular Filters ─── */}
       <FilterSection title="Popular Filters">
         <div class="flex flex-wrap gap-2">
-          {popularFilters.map(f => <PillItem label={f} />)}
+          {popularFilters.map((f) => <PillItem label={f} />)}
         </div>
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── NEW: Circle Type ─── */}
+      <FilterSection title="Circle Type">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {circleTypeFilters.map((f) => <CheckboxItem id={f.id} label={f.label} />)}
+        </div>
+      </FilterSection>
+
+      <div class="border-t border-line"></div>
+
+      {/* ─── Preferences ─── */}
       <FilterSection title="Preferences">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <h3 class="text-sm font-medium text-ink-soft mb-3">Show only therapists who are...</h3>
-            <div class="space-y-3">{genderFilters.map(f => <CheckboxItem id={f.id} label={f.label} />)}</div>
+            <h3 class="text-sm font-medium text-ink-soft mb-3">
+              Show only therapists who are...
+            </h3>
+            <div class="space-y-3">
+              {genderFilters.map((f) => <CheckboxItem id={f.id} label={f.label} />)}
+            </div>
           </div>
           <div>
-            <h3 class="text-sm font-medium text-ink-soft mb-3">How would you like to see your therapists?</h3>
-            <div class="space-y-3">{sessionFilters.map(f => <CheckboxItem id={f.id} label={f.label} />)}</div>
+            <h3 class="text-sm font-medium text-ink-soft mb-3">
+              How would you like to see your therapists?
+            </h3>
+            <div class="space-y-3">
+              {sessionFilters.map((f) => <CheckboxItem id={f.id} label={f.label} />)}
+            </div>
           </div>
         </div>
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── Specialties ─── */}
       <FilterSection title="Specialties">
         <CheckboxGrid items={specialties} type="specialties" />
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── Insurance ─── */}
       <FilterSection title="Insurance">
         <CheckboxGrid items={insurances} type="insurance" />
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── Types of Therapy ─── */}
       <FilterSection title="Types of Therapy">
         <CheckboxGrid items={therapyTypes} type="therapy" />
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── Age ─── */}
       <FilterSection title="Age">
-        <div class="flex flex-wrap gap-2">{ageFilters.map(f => <PillItem label={f} />)}</div>
+        <div class="flex flex-wrap gap-2">
+          {ageFilters.map((f) => <PillItem label={f} />)}
+        </div>
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── Ethnicity ─── */}
       <FilterSection title="Ethnicity">
-        <div class="flex flex-wrap gap-2">{ethnicityFilters.map(f => <PillItem label={f} />)}</div>
+        <div class="flex flex-wrap gap-2">
+          {ethnicityFilters.map((f) => <PillItem label={f} />)}
+        </div>
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── Language ─── */}
       <FilterSection title="Language">
         <CheckboxGrid items={languages} type="language" />
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── Faith ─── */}
       <FilterSection title="Faith">
-        <div class="flex flex-wrap gap-2">{faithFilters.map(f => <PillItem label={f} />)}</div>
+        <div class="flex flex-wrap gap-2">
+          {faithFilters.map((f) => <PillItem label={f} />)}
+        </div>
       </FilterSection>
 
       <div class="border-t border-line"></div>
 
+      {/* ─── Price ─── */}
       <FilterSection title="Price">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div>
             <h4 class="text-sm font-medium text-ink mb-3">Individual</h4>
-            <div class="space-y-3">{priceIndividual.map(p => <CheckboxItem id={p.id} label={p.label} />)}</div>
+            <div class="space-y-3">
+              {priceIndividual.map((p) => <CheckboxItem id={p.id} label={p.label} />)}
+            </div>
           </div>
           <div>
             <h4 class="text-sm font-medium text-ink mb-3">Couples</h4>
-            <div class="space-y-3">{priceCouples.map(p => <CheckboxItem id={p.id} label={p.label} />)}</div>
+            <div class="space-y-3">
+              {priceCouples.map((p) => <CheckboxItem id={p.id} label={p.label} />)}
+            </div>
           </div>
           <div>
             <h4 class="text-sm font-medium text-ink mb-3">Sliding Scale</h4>
@@ -111,15 +172,23 @@ const { resultCount = "500+" } = Astro.props;
           </div>
         </div>
       </FilterSection>
-
     </div>
 
     {/* Footer */}
     <div class="px-6 py-4 border-t border-line bg-white flex items-center justify-between gap-4">
-      <button id="clear-filters-btn" class="text-sm font-medium text-sage hover:text-ink transition-colors">Clear All Filters</button>
-      <button id="show-results-btn" class="px-8 py-3 bg-ink text-cream rounded-full text-sm font-medium hover:bg-sage transition-colors shadow-lg shadow-ink/10">Show {resultCount} Therapists</button>
+      <button
+        id="clear-filters-btn"
+        class="text-sm font-medium text-sage hover:text-ink transition-colors"
+      >
+        Clear All Filters
+      </button>
+      <button
+        id="show-results-btn"
+        class="px-8 py-3 bg-ink text-cream rounded-full text-sm font-medium hover:bg-sage transition-colors shadow-lg shadow-ink/10"
+      >
+        Show {resultCount} Therapists
+      </button>
     </div>
-
   </div>
 </div>
 
