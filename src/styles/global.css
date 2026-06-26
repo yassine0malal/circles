@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+/* 
 @theme {
 
   --color-ink: #2A2135;
@@ -25,11 +25,11 @@
   --font-body: "Hanken Grotesk", system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
   --font-serif: "Fraunces", Georgia, serif;
-}
+} */
 
 
 /* "Calm & Grounded" — Sage / Terracotta / Sand */
-/* @theme {
+@theme {
   --color-ink: #2D3830;          
   --color-ink-2: #1F2922;        
   --color-ink-soft: #506058;      
@@ -54,7 +54,7 @@
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
   --font-serif: "Fraunces", Georgia, serif;
 
-} */
+}
 
 
 /* "Healing & Trustworthy" — Teal / Gold / Cream */
