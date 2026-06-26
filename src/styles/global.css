@@ -29,7 +29,7 @@
 
 
 /* "Calm & Grounded" — Sage / Terracotta / Sand */
-@theme {
+/* @theme {
   --color-ink: #2D3830;          
   --color-ink-2: #1F2922;        
   --color-ink-soft: #506058;      
@@ -54,12 +54,12 @@
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
   --font-serif: "Fraunces", Georgia, serif;
 
-}
+} */
 
 
 /* "Healing & Trustworthy" — Teal / Gold / Cream */
 @theme {
-  /* --color-ink: #163535;          
+  --color-ink: #163535;          
   --color-ink-2: #1E5050;        
   --color-ink-soft: #3E6868;     
 
@@ -81,7 +81,7 @@
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Hanken Grotesk", system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
-  --font-serif: "Fraunces", Georgia, serif; */
+  --font-serif: "Fraunces", Georgia, serif;
 }
 
 html,
