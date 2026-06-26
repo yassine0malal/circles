@@ -95,7 +95,7 @@ const inPersonCircles = circles.filter(
       }
     ).addTo(map);
 
-    const createCustomIcon = (imageUrl) => {
+    const createCustomIcon = (imageUrl:string) => {
       return L.divIcon({
         className: "custom-marker group",
         // Added a white inner ring and a warm rose outer border

@@ -1,5 +1,5 @@
 @import "tailwindcss";
-/* 
+
 @theme {
 
   --color-ink: #2A2135;
@@ -25,7 +25,7 @@
   --font-body: "Hanken Grotesk", system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
   --font-serif: "Fraunces", Georgia, serif;
-} */
+}
 
 
 /* "Calm & Grounded" — Sage / Terracotta / Sand */
@@ -59,7 +59,7 @@
 
 /* "Healing & Trustworthy" — Teal / Gold / Cream */
 @theme {
-  --color-ink: #163535;          
+  /* --color-ink: #163535;          
   --color-ink-2: #1E5050;        
   --color-ink-soft: #3E6868;     
 
@@ -81,7 +81,7 @@
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Hanken Grotesk", system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
-  --font-serif: "Fraunces", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif; */
 }
 
 html,
