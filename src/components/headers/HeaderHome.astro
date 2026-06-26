@@ -4,59 +4,59 @@ const navLinks = [
     { label: "Our Vesion", href: "/our-vesion" },
     {
         label: "Circles",
-        href: "/companions",
+        href: "/circles",
         mega: {
             type: "search",
             cities: [
-                { label: "Austin, TX", href: "/companions?location=austin-tx" },
+                { label: "Austin, TX", href: "/circles?location=austin-tx" },
                 {
                     label: "Brooklyn, NY",
-                    href: "/companions?location=brooklyn-ny",
+                    href: "/circles?location=brooklyn-ny",
                 },
                 {
                     label: "Chicago, IL",
-                    href: "/companions?location=chicago-il",
+                    href: "/circles?location=chicago-il",
                 },
-                { label: "Denver, CO", href: "/companions?location=denver-co" },
+                { label: "Denver, CO", href: "/circles?location=denver-co" },
                 {
                     label: "Houston, TX",
-                    href: "/companions?location=houston-tx",
+                    href: "/circles?location=houston-tx",
                 },
                 {
                     label: "Los Angeles, CA",
-                    href: "/companions?location=los-angeles-ca",
+                    href: "/circles?location=los-angeles-ca",
                 },
                 {
                     label: "New York, NY",
-                    href: "/companions?location=new-york-ny",
+                    href: "/circles?location=new-york-ny",
                 },
                 {
                     label: "Portland, OR",
-                    href: "/companions?location=portland-or",
+                    href: "/circles?location=portland-or",
                 },
                 {
                     label: "San Diego, CA",
-                    href: "/companions?location=san-diego-ca",
+                    href: "/circles?location=san-diego-ca",
                 },
                 {
                     label: "San Francisco, CA",
-                    href: "/companions?location=san-francisco-ca",
+                    href: "/circles?location=san-francisco-ca",
                 },
                 {
                     label: "Seattle, WA",
-                    href: "/companions?location=seattle-wa",
+                    href: "/circles?location=seattle-wa",
                 },
                 {
                     label: "Washington, DC",
-                    href: "/companions?location=washington-dc",
+                    href: "/circles?location=washington-dc",
                 },
                 {
                     label: "Atlanta, GA",
-                    href: "/companions?location=atlanta-ga",
+                    href: "/circles?location=atlanta-ga",
                 },
                 {
                     label: "Sacramento, CA",
-                    href: "/companions?location=sacramento-ca",
+                    href: "/circles?location=sacramento-ca",
                 },
             ],
         },
@@ -68,7 +68,7 @@ const navLinks = [
 
 <header
     id="main-header"
-    class="group/header fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter] duration-300 ease-in-out bg-[#241b2e]/0 [&.solid]:bg-canvas/90 [&.solid]:backdrop-blur-md [&.solid]:border-b [&.solid]:border-line"
+    class="group/header fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter] duration-300 ease-in-out bg-[color:var(--color-ink-2)]/0 [&.solid]:bg-white/90 [&.solid]:backdrop-blur-md [&.solid]:border-b [&.solid]:border-line"
 >
     <div class="max-w-[1400px] mx-auto px-10 lg:px-16 relative">
         <div
@@ -90,13 +90,13 @@ const navLinks = [
                             cx="13"
                             cy="17"
                             r="9"
-                            stroke="#C16F72"
+                            class="stroke-rose"
                             stroke-width="2"></circle>
                         <circle
                             cx="21"
                             cy="17"
                             r="9"
-                            stroke="#6E8B7A"
+                            class="stroke-sage"
                             stroke-width="2"></circle>
                     </svg>
                 </div>
@@ -157,7 +157,7 @@ const navLinks = [
             <div class="flex items-center gap-4 z-50 relative">
                 <a
                     href="/circles"
-                    class="hidden sm:inline-flex items-center gap-2 font-semibold text-[15px] px-6 py-3 rounded-full transition-all duration-200 hover:-translate-y-px bg-rose text-white hover:bg-rose-ink"
+                    class="hidden sm:inline-flex items-center gap-2 font-semibold text-[15px] px-6 py-3 rounded-full hover:-translate-y-px text-white bg-[linear-gradient(135deg,var(--color-rose-ink)_50%,var(--color-rose)_50%)] bg-[length:300%_300%] bg-right-bottom hover:bg-left-top transition-all duration-500 ease-out shadow-sm hover:shadow-md"
                 >
                     List a circle
                 </a>
@@ -239,9 +239,6 @@ const navLinks = [
                                                                 </option>
                                                                 <option value="circles">
                                                                     Companions
-                                                                </option>
-                                                                <option value="clinics">
-                                                                    Clinics
                                                                 </option>
                                                             </select>
                                                             <div class="absolute right-4 pointer-events-none text-ink-soft/50">

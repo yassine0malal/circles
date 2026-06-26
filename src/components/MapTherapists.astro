@@ -41,7 +41,6 @@ const { therapists } = Astro.props;
 <script>
   import L from "leaflet";
 
-  // Redeclare interface inside <script> so TypeScript knows the shape
   interface Therapist {
     name: string;
     credentials: string;
@@ -56,7 +55,6 @@ const { therapists } = Astro.props;
     const mapEl = document.getElementById("therapist-map");
     if (!mapEl) return;
 
-    // Cast parsed JSON so therapists is typed
     const therapists = JSON.parse(
       mapEl.dataset.therapists || "[]",
     ) as Therapist[];
@@ -78,40 +76,44 @@ const { therapists } = Astro.props;
       },
     ).addTo(map);
 
-    const createCustomIcon = () => {
+    const createCustomIcon = (imageUrl: string) => {
       return L.divIcon({
         className: "custom-marker",
         html: `
           <div style="
-            width: 36px; 
-            height: 36px; 
-            background: #5c6b4a; 
+            width: 44px; 
+            height: 44px; 
             border-radius: 50%; 
             border: 3px solid #faf9f6; 
             box-shadow: 0 4px 12px rgba(44,42,38,0.25); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
+            overflow: hidden;
+            background: #5c6b4a;
             transition: transform 0.2s ease;
           ">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#faf9f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+            <img 
+              src="${imageUrl}" 
+              alt="" 
+              style="
+                width: 100%; 
+                height: 100%; 
+                object-fit: cover;
+                display: block;
+              "
+              onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\\'20\\' height=\\'20\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#faf9f6\\' stroke-width=\\'2\\' style=\\'margin:8px\\'><path d=\\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\\'></path><circle cx=\\'12\\' cy=\\'7\\' r=\\'4\\'></circle></svg>'"
+            />
           </div>
         `,
-        iconSize: [36, 36],
-        iconAnchor: [18, 36],
-        popupAnchor: [0, -36],
+        iconSize: [44, 44],
+        iconAnchor: [22, 44],
+        popupAnchor: [0, -44],
       });
     };
 
-    // Explicitly type bounds as LatLngExpression array
     const bounds = L.latLngBounds([]);
 
     therapists.forEach((t: Therapist) => {
       const marker = L.marker([t.lat, t.lng], {
-        icon: createCustomIcon(),
+        icon: createCustomIcon(t.image),
       }).addTo(map);
 
       marker.bindPopup(
@@ -154,7 +156,6 @@ const { therapists } = Astro.props;
       bounds.extend([t.lat, t.lng]);
     });
 
-    // The fitBounds call stays the same:
     if (bounds.isValid()) {
       map.fitBounds(bounds, {
         padding: [60, 60],

@@ -1,174 +1,545 @@
 ---
-import { circles } from "../../data/circles";
+import MapCircles from "../../components/MapCircles.astro";
+import CircleCard from "../../components/CircleCard.astro";
 import Layout from "../../layouts/Layout.astro";
+import { circleCompanions } from "../../data/circle_companions";
+import { slugify } from "../../lib/slugify";
+import FilterModal from "../../components/filter/FilterModal.astro";
 
-const filters = [
-  "All",
-  "Grief & Loss",
-  "Addiction & Recovery",
-  "Anxiety & stress",
-  "Relationships",
-  "Life Transition"
+const filters = {
+  gender: [
+    "All",
+    "Female",
+    "Male",
+    "In Person",
+    "Online",
+    "Relief-Oriented",
+    "Values-Oriented",
+  ],
+  modality: ["In Person", "Online"],
+};
+
+const nearby = [
+  "Brooklyn Navy Yard",
+  "Forest Hills",
+  "Glendale",
+  "Howard Beach",
+  "Long Island City",
+  "Maspeth",
+  "Middle Village",
+  "New York",
+  "Ozone Park",
+  "Sunnyside",
+  "Woodhaven",
+  "Woodside",
 ];
+
+const stats = [
+  {
+    label: "Number of Circles in Brooklyn, NY",
+    value: "3,000+",
+    icon: "users",
+  },
+  { label: "Average cost per session", value: "$180", icon: "dollar" },
+  { label: "Average years in practice", value: "10 Years", icon: "calendar" },
+];
+
+const faqs = [
+  {
+    q: "How can I find a circle in Brooklyn?",
+    a: "Search for circles by inputting your city, town, or suburb; or zip code; or a facilitator's name into the search bar. From there, you can filter circles by the issues they treat, cost, modality, and other factors to find circles that are well-suited to your needs.",
+  },
+  {
+    q: "Is everyone in the directory a licensed therapist?",
+    a: "The directory lists circles facilitated by professionals who offer legitimate mental health or wellness services to the public, including psychologists, therapists, and licensed counselors.",
+  },
+  {
+    q: "What's the difference between a therapist-led circle and a healing circle?",
+    a: "Therapist-led circles often have a clinical focus (symptom relief), while healing circles are values-driven and focused on exploration and connection, often led by coaches or trained facilitators.",
+  },
+  {
+    q: "How do I know if a circle is right for me?",
+    a: "The type of circle best suited to a particular individual depends on several factors, including their primary reason for seeking support, their preferred modality, and their personality.",
+  },
+  {
+    q: "How much does a circle session cost?",
+    a: "The cost depends on a number of variables, including location and the facilitator's experience and training. On average, a circle session can range significantly.",
+  },
+];
+
+// Map data for the map component (only items with lat/lng)
+const mapCircles = circleCompanions
+  .filter((c) => typeof c.lat === "number" && typeof c.lng === "number")
+  .map((c) => ({
+    id: c.id || slugify(c.name),
+    name: c.name,
+    image: c.image,
+    credentials: c.credentials,
+    location: c.location,
+    lat: c.lat,
+    lng: c.lng,
+    modality: c.modality,
+    price: c.price,
+  }));
 ---
 
-<Layout title="Circles">
-  <main class="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
+<Layout title="Circles in Brooklyn, NY — Circle Share">
+  <div
+    class="h-23 backdrop-blur-md border-b border-line transition-[background,backdrop-filter] duration-300 ease-in-out"
+  >
+  </div>
 
-    {/* Hero */}
-    <section class="text-center pt-16 pb-12">
-      <h1 class="font-display text-4xl md:text-5xl font-medium text-ink mb-4 tracking-tight">
-        Future of healing is in community
-      </h1>
-      <p class="text-ink-soft/70 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
-        Circle Share brings people together in small, intentional circles facilitated by licensed therapists.
-        <br class="hidden md:block" />
-        Explore circles for support, reflection, and growth.
-      </p>
+  <main class="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
+    {/* Page Header */}
+    <section class="pt-12 pb-8">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2"
+      >
+        <h1 class="text-3xl md:text-4xl font-medium text-ink">
+          Circles in Brooklyn, NY
+        </h1>
+
+        <div class="flex items-center gap-3">
+          <div
+            class="relative inline-flex items-center bg-raised border border-line rounded-full p-1"
+          >
+            <div
+              id="toggle-pill"
+              class="absolute top-1 bottom-1 bg-ink rounded-full transition-all duration-300 ease-out z-0"
+              style="left: 4px; width: 0px;"
+            >
+            </div>
+            <button
+              id="btn-inperson"
+              class="relative z-10 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 text-cream"
+            >
+              In Person
+            </button>
+            <button
+              id="btn-virtual"
+              class="relative z-10 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 text-ink-soft"
+            >
+              Virtual
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
 
-    {/* Search */}
-    <div class="max-w-3xl mx-auto mb-10">
-      <div class="relative group">
-        <input 
-          type="text" 
-          placeholder="Search circles, themes, facilitators..." 
-          class="w-full border border-line rounded-[8px] py-4 pl-6 pr-14 text-sm text-ink placeholder:text-ink-soft/50 bg-white focus:outline-none focus:border-olive focus:ring-4 focus:ring-olive/10 transition-all duration-300"
-        />
-        <svg 
-          class="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-soft/50 group-focus-within:text-sage transition-colors" 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <circle cx="11" cy="11" r="8" stroke-width="1.5"/>
-          <path d="M21 21l-4.35-4.35" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
+    {/* Map */}
+    <div
+      id="map-wrapper"
+      class="overflow-hidden transition-all duration-500 ease-out"
+      style="max-height: 500px; opacity: 1; margin-bottom: 24px;"
+    >
+      <div class="flex items-center justify-between">
+        <MapCircles circles={mapCircles} />
       </div>
     </div>
 
-    {/* Filters */}
-    <div class="flex flex-wrap items-center gap-3 mb-12 max-w-4xl mx-auto border p-3 rounded-[8px]">
-      {filters.map((filter, i) => (
-        <button 
-          class={`px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 ${
-            i === 0 
-              ? 'bg-ink text-cream hover:bg-sage' 
-              : 'border border-line text-ink-soft/90 hover:border-line hover:text-ink'
-          }`}
+    {/* Filter Bar */}
+    <div class="mb-10 pb-8">
+      <div
+        class="flex flex-wrap items-center justify-between gap-3 border border-line p-3 rounded-[8px] w-full"
+      >
+        <div class="flex flex-wrap items-center gap-3">
+          {
+            filters.gender.map((filter, i) => (
+              <button
+                class={`filter-btn px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 ${i === 0 ? "bg-ink text-cream" : "border border-line text-ink-soft/90 hover:border-line hover:text-ink"}`}
+                data-filter={filter}
+              >
+                {filter}
+              </button>
+            ))
+          }
+        </div>
+        <button
+          id="open-filters-btn"
+          class="group relative px-6 py-2.5 overflow-hidden rounded-[8px] text-cream text-sm font-medium transition-transform active:scale-[0.98] z-0"
         >
-          {filter}
+          <div
+            class="absolute inset-0 bg-[linear-gradient(160deg,var(--color-ink-2)_0%,var(--color-ink)_50%,var(--color-ink-soft)_100%)] transition-opacity duration-300 group-hover:opacity-0 -z-10"
+          >
+          </div>
+          <div
+            class="absolute inset-0 bg-rose opacity-0 transition-opacity duration-300 group-hover:opacity-100 -z-10"
+          >
+          </div>
+          <span class="relative z-10">All Filters</span>
         </button>
-      ))}
+      </div>
     </div>
 
-    {/* Grid */}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {circles.map(circle => {
-        const nextDate = new Date(circle.nextSession);
-        const dateStr = nextDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        const timeStr = nextDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-        const spotsStr = `${circle.currentMembers}/${circle.maxMembers}`;
-        
-        return (
-          <a href={`/circles/${circle.id}`} class="group block">
-            <article class="rounded-[8px] border border-line overflow-hidden hover:bg-[#EEE4D7] hover:shadow-ink/10 hover:-translate-y-1 transition-all duration-500 cursor-pointer">
-              
-              {/* Image */}
-              <div class="relative overflow-hidden p-4">
-                <img 
-                  src={circle.image} 
-                  alt={circle.title}
-                  class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700 rounded-[8px]"
-                  loading="lazy"
-                />
-                <div class="absolute top-6 right-4">
-                  <span class="inline-flex items-center gap-1.5 bg-white/90 backdrop-blur-sm text-ink-2 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="10" stroke-width="1.5"/>
-                      <path d="M12 6v6l4 2" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                    {circle.price}
-                  </span>
-                </div>
-              </div>
+    {/* Circle List */}
+    <div class="space-y-6" id="companion-list">
+      {
+        circleCompanions.map((c) => {
+          // Generate the EXACT same slug that getStaticPaths uses
+          const itemSlug = c.id || slugify(c.name);
 
-              {/* Content */}
-              <div class="p-5">
-                <div class="flex items-start gap-2 mb-3">
-                  <h3 class="font-bona text-2xl font-medium text-ink leading-snug group-hover:text-sage transition-colors">
-                    {circle.title}
-                  </h3>
-                  <span class="shrink-0 mt-1 px-2 py-0.5 bg-raised text-ink-soft/90 text-[10px] font-medium rounded-full uppercase tracking-wide">
-                    {circle.category}
-                  </span>
-                </div>
+          return (
+            <div
+              class="companion-card"
+              data-gender={c.gender}
+              data-modality={c.modality}
+              data-orientation={c.orientation || "relief-oriented"}
+            >
+              <CircleCard
+                circle={{
+                  id: itemSlug,
+                  title: c.category
+                    ? `${c.category.replace(/\//g, " ")} Circle`
+                    : `${c.name}'s Circle`,
+                  goal: c.bio,
+                  facilitator: {
+                    name: c.name,
+                    image: c.image,
+                    credentials: c.credentials,
+                  },
+                  location: c.location,
+                  format: c.modality,
+                  price: c.price,
+                  phone: c.phone,
+                }}
+              />
+            </div>
+          );
+        })
+      }
+    </div>
 
-                {/* Facilitator */}
-                <div class="flex items-center gap-2 mb-3">
-                  <div class="w-6 h-6 rounded-full bg-cream flex items-center justify-center overflow-hidden">
-                    <img
-                      src={circle.facilitator.photo}
-                      alt={circle.facilitator.name}
-                      class="w-5 h-5 rounded-full object-cover"
-                    />
-                  </div>
-                  <div class="leading-tight">
-                    <span class="text-sm font-medium text-ink-2">{circle.facilitator.name}</span>
-                    <span class="text-xs text-ink-soft/50 block">{circle.facilitator.credentials}</span>
-                  </div>
-                </div>
-
-                {/* Challenges */}
-                <div class="flex flex-wrap gap-1.5 mb-4">
-                  {circle.challenges.map(tag => (
-                    <span class="px-2 py-1 bg-canvas text-ink-soft/90 text-[11px] font-light rounded-md border border-line">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Meta row */}
-                <div class="flex items-center gap-4 mb-3 text-xs text-ink-soft/50">
-                  <span class="flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <rect x="3" y="4" width="18" height="18" rx="2" stroke-width="1.5"/>
-                      <path d="M16 2v4M8 2v4M3 10h18" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                    {dateStr}
-                  </span>
-                  <span class="flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="10" stroke-width="1.5"/>
-                      <path d="M12 6v6l4 2" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                    {timeStr}
-                  </span>
-                  <span class="flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-width="1.5"/>
-                      <circle cx="9" cy="7" r="4" stroke-width="1.5"/>
-                      <path d="M23 21v-2a4 4 0 00-3-3.87" stroke-width="1.5"/>
-                      <path d="M16 3.13a4 4 0 010 7.75" stroke-width="1.5"/>
-                    </svg>
-                    {spotsStr}
-                  </span>
-                </div>
-
-                {/* Location */}
-                <div class="flex items-center gap-1.5 text-xs text-ink-soft/50">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke-width="1.5"/>
-                    <circle cx="12" cy="10" r="3" stroke-width="1.5"/>
-                  </svg>
-                  {circle.format}
-                </div>
-              </div>
-            </article>
+    {/* Pagination */}
+    <div class="flex items-center justify-center gap-2 mt-12">
+      {
+        [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+          <a
+            href={`?page=${n}`}
+            class={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${n === 1 ? "bg-ink text-cream" : "text-ink-soft/90 hover:bg-raised hover:text-ink"}`}
+          >
+            {n}
           </a>
-        );
-      })}
+        ))
+      }
+      <span class="text-ink-soft/50 px-2">...</span>
+      <a
+        href="?page=10"
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium text-ink-soft/90 hover:bg-raised hover:text-ink transition-all"
+        >Next →</a
+      >
     </div>
 
+    {/* More Options */}
+    <section class="mt-20">
+      <h2 class="text-center text-2xl font-medium text-ink mb-8">
+        See more circle options for Brooklyn
+      </h2>
+      <div class="flex justify-center gap-4">
+        {
+          ["Mindfulness", "Support Groups", "Skills"].map((tab) => (
+            <button class="px-6 py-3 border border-line rounded-full text-sm font-medium text-ink-soft/90 hover:border-line hover:text-ink transition-all">
+              {tab}
+            </button>
+          ))
+        }
+      </div>
+    </section>
+
+    {/* Nearby Searches */}
+    <section class="mt-16 bg-raised/50 rounded-2xl p-8 lg:p-10">
+      <h3 class="text-lg font-medium text-ink mb-6">
+        Nearby Searches for Brooklyn
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {
+          nearby.map((city) => (
+            <a
+              href={`/circles?location=${city.toLowerCase().replace(/\s+/g, "-")}`}
+              class="text-sm text-ink-soft/90 hover:text-sage hover:underline underline-offset-4 transition-colors py-1"
+            >
+              {city}
+            </a>
+          ))
+        }
+      </div>
+      <a
+        href="#"
+        class="inline-block mt-6 text-sm font-medium text-sage hover:underline underline-offset-4"
+        >See More Circles</a
+      >
+    </section>
+
+    {/* Stats */}
+    <section class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {
+        stats.map((stat) => (
+          <div class="bg-white rounded-2xl border border-line p-8 text-center">
+            <div class="w-12 h-12 rounded-full bg-raised flex items-center justify-center mx-auto mb-4 text-ink-soft">
+              {stat.icon === "users" && (
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              )}
+              {stat.icon === "dollar" && (
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              )}
+              {stat.icon === "calendar" && (
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              )}
+            </div>
+            <p class="text-3xl font-medium text-ink mb-1">{stat.value}</p>
+            <p class="text-sm font-light text-ink-soft/70">{stat.label}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    {/* Treatment Stats */}
+    <section class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-white rounded-2xl border border-line p-8">
+        <h4 class="text-lg font-medium text-ink mb-6">
+          Circles that prioritize:
+        </h4>
+        <div class="space-y-4">
+          {
+            [
+              { label: "Mindfulness", pct: 94 },
+              { label: "Grief Support", pct: 94 },
+              { label: "Stress Reduction", pct: 94 },
+              { label: "Relationship Growth", pct: 88 },
+              { label: "Life Transitions", pct: 81 },
+            ].map((item) => (
+              <div class="flex items-center gap-4">
+                <span class="text-sm text-ink-soft/90 w-40 shrink-0">
+                  {item.label}
+                </span>
+                <div class="flex-1 h-2 bg-raised rounded-full overflow-hidden">
+                  <div
+                    class="h-full bg-sage rounded-full"
+                    style={`width: ${item.pct}%`}
+                  />
+                </div>
+                <span class="text-sm font-medium text-ink w-10 text-right">
+                  {item.pct}%
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-line p-8">
+        <h4 class="text-lg font-medium text-ink mb-6">Top 3 circle formats</h4>
+        <div class="space-y-4">
+          {
+            [
+              { label: "Online", pct: 88 },
+              { label: "In-Person", pct: 72 },
+              { label: "Hybrid", pct: 58 },
+            ].map((item) => (
+              <div class="flex items-center gap-4">
+                <span class="text-sm text-ink-soft/90 w-48 shrink-0">
+                  {item.label}
+                </span>
+                <div class="flex-1 h-2 bg-raised rounded-full overflow-hidden">
+                  <div
+                    class="h-full bg-ink rounded-full"
+                    style={`width: ${item.pct}%`}
+                  />
+                </div>
+                <span class="text-sm font-medium text-ink w-10 text-right">
+                  {item.pct}%
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    {/* FAQ */}
+    <section class="flex flex-col justify-center mt-20 ">
+      <h2 class="text-2xl font-medium text-ink mb-8">FAQs — About Circles</h2>
+      <div class="space-y-3">
+        {
+          faqs.map((faq) => (
+            <details class="group bg-white rounded-xl border border-line open:border-line transition-colors">
+              <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                <span class="font-medium text-ink text-sm">{faq.q}</span>
+                <span class="w-6 h-6 rounded-full bg-raised flex items-center justify-center text-ink-soft/90 group-open:rotate-45 transition-transform duration-300">
+                  <svg
+                    class="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                </span>
+              </summary>
+              <div class="px-6 pb-6 text-sm font-light text-ink-soft/90 leading-relaxed">
+                {faq.a}
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </section>
   </main>
 </Layout>
+
+{/* Filter Modal */}
+<FilterModal resultCount="500+" />
+
+<script>
+  // ── Map Toggle ──
+  const btnInPerson = document.getElementById("btn-inperson");
+  const btnVirtual = document.getElementById("btn-virtual");
+  const pill = document.getElementById("toggle-pill");
+  const mapWrapper = document.getElementById("map-wrapper");
+
+  function positionPill(activeBtn) {
+    const container = pill.parentElement;
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    pill.style.width = `${activeBtn.offsetWidth}px`;
+    pill.style.left = `${btnRect.left - containerRect.left}px`;
+  }
+
+  function setMode(mode) {
+    if (mode === "virtual") {
+      positionPill(btnVirtual);
+      btnVirtual.classList.replace("text-ink-soft", "text-cream");
+      btnInPerson.classList.replace("text-cream", "text-ink-soft");
+      mapWrapper.style.maxHeight = `${mapWrapper.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        mapWrapper.style.maxHeight = "0px";
+        mapWrapper.style.opacity = "0";
+        mapWrapper.style.marginBottom = "0px";
+      });
+    } else {
+      positionPill(btnInPerson);
+      btnInPerson.classList.replace("text-ink-soft", "text-cream");
+      btnVirtual.classList.replace("text-cream", "text-ink-soft");
+      mapWrapper.style.maxHeight = "500px";
+      mapWrapper.style.opacity = "1";
+      mapWrapper.style.marginBottom = "24px";
+    }
+  }
+
+  positionPill(btnInPerson);
+  btnInPerson.addEventListener("click", () => setMode("inperson"));
+  btnVirtual.addEventListener("click", () => setMode("virtual"));
+  window.addEventListener("resize", () => {
+    const isVirtual = btnVirtual.classList.contains("text-cream");
+    positionPill(isVirtual ? btnVirtual : btnInPerson);
+  });
+
+  // ── Filter Buttons ──
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const companionCards = document.querySelectorAll(".companion-card");
+  let activeFilter = "All";
+
+  function normalize(str) {
+    return (str || "").toLowerCase().trim();
+  }
+
+  function applyFilter(filter) {
+    activeFilter = filter;
+
+    filterButtons.forEach((b) => {
+      const btnFilter = b.getAttribute("data-filter") || "All";
+      const isActive = btnFilter === filter;
+
+      if (isActive) {
+        b.classList.remove("border", "border-line", "text-ink-soft/90");
+        b.classList.add("bg-ink", "text-cream");
+      } else {
+        b.classList.remove("bg-ink", "text-cream");
+        b.classList.add("border", "border-line", "text-ink-soft/90");
+      }
+    });
+
+    companionCards.forEach((card) => {
+      const cardGender = normalize(card.getAttribute("data-gender"));
+      const cardModality = normalize(card.getAttribute("data-modality"));
+      const cardOrientation = normalize(card.getAttribute("data-orientation"));
+      const normalizedFilter = normalize(filter);
+
+      let show = false;
+      if (filter === "All") {
+        show = true;
+      } else if (filter === "Female" || filter === "Male") {
+        show = cardGender === normalizedFilter;
+      } else if (filter === "In Person" || filter === "Online") {
+        show = cardModality === normalizedFilter;
+      } else if (filter === "Relief-Oriented") {
+        show = cardOrientation === "relief-oriented";
+      } else if (filter === "Values-Oriented") {
+        show =
+          cardOrientation === "values-driven" ||
+          cardOrientation === "values-oriented";
+      }
+
+      card.style.display = show ? "" : "none";
+    });
+  }
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const filter = btn.getAttribute("data-filter") || "All";
+      applyFilter(filter);
+    });
+  });
+
+  function checkUrlParams() {
+    const url = new URL(window.location.href);
+    const orientation = url.searchParams.get("orientation");
+
+    if (orientation === "symptom-relief") {
+      applyFilter("Relief-Oriented");
+    } else if (orientation === "values-driven") {
+      applyFilter("Values-Oriented");
+    }
+  }
+
+  checkUrlParams();
+</script>

@@ -1,215 +1,318 @@
 ---
 import "../../styles/global.css";
 const navLinks = [
-  { label: 'Our Vision', href: '/our-vesion' },
-  { 
-    label: 'Circles', 
-    href: '/companions',
+  { label: "Our Vision", href: "/our-vesion" },
+  {
+    label: "Circles",
+    href: "/circles",
     mega: {
-      type: 'search',
+      type: "search",
       cities: [
-        { label: "Austin, TX", href: "/companions?location=austin-tx" },
-        { label: "Brooklyn, NY", href: "/companions?location=brooklyn-ny" },
-        { label: "Chicago, IL", href: "/companions?location=chicago-il" },
-        { label: "Denver, CO", href: "/companions?location=denver-co" },
-        { label: "Houston, TX", href: "/companions?location=houston-tx" },
-        { label: "Los Angeles, CA", href: "/companions?location=los-angeles-ca" },
-        { label: "New York, NY", href: "/companions?location=new-york-ny" },
-        { label: "Portland, OR", href: "/companions?location=portland-or" },
-        { label: "San Diego, CA", href: "/companions?location=san-diego-ca" },
-        { label: "San Francisco, CA", href: "/companions?location=san-francisco-ca" },
-        { label: "Seattle, WA", href: "/companions?location=seattle-wa" },
-        { label: "Washington, DC", href: "/companions?location=washington-dc" },
-        { label: "Atlanta, GA", href: "/companions?location=atlanta-ga" },
-        { label: "Sacramento, CA", href: "/companions?location=sacramento-ca" }
-      ]
-    }
+        { label: "Austin, TX", href: "/circles?location=austin-tx" },
+        { label: "Brooklyn, NY", href: "/circles?location=brooklyn-ny" },
+        { label: "Chicago, IL", href: "/circles?location=chicago-il" },
+        { label: "Denver, CO", href: "/circles?location=denver-co" },
+        { label: "Houston, TX", href: "/circles?location=houston-tx" },
+        { label: "Los Angeles, CA", href: "/circles?location=los-angeles-ca" },
+        { label: "New York, NY", href: "/circles?location=new-york-ny" },
+        { label: "Portland, OR", href: "/circles?location=portland-or" },
+        { label: "San Diego, CA", href: "/circles?location=san-diego-ca" },
+        {
+          label: "San Francisco, CA",
+          href: "/circles?location=san-francisco-ca",
+        },
+        { label: "Seattle, WA", href: "/circles?location=seattle-wa" },
+        { label: "Washington, DC", href: "/circles?location=washington-dc" },
+        { label: "Atlanta, GA", href: "/circles?location=atlanta-ga" },
+        { label: "Sacramento, CA", href: "/circles?location=sacramento-ca" },
+      ],
+    },
   },
-  { label: 'About', href: '/about' },
+  { label: "About", href: "/about" },
 ];
 ---
 
 <header
   id="main-header"
-  class="fixed top-0 left-0 right-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-line transition-[background,backdrop-filter] duration-300 ease-in-out"
+  class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-line transition-[background,backdrop-filter] duration-300 ease-in-out"
 >
   <div class="max-w-[1400px] mx-auto px-10 lg:px-16 relative">
-    <div class="flex justify-between items-center h-20 lg:h-24 transition-all duration-700">
-      
+    <div
+      class="flex justify-between items-center h-20 lg:h-24 transition-all duration-700"
+    >
       {/* Logo */}
       <a href="/" class="flex items-center group z-50 relative">
-        <div class="w-20 h-20 lg:w-22 lg:h-22 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
-          <svg width="80" height="80" viewBox="0 0 34 34" fill="none" aria-hidden="true">
-            <circle cx="13" cy="17" r="9" stroke="#C16F72" stroke-width="2"/>
-            <circle cx="21" cy="17" r="9" stroke="#6E8B7A" stroke-width="2"/>
+        <div
+          class="w-20 h-20 lg:w-22 lg:h-22 flex items-center justify-center transition-transform duration-500 group-hover:scale-105"
+        >
+          <svg
+            width="80"
+            height="80"
+            viewBox="0 0 34 34"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle cx="13" cy="17" r="9" class="stroke-rose" stroke-width="2"
+            ></circle>
+            <circle cx="21" cy="17" r="9" class="stroke-sage" stroke-width="2"
+            ></circle>
           </svg>
         </div>
         <div class="flex flex-col">
-          <span class="text-xl lg:text-2xl font-medium tracking-tight leading-none text-ink hover:text-rose transition-colors duration-300">
+          <span
+            class="text-xl lg:text-2xl font-medium tracking-tight leading-none text-ink hover:text-rose transition-colors duration-300"
+          >
             Circle Share
           </span>
-          <span class="text-[10px] lg:text-xs font-light tracking-[0.25em] uppercase mt-1 leading-none text-ink-soft transition-colors duration-300">
+          <span
+            class="text-[10px] lg:text-xs font-light tracking-[0.25em] uppercase mt-1 leading-none text-ink-soft transition-colors duration-300"
+          >
             Healing Together
           </span>
         </div>
       </a>
 
       {/* Desktop Navigation */}
-     <nav class="hidden lg:flex items-center gap-1 my-2">
-  {navLinks.map((link, index) => (
-    <div class="relative h-full flex items-center">
-      {link.mega ? (
-        <button
-          class="mega-trigger nav-item relative px-5 py-2 h-full flex items-center gap-1.5 text-[15px] font-medium rounded-full transition-colors duration-300 text-ink-soft hover:text-ink"
-          data-index={index}
-          aria-expanded="false"
-          aria-haspopup="true"
-        >
-          {link.label}
-          <svg 
-            class="mega-arrow w-3.5 h-3.5 transition-transform duration-300" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
-        </button>
-      ) : (
-        <a
-          href={link.href}
-          class="nav-item relative px-5 py-2 h-full flex items-center text-[15px] font-medium rounded-full transition-colors duration-300 text-ink-soft hover:text-ink"
-        >
-          {link.label}
-        </a>
-      )
-      }
-    </div>
-  ))}
-</nav>
+      <nav class="hidden lg:flex items-center gap-1 my-2">
+        {
+          navLinks.map((link, index) => (
+            <div class="relative h-full flex items-center">
+              {link.mega ? (
+                <button
+                  class="mega-trigger nav-item relative px-5 py-2 h-full flex items-center gap-1.5 text-[15px] font-medium rounded-full transition-colors duration-300 text-ink-soft hover:text-ink"
+                  data-index={index}
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                >
+                  {link.label}
+                  <svg
+                    class="mega-arrow w-3.5 h-3.5 transition-transform duration-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+              ) : (
+                <a
+                  href={link.href}
+                  class="nav-item relative px-5 py-2 h-full flex items-center text-[15px] font-medium rounded-full transition-colors duration-300 text-ink-soft hover:text-ink"
+                >
+                  {link.label}
+                </a>
+              )}
+            </div>
+          ))
+        }
+      </nav>
 
       {/* CTA + Mobile Toggle */}
       <div class="flex items-center gap-4 z-50 relative">
-        <a 
+        <a
           href="/circles"
           class="hidden sm:inline-flex items-center gap-2 font-semibold text-[15px] px-6 py-3 rounded-full transition-all duration-200 hover:-translate-y-px bg-rose text-white hover:bg-rose-ink"
         >
           List a circle
         </a>
-        
-        <button 
+
+        <button
           id="mobile-menu-btn"
           class="lg:hidden flex flex-col gap-1.5 p-2 group relative"
           aria-label="Toggle menu"
           aria-expanded="false"
         >
-          <span id="menu-line-1" class="w-6 h-[1.5px] transition-all duration-500 bg-ink" />
-          <span id="menu-line-2" class="w-4 h-[1.5px] transition-all duration-500 bg-ink" />
-          <span id="menu-line-3" class="w-5 h-[1.5px] transition-all duration-500 bg-ink" />
+          <span
+            id="menu-line-1"
+            class="w-6 h-[1.5px] transition-all duration-500 bg-ink"></span>
+          <span
+            id="menu-line-2"
+            class="w-4 h-[1.5px] transition-all duration-500 bg-ink"></span>
+          <span
+            id="menu-line-3"
+            class="w-5 h-[1.5px] transition-all duration-500 bg-ink"></span>
         </button>
       </div>
     </div>
   </div>
 
   {/* Mega Menu Panels */}
-  <div 
+  <div
     id="mega-menu-container"
     class="absolute top-full left-0 right-0 opacity-0 invisible translate-y-4 transition-all duration-500 ease-out pointer-events-none"
   >
     <div class="max-w-[1400px] mx-auto">
-      <div id="mega-menu-card" class="bg-cream/90 backdrop-blur-xl border border-line border-b-2 shadow-2xl shadow-ink/10 overflow-hidden pointer-events-auto rounded-2xl mt-2">
-        
-        {navLinks.map((link, index) => link.mega && (
-          <div 
-            class="mega-panel hidden"
-            data-panel={index}
-          >
-            {link.mega.type === 'search' && (
-              <div class="p-10 lg:p-12">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-                  <div class="lg:col-span-7 space-y-6">
-                    <div class="space-y-2">
-                      <h2 class="text-2xl font-medium text-ink tracking-tight">Find a Companion</h2>
-                      <p class="text-sm font-normal text-ink-soft/70">Enter your location to discover verified companions in your area.</p>
-                    </div>
-                    <form action="/circle" method="GET" class="flex flex-col sm:flex-row items-stretch w-full border border-line rounded-2xl sm:rounded-full bg-white p-1.5 focus-within:border-olive focus-within:ring-4 focus-within:ring-olive/10 transition-all duration-200">
-                      <div class="relative flex items-center border-b sm:border-b-0 sm:border-r border-line">
-                        <select name="type" class="w-full sm:w-auto bg-transparent text-ink-2 font-medium text-sm py-3.5 pl-5 pr-10 outline-none cursor-pointer appearance-none">
-                          <option value="therapists">Companions</option>
-                          <option value="circles">Circles</option>
-                          <option value="clinics">Clinics</option>
-                        </select>
-                        <div class="absolute right-4 pointer-events-none text-ink-soft/50">
-                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      <div
+        id="mega-menu-card"
+        class="bg-cream/90 backdrop-blur-xl border border-line border-b-2 shadow-2xl shadow-ink/10 overflow-hidden pointer-events-auto rounded-2xl mt-2"
+      >
+        {
+          navLinks.map(
+            (link, index) =>
+              link.mega && (
+                <div class="mega-panel hidden" data-panel={index}>
+                  {link.mega.type === "search" && (
+                    <div class="p-10 lg:p-12">
+                      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                        <div class="lg:col-span-7 space-y-6">
+                          <div class="space-y-2">
+                            <h2 class="text-2xl font-medium text-ink tracking-tight">
+                              Find a Circle
+                            </h2>
+                            <p class="text-sm font-normal text-ink-soft/70">
+                              Enter your location to discover verified circle in
+                              your area.
+                            </p>
+                          </div>
+                          <form
+                            action="/circle"
+                            method="GET"
+                            class="flex flex-col sm:flex-row items-stretch w-full border border-line rounded-2xl sm:rounded-full bg-white p-1.5 focus-within:border-olive focus-within:ring-4 focus-within:ring-olive/10 transition-all duration-200"
+                          >
+                            <div class="relative flex items-center border-b sm:border-b-0 sm:border-r border-line">
+                              <select
+                                name="type"
+                                class="w-full sm:w-auto bg-transparent text-ink-2 font-medium text-sm py-3.5 pl-5 pr-10 outline-none cursor-pointer appearance-none"
+                              >
+                                <option value="circles">Circles</option>
+                                <option value="therapists">Companions</option>
+                              </select>
+                              <div class="absolute right-4 pointer-events-none text-ink-soft/50">
+                                <svg
+                                  class="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 9l-7 7-7-7"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                            <div class="flex-1 relative flex items-center min-w-0">
+                              <input
+                                type="text"
+                                name="geo"
+                                required
+                                placeholder="City or Zip"
+                                class="w-full py-3.5 px-5 text-sm text-ink placeholder-warm-400 outline-none bg-transparent"
+                              />
+                            </div>
+                            <button
+                              type="submit"
+                              class="bg-ink hover:bg-sage text-cream font-medium text-sm px-7 py-3.5 sm:py-0 rounded-xl sm:rounded-full transition-colors duration-300 flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]"
+                            >
+                              <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                              >
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="M21 21l-4.35-4.35" />
+                              </svg>
+                              <span>Search</span>
+                            </button>
+                          </form>
+                          <div class="flex items-center gap-2 pt-2 text-xs font-bold text-ink-soft/70">
+                            <span class="font-semibold text-ink-2">
+                              Companions:
+                            </span>
+                            <a
+                              href="/login"
+                              class="hover:text-sage hover:underline underline-offset-2 transition"
+                            >
+                              Login
+                            </a>
+                            <span class="text-mist">•</span>
+                            <a
+                              href="/register"
+                              class="hover:text-sage hover:underline underline-offset-2 transition"
+                            >
+                              Sign Up & Get Listed
+                            </a>
+                          </div>
+                        </div>
+                        <div class="lg:col-span-5 relative lg:pl-12">
+                          <div class="hidden lg:block absolute left-0 top-0 bottom-0 w-px bg-cream/70" />
+                          <div class="space-y-4">
+                            <h3 class="text-xs font-bold tracking-[0.2em] text-ink-soft/90 uppercase">
+                              United States Directory
+                            </h3>
+                            <div class="grid grid-cols-2 gap-x-6 gap-y-3">
+                              {link.mega.cities.map((city) => (
+                                <a
+                                  href={city.href}
+                                  class="text-lg hover:text-sage hover:underline underline-offset-4 decoration-line transition-colors py-0.5 truncate"
+                                >
+                                  {city.label}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div class="flex-1 relative flex items-center min-w-0">
-                        <input type="text" name="geo" required placeholder="City or Zip" class="w-full py-3.5 px-5 text-sm text-ink placeholder-warm-400 outline-none bg-transparent" />
-                      </div>
-                      <button type="submit" class="bg-ink hover:bg-sage text-cream font-medium text-sm px-7 py-3.5 sm:py-0 rounded-xl sm:rounded-full transition-colors duration-300 flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                        <span>Search</span>
-                      </button>
-                    </form>
-                    <div class="flex items-center gap-2 pt-2 text-xs font-bold text-ink-soft/70">
-                      <span class="font-semibold text-ink-2">Companions:</span>
-                      <a href="/login" class="hover:text-sage hover:underline underline-offset-2 transition">Login</a>
-                      <span class="text-mist">•</span>
-                      <a href="/register" class="hover:text-sage hover:underline underline-offset-2 transition">Sign Up & Get Listed</a>
                     </div>
-                  </div>
-                  <div class="lg:col-span-5 relative lg:pl-12">
-                    <div class="hidden lg:block absolute left-0 top-0 bottom-0 w-px bg-cream/70"></div>
-                    <div class="space-y-4">
-                      <h3 class="text-xs font-bold tracking-[0.2em] text-ink-soft/90 uppercase">United States Directory</h3>
-                      <div class="grid grid-cols-2 gap-x-6 gap-y-3">
-                        {link.mega.cities.map((city) => (
-                          <a href={city.href} class="text-lg hover:text-sage hover:underline underline-offset-4 decoration-line transition-colors py-0.5 truncate">
-                            {city.label}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
-              </div>
-            )}
-          </div>
-        ))}
-
+              ),
+          )
+        }
       </div>
     </div>
   </div>
 
   {/* Mobile Menu Overlay */}
-  <div id="mobile-menu" class="lg:hidden fixed inset-0 top-20 bg-canvas/95 backdrop-blur-xl z-40 opacity-0 pointer-events-none transition-all duration-500 ease-out">
+  <div
+    id="mobile-menu"
+    class="lg:hidden fixed inset-0 top-20 bg-canvas/95 backdrop-blur-xl z-40 opacity-0 pointer-events-none transition-all duration-500 ease-out"
+  >
     <nav class="flex flex-col items-center justify-center h-full gap-8">
-      {navLinks.map((link, i) => (
-        <a href={link.href} class="mobile-nav-link text-3xl font-medium text-ink-2 hover:text-sage transition-colors duration-300 opacity-0 translate-y-4" style={`transition-delay: ${i * 75}ms`}>
-          {link.label}
-        </a>
-      ))}
-      <a href="/login" class="mobile-nav-link mt-6 px-10 py-4 bg-ink text-cream text-sm font-light tracking-[0.15em] uppercase rounded-[8px] hover:bg-sage transition-all duration-500 opacity-0 translate-y-4" style={`transition-delay: ${navLinks.length * 75}ms`}>
+      {
+        navLinks.map((link, i) => (
+          <a
+            href={link.href}
+            class="mobile-nav-link text-3xl font-medium text-ink-2 hover:text-sage transition-colors duration-300 opacity-0 translate-y-4"
+            style={`transition-delay: ${i * 75}ms`}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/login"
+        class="mobile-nav-link mt-6 px-10 py-4 bg-ink text-cream text-sm font-light tracking-[0.15em] uppercase rounded-[8px] hover:bg-sage transition-all duration-500 opacity-0 translate-y-4"
+        style={`transition-delay: ${navLinks.length * 75}ms`}
+      >
         Get Started
       </a>
     </nav>
   </div>
-
 </header>
 
 <script>
   // const header = document.getElementById('main-header');
-  const megaContainer = document.getElementById('mega-menu-container');
-  const megaCard = document.getElementById('mega-menu-card');
-  const megaTriggers = document.querySelectorAll('.mega-trigger');
-  const megaPanels = document.querySelectorAll('.mega-panel');
-  const megaArrows = document.querySelectorAll('.mega-arrow');
-  const menuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-  const line1 = document.getElementById('menu-line-1');
-  const line2 = document.getElementById('menu-line-2');
-  const line3 = document.getElementById('menu-line-3');
+  const megaContainer = document.getElementById("mega-menu-container");
+  const megaCard = document.getElementById("mega-menu-card");
+  const megaTriggers = document.querySelectorAll(".mega-trigger");
+  const megaPanels = document.querySelectorAll(".mega-panel");
+  const megaArrows = document.querySelectorAll(".mega-arrow");
+  const menuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+  const line1 = document.getElementById("menu-line-1");
+  const line2 = document.getElementById("menu-line-2");
+  const line3 = document.getElementById("menu-line-3");
 
   let activeMegaIndex = -1;
   let isMobileOpen = false;
@@ -220,12 +323,14 @@ const navLinks = [
 
   // Mega menu toggle
   megaTriggers.forEach((trigger) => {
-    trigger.addEventListener('click', (e) => {
+    trigger.addEventListener("click", (e) => {
       e.preventDefault();
-      
-      const index = parseInt(trigger.getAttribute('data-index') || '-1');
-      const panel = document.querySelector(`.mega-panel[data-panel="${index}"]`);
-      
+
+      const index = parseInt(trigger.getAttribute("data-index") || "-1");
+      const panel = document.querySelector(
+        `.mega-panel[data-panel="${index}"]`,
+      );
+
       if (!panel) return;
 
       if (activeMegaIndex === index) {
@@ -236,109 +341,119 @@ const navLinks = [
     });
   });
 
-  function openMegaMenu(index:number) {
+  function openMegaMenu(index: number) {
     activeMegaIndex = index;
-    
+
     megaTriggers.forEach((t) => {
-      const triggerIndex = parseInt(t.getAttribute('data-index') || '-1');
-      t.setAttribute('aria-expanded', String(triggerIndex === index));
+      const triggerIndex = parseInt(t.getAttribute("data-index") || "-1");
+      t.setAttribute("aria-expanded", String(triggerIndex === index));
     });
 
     megaArrows.forEach((arrow) => {
-      const parentTrigger = arrow.closest('.mega-trigger');
-      const parentIndex = parseInt(parentTrigger?.getAttribute('data-index') || '-1');
-      arrow.classList.toggle('rotate-180', parentIndex === index);
+      const parentTrigger = arrow.closest(".mega-trigger");
+      const parentIndex = parseInt(
+        parentTrigger?.getAttribute("data-index") || "-1",
+      );
+      arrow.classList.toggle("rotate-180", parentIndex === index);
     });
 
-    megaContainer?.classList.remove('opacity-0', 'invisible', 'translate-y-4');
-    megaContainer?.classList.add('opacity-100', 'visible', 'translate-y-0');
+    megaContainer?.classList.remove("opacity-0", "invisible", "translate-y-4");
+    megaContainer?.classList.add("opacity-100", "visible", "translate-y-0");
 
     megaPanels.forEach((panel) => {
-      const panelIndex = parseInt(panel.getAttribute('data-panel') || '-1');
+      const panelIndex = parseInt(panel.getAttribute("data-panel") || "-1");
       if (panelIndex === index) {
-        panel.classList.remove('hidden');
-        panel.animate([
-          { opacity: 0, transform: 'translateY(12px)' },
-          { opacity: 1, transform: 'translateY(0)' }
-        ], {
-          duration: 400,
-          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-          fill: 'forwards'
-        });
+        panel.classList.remove("hidden");
+        panel.animate(
+          [
+            { opacity: 0, transform: "translateY(12px)" },
+            { opacity: 1, transform: "translateY(0)" },
+          ],
+          {
+            duration: 400,
+            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+            fill: "forwards",
+          },
+        );
       } else {
-        panel.classList.add('hidden');
+        panel.classList.add("hidden");
       }
     });
   }
 
   function closeMegaMenu() {
     activeMegaIndex = -1;
-    
-    megaTriggers.forEach(t => t.setAttribute('aria-expanded', 'false'));
-    megaArrows.forEach(arrow => arrow.classList.remove('rotate-180'));
 
-    megaContainer?.classList.add('opacity-0', 'invisible', 'translate-y-4');
-    megaContainer?.classList.remove('opacity-100', 'visible', 'translate-y-0');
+    megaTriggers.forEach((t) => t.setAttribute("aria-expanded", "false"));
+    megaArrows.forEach((arrow) => arrow.classList.remove("rotate-180"));
+
+    megaContainer?.classList.add("opacity-0", "invisible", "translate-y-4");
+    megaContainer?.classList.remove("opacity-100", "visible", "translate-y-0");
   }
 
   // Close on click outside
-  document.addEventListener('click', (e) => {
-    const target = e.target;
-    const isInsideCard = target instanceof Node && megaCard?.contains(target);
-    const isTrigger = target instanceof Element && target.closest('.mega-trigger');
-    
-    if (!isInsideCard && !isTrigger) {
-      closeMegaMenu();
-    }
-  }, true);
+  document.addEventListener(
+    "click",
+    (e) => {
+      const target = e.target;
+      const isInsideCard = target instanceof Node && megaCard?.contains(target);
+      const isTrigger =
+        target instanceof Element && target.closest(".mega-trigger");
+
+      if (!isInsideCard && !isTrigger) {
+        closeMegaMenu();
+      }
+    },
+    true,
+  );
 
   // Close on escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
       closeMegaMenu();
       if (isMobileOpen) toggleMobileMenu();
     }
   });
 
   // Mobile menu
-  menuBtn?.addEventListener('click', () => {
+  menuBtn?.addEventListener("click", () => {
     toggleMobileMenu();
   });
 
   function toggleMobileMenu() {
     isMobileOpen = !isMobileOpen;
-    menuBtn?.setAttribute('aria-expanded', String(isMobileOpen));
-    
+    menuBtn?.setAttribute("aria-expanded", String(isMobileOpen));
+
     if (isMobileOpen) {
       closeMegaMenu();
-      mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
-      mobileMenu?.classList.add('opacity-100', 'pointer-events-auto');
-      
-      line1?.classList.add('rotate-45', 'translate-y-[5px]');
-      line2?.classList.add('opacity-0', 'w-0');
-      line3?.classList.add('-rotate-45', '-translate-y-[5px]', 'w-6');
-      
-      mobileLinks.forEach(link => {
-        link.classList.remove('opacity-0', 'translate-y-4');
-        link.classList.add('opacity-100', 'translate-y-0');
+      mobileMenu?.classList.remove("opacity-0", "pointer-events-none");
+      mobileMenu?.classList.add("opacity-100", "pointer-events-auto");
+
+      line1?.classList.add("rotate-45", "translate-y-[5px]");
+      line2?.classList.add("opacity-0", "w-0");
+      line3?.classList.add("-rotate-45", "-translate-y-[5px]", "w-6");
+
+      mobileLinks.forEach((link) => {
+        link.classList.remove("opacity-0", "translate-y-4");
+        link.classList.add("opacity-100", "translate-y-0");
       });
     } else {
-      mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
-      mobileMenu?.classList.remove('opacity-100', 'pointer-events-auto');
-      
-      line1?.classList.remove('rotate-45', 'translate-y-[5px]');
-      line2?.classList.remove('opacity-0', 'w-0');
-      line3?.classList.remove('-rotate-45', '-translate-y-[5px]', 'w-6');
-      
-      mobileLinks.forEach(link => {
-        link.classList.add('opacity-0', 'translate-y-4');
-        link.classList.remove('opacity-100', 'translate-y-0');
+      mobileMenu?.classList.add("opacity-0", "pointer-events-none");
+      mobileMenu?.classList.remove("opacity-100", "pointer-events-auto");
+
+      line1?.classList.remove("rotate-45", "translate-y-[5px]");
+      line2?.classList.remove("opacity-0", "w-0");
+      line3?.classList.remove("-rotate-45", "-translate-y-[5px]", "w-6");
+
+      mobileLinks.forEach((link) => {
+        link.classList.add("opacity-0", "translate-y-4");
+        link.classList.remove("opacity-100", "translate-y-0");
       });
     }
   }
 
-  mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
+  mobileLinks.forEach((link) => {
+    link.addEventListener("click", () => {
       if (isMobileOpen) toggleMobileMenu();
     });
   });

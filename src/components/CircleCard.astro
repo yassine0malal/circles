@@ -1,30 +1,160 @@
 ---
-const { title, category, facilitator, date, time, spots, location, image, price } = Astro.props;
+import { slugify } from '../lib/slugify.ts';
+
+export interface Props {
+  circle?: {
+    id?: string;
+    title?: string;
+    goal?: string;
+    description?: string;
+    facilitator?: {
+      name?: string;
+      image?: string;
+      credentials?: string;
+    };
+    location?: string;
+    format?: string;
+    price?: string;
+    phone?: string;
+  };
+}
+
+const { circle } = Astro.props;
+
+// Guard
+const c = circle || {};
+const circleSlug = c.id || slugify(c.title || 'untitled');
+
+const f = c.facilitator || {};
+const facilitatorImage = f.image || '';
+const facilitatorName  = f.name  || 'Facilitator';
+const facilitatorCred  = f.credentials || '';
+
+const displayLocation = c.location || c.format || 'Virtual';
+const displayPrice    = c.price || c.phone || 'Pricing';
+const displayGoal     = c.goal || c.description || '';
+const detailUrl       = `/circles/${circleSlug}`;
 ---
 
-<article class="bg-white rounded-2xl border border-line overflow-hidden hover:shadow-lg hover:shadow-ink/10 hover:-translate-y-1 transition-all duration-500 group cursor-pointer">
-  <div class="relative h-40 overflow-hidden">
-    <img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
-    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-ink-2 text-[10px] font-semibold px-2.5 py-1 rounded-full">
-      {price}
-    </span>
+{!circle ? (
+  <div class="relative bg-white rounded-2xl border border-red-100 p-6">
+    <p class="text-sm text-red-600">
+      CircleCard expects a <code>circle</code> prop.
+    </p>
   </div>
-  <div class="p-4">
-    <div class="flex items-start gap-2 mb-2">
-      <h3 class=" text-base font-medium text-ink group-hover:text-sage transition-colors">{title}</h3>
-      <span class="shrink-0 mt-0.5 px-2 py-0.5 bg-raised text-ink-soft/90 text-[10px] font-medium rounded-full uppercase">{category}</span>
+) : (
+  <article 
+    class="relative bg-white rounded-2xl border border-line p-6 lg:p-8 hover:shadow-lg hover:shadow-ink/5 transition-all duration-500 group cursor-pointer"
+    data-navigate={detailUrl}
+  >
+    <div class="relative z-10 flex flex-col lg:flex-row gap-6 lg:gap-10">
+      {/* ── LEFT: Title + Description + Facilitator ── */}
+      <div class="flex-1 min-w-0 flex flex-col">
+        {/* Title — clickable link */}
+        <a href={detailUrl} class="block mb-3">
+          <h3 class="text-xl lg:text-2xl font-medium text-ink group-hover:text-rose transition-colors duration-300">
+            {c.title || 'Untitled Circle'}
+          </h3>
+        </a>
+
+        {/* Description */}
+        {displayGoal && (
+          <p class="text-sm text-ink-soft/90 leading-relaxed mb-6 line-clamp-3">
+            {displayGoal}
+          </p>
+        )}
+
+        {/* Facilitator row */}
+        <div class="flex items-center gap-4 mt-auto">
+          <div class="w-14 h-14 rounded-full overflow-hidden bg-raised shrink-0 border border-line">
+            {facilitatorImage ? (
+              <img
+                src={facilitatorImage}
+                alt={facilitatorName}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-full bg-raised flex items-center justify-center text-ink-soft/30">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <p class="text-md font-medium text-ink">
+              Hosted by {facilitatorName}
+            </p>
+            {facilitatorCred && (
+              <p class="text-xs text-ink-soft/70 flex items-center gap-1 mt-0.5">
+                <svg class="w-4 h-4 text-sage shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 003.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                </svg>
+                {facilitatorCred}
+              </p>
+            )}
+            <p class="text-xs text-ink-soft/50 mt-0.5">
+              {displayLocation}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── RIGHT: Price + Buttons ── */}
+      <div class="hidden lg:flex flex-col items-end gap-3 shrink-0">
+        <span class="text-lg font-medium text-ink">
+          {displayPrice}
+        </span>
+
+        <a
+          href="#"
+          class="relative z-20 px-6 py-2.5 border border-line rounded-full text-sm text-ink-soft/90 hover:text-ink hover:bg-canvas transition-colors pointer-events-auto text-center min-w-[8rem]"
+        >
+          Email
+        </a>
+
+        {/* ── VIEW BUTTON — real link, works independently ── */}
+        <a
+          href={detailUrl}
+          class="relative z-20 px-6 py-2.5 border border-line rounded-full text-sm text-ink-soft/90 hover:bg-ink hover:text-cream hover:border-ink transition-colors pointer-events-auto text-center min-w-[8rem]"
+        >
+          View
+        </a>
+      </div>
+
+      {/* ── MOBILE: Inline actions ── */}
+      <div class="flex lg:hidden items-center gap-3 mt-2">
+        <span class="text-sm font-medium text-ink">
+          {displayPrice}
+        </span>
+        <a
+          href="#"
+          class="relative z-20 px-4 py-2 border border-line rounded-full text-sm text-ink-soft/90 bg-white hover:bg-canvas pointer-events-auto"
+        >
+          Email
+        </a>
+        <a
+          href={detailUrl}
+          class="relative z-20 px-4 py-2 bg-ink text-cream rounded-full text-sm font-medium hover:bg-ink-2 pointer-events-auto"
+        >
+          View
+        </a>
+      </div>
     </div>
-    <div class="flex items-center gap-1.5 mb-3">
-      <div class="w-5 h-5 rounded-full bg-cream flex items-center justify-center text-[8px] text-ink-soft/90">{facilitator.charAt(0)}</div>
-      <span class="text-xs text-ink-soft/70">{facilitator}</span>
-    </div>
-    <div class="flex items-center gap-3 text-[11px] text-ink-soft/50">
-      <span>{date}</span>
-      <span>{time}</span>
-      <span>{spots}</span>
-    </div>
-    <div class="flex items-center gap-1 text-[11px] text-ink-soft/50 mt-1">
-      <span>{location}</span>
-    </div>
-  </div>
-</article>
+  </article>
+
+)}
+  {/* JavaScript: make whole card clickable */}
+  <script is:inline>
+    document.addEventListener('click', function(e) {
+      const card = e.target.closest('[data-navigate]');
+      if (!card) return;
+      
+      // Don't navigate if clicking a real link or button
+      if (e.target.closest('a') || e.target.closest('button')) return;
+      
+      window.location.href = card.dataset.navigate;
+    });
+  </script>

@@ -1,0 +1,207 @@
+---
+interface MapCircle {
+  id: string;
+  name: string;
+  image: string;
+  credentials: string;
+  location: string;
+  lat: number;
+  lng: number;
+  modality: string;
+  price?: string;
+}
+
+interface Props {
+  circles: MapCircle[];
+}
+
+const { circles } = Astro.props;
+
+const inPersonCircles = circles.filter(
+  c => c.modality === 'In Person' || c.modality === 'In-Person'
+);
+---
+
+<div
+  id="circle-map"
+  class="w-full h-[420px] rounded-2xl border border-line overflow-hidden mb-10 relative z-0 shadow-sm"
+  data-circles={JSON.stringify(inPersonCircles)}
+>
+  <div
+    class="absolute top-4 left-4 z-10 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-full border border-line shadow-sm flex items-center gap-2"
+  >
+    <div class="w-2 h-2 rounded-full bg-[#EE8F8B] animate-pulse"></div>
+    <p class="text-xs font-medium text-ink-soft">
+      <span class="text-ink font-bold">{inPersonCircles.length}</span> in-person circles near you
+    </p>
+  </div>
+</div>
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""
+/>
+
+<script>
+  import L from "leaflet";
+
+  interface MapCircle {
+    id: string;
+    name: string;
+    image: string;
+    credentials: string;
+    location: string;
+    lat: number;
+    lng: number;
+    modality: string;
+    price?: string;
+  }
+
+  (function initMap() {
+    const mapEl = document.getElementById("circle-map");
+    if (!mapEl) return;
+
+    const circles = JSON.parse(mapEl.dataset.circles || "[]") as MapCircle[];
+
+    const validCircles = circles.filter(
+      c => typeof c.lat === "number" && typeof c.lng === "number"
+    );
+
+    if (validCircles.length === 0) {
+      console.warn("MapCircles: No valid coordinates found.");
+      const fallback = document.createElement("div");
+      fallback.className = "absolute inset-0 flex items-center justify-center text-sm font-medium text-ink-soft/70 bg-[#faf9f6]";
+      fallback.textContent = "Map unavailable — no location data";
+      mapEl.appendChild(fallback);
+      return;
+    }
+
+    const map = L.map("circle-map", {
+      zoomControl: false,
+      scrollWheelZoom: false,
+    }).setView([40.6782, -73.9442], 12);
+
+    L.control.zoom({ position: "bottomright" }).addTo(map);
+
+    // Changed to Carto "Voyager" for a warmer, friendlier aesthetic
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: "abcd",
+        maxZoom: 19,
+      }
+    ).addTo(map);
+
+    const createCustomIcon = (imageUrl) => {
+      return L.divIcon({
+        className: "custom-marker group",
+        // Added a white inner ring and a warm rose outer border
+        html: `
+          <div class="marker-wrapper" style="
+            width: 44px; 
+            height: 44px; 
+            background: #ffffff; 
+            border-radius: 50%; 
+            border: 3px solid #EE8F8B; 
+            padding: 2px;
+            box-shadow: 0 6px 16px rgba(238, 143, 139, 0.35); 
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: bottom center;
+          ">
+            <img src="${imageUrl}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+          </div>
+        `,
+        iconSize: [44, 44],
+        iconAnchor: [22, 44],
+        popupAnchor: [0, -44],
+      });
+    };
+
+    const bounds = L.latLngBounds([]);
+
+    validCircles.forEach((c) => {
+      const marker = L.marker([c.lat, c.lng], {
+        icon: createCustomIcon(c.image),
+      }).addTo(map);
+
+      // Lightened the text colors and rounded out the button
+      marker.bindPopup(
+        `
+        <div style="font-family: 'DM Sans', system-ui, sans-serif; min-width: 250px; padding: 6px;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <img src="${c.image}" alt="${c.name}" style="width: 52px; height: 52px; border-radius: 12px; object-fit: cover; border: 1px solid #f0ebe1;">
+            <div>
+              <h3 style="margin: 0 0 2px 0; font-size: 16px; font-weight: 600; color: #1a1714; font-family: 'Playfair Display', serif; line-height: 1.2;">${c.name}</h3>
+              <p style="margin: 0; font-size: 12px; font-weight: 500; color: #8ba67d;">${c.credentials}</p>
+            </div>
+          </div>
+          <p style="margin: 0 0 12px; font-size: 13px; color: #6b5f4f; display: flex; align-items: center; gap: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #c4b9aa;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            ${c.location}
+          </p>
+          <a href="/circles/${c.id}" class="popup-btn" style="
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 10px 16px; 
+            background: #EE8F8B; 
+            color: #ffffff; 
+            text-decoration: none; 
+            border-radius: 99px; 
+            font-size: 13px; 
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(238, 143, 139, 0.2);
+          ">
+            View Circle ${c.price ? `<span style="opacity: 0.8; font-weight: 400;">(${c.price})</span>` : ""}
+          </a>
+        </div>
+      `,
+        {
+          closeButton: false,
+          className: "custom-popup",
+        }
+      );
+
+      bounds.extend([c.lat, c.lng]);
+    });
+
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, {
+        padding: [60, 60],
+        maxZoom: 14,
+      });
+    }
+
+    // Injecting CSS for hover states and popup styling
+    const style = document.createElement("style");
+    style.textContent = `
+      .custom-marker:hover .marker-wrapper {
+        transform: scale(1.15) translateY(-4px) !important;
+        box-shadow: 0 8px 20px rgba(238, 143, 139, 0.4) !important;
+      }
+      .leaflet-popup-content-wrapper {
+        border-radius: 20px !important;
+        box-shadow: 0 12px 40px rgba(44,42,38,0.12) !important;
+        border: 1px solid #f0ebe1 !important;
+        padding: 4px !important;
+      }
+      .leaflet-popup-tip {
+        background: white !important;
+        border: 1px solid #f0ebe1 !important;
+        box-shadow: none !important;
+      }
+      .popup-btn:hover {
+        background: #e37e7a !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(238, 143, 139, 0.3) !important;
+      }
+    `;
+    document.head.appendChild(style);
+  })();
+</script>

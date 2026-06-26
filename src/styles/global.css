@@ -1,30 +1,25 @@
 @import "tailwindcss";
 
 @theme {
- /* Primary text */
---color-ink: #2A2135;          /* Deep Plum */
---color-ink-2: #241B2E;        /* Dark Plum */
---color-ink-soft: #574B63;     /* Muted Plum */
 
-/* Backgrounds */
---color-canvas: #F8F2EE;       /* Warm Canvas */
---color-raised: #FFFDFB;       /* Ivory White */
+  --color-ink: #2A2135;
+  --color-ink-2: #241B2E;
+  --color-ink-soft: #574B63;
 
-/* Accent colors */
---color-rose: #C16F72;         /* Dusty Rose */
---color-rose-ink: #A8504C;     /* Deep Rose */
+  --color-canvas: #F8F2EE;
+  --color-raised: #FFFDFB;
 
-/* Secondary accents */
---color-amber: #E0A35C;        /* Soft Amber */
---color-sage: #6E8B7A;         /* Sage Green */
---color-sage-deep: #4F6B5B;    /* Deep Sage */
+  --color-rose: #C16F72;
+  --color-rose-ink: #A8504C;
 
-/* Supporting colors */
---color-mist: #EBE0D8;         /* Warm Mist */
---color-cream: #F6ECE3;        /* Soft Cream */
+  --color-amber: #E0A35C;
+  --color-sage: #6E8B7A;
+  --color-sage-deep: #4F6B5B;
 
-/* Borders */
---color-line: rgba(42, 33, 53, .10); /* Subtle Border */
+  --color-mist: #EBE0D8;
+  --color-cream: #F6ECE3;
+
+  --color-line: rgba(42, 33, 53, .10);
 
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Hanken Grotesk", system-ui, sans-serif;
@@ -32,87 +27,64 @@
   --font-serif: "Fraunces", Georgia, serif;
 }
 
+
+/* "Calm & Grounded" — Sage / Terracotta / Sand */
+/* @theme {
+  --color-ink: #2D3830;          
+  --color-ink-2: #1F2922;        
+  --color-ink-soft: #506058;      
+
+  --color-canvas: #F4EEE5;       
+  --color-raised: #FDFAF6;        
+
+  --color-rose: #B8694A;         
+  --color-rose-ink: #8F4E33;      
+
+  --color-amber: #C99B5E;        
+  --color-sage: #6B8F78;         
+  --color-sage-deep: #4A6B58;    
+
+  --color-mist: #E4DBCE;
+  --color-cream: #EDE5D8;        
+
+  --color-line: rgba(45, 58, 45, 0.12); 
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Hanken Grotesk", system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+
+} */
+
+
+/* "Healing & Trustworthy" — Teal / Gold / Cream */
+@theme {
+  /* --color-ink: #163535;          
+  --color-ink-2: #1E5050;        
+  --color-ink-soft: #3E6868;     
+
+  --color-canvas: #F5F1EB;       
+  --color-raised: #FDFAF6;       
+
+ --color-rose: #D4922A;         
+  --color-rose-ink: #A46F18;      
+
+  --color-amber: #C4A96E;        
+  --color-sage: #2A8080;         
+  --color-sage-deep: #1A5C5C;    
+
+  --color-mist: #DDD6CB;          
+  --color-cream: #EBE4D8;        
+
+  --color-line: rgba(26, 58, 58, 0.10);  
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Hanken Grotesk", system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif; */
+}
+
 html,
 body {
   font-family: var(--font-body);
 }
-
-/* Base custom utility classes from home.astro */
-/* .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: .95rem;
-  padding: 13px 24px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
-}
-
-.btn:focus-visible {
-  outline: 2px solid var(--color-rose);
-  outline-offset: 3px;
-}
-
-.btn .arr {
-  transition: transform .2s ease;
-}
-
-.btn:hover .arr {
-  transform: translateX(3px);
-}
-
-.btn-cream {
-  background: var(--color-cream);
-  color: var(--color-ink);
-}
-
-.btn-cream:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, .28);
-}
-
-.btn-line-dark {
-  background: transparent;
-  color: var(--color-cream);
-  border-color: rgba(246, 236, 227, .32);
-}
-
-.btn-line-dark:hover {
-  border-color: var(--color-cream);
-}
-
-.btn-primary {
-  background: var(--color-ink);
-  color: var(--color-cream);
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(42, 33, 53, .05), 0 18px 44px rgba(42, 33, 53, .10);
-}
-
-.btn-warm {
-  background: var(--color-rose);
-  color: #fff;
-}
-
-.btn-warm:hover {
-  background: var(--color-rose-ink);
-  transform: translateY(-1px);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--color-ink);
-  border-color: var(--color-line);
-}
-
-.btn-ghost:hover {
-  border-color: var(--color-ink);
-  background: var(--color-raised);
-} */
