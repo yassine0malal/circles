@@ -1,10 +1,14 @@
 ---
-import MapCircles from "../../components/MapCircles.astro";
-import CircleCard from "../../components/CircleCard.astro";
+import MapCircles from "../../features/circles/MapCircles.astro";
+import CircleCard from "../../features/circles/CircleCard.astro";
 import Layout from "../../layouts/Layout.astro";
-import { circleCompanions } from "../../data/circle_companions";
+// import { circleCompanions } from "../../data/circle_companions";
 import { slugify } from "../../lib/slugify";
-import FilterModal from "../../components/filter/FilterModal.astro";
+import FilterModal from "../../features/filter/FilterModal.astro";
+import { getActiveCircles } from '../../api/circles';
+
+const circleCompanions = await getActiveCircles();
+
 
 const filters = {
   gender: [
@@ -229,21 +233,7 @@ const mapCircles = circleCompanions
       >
     </div>
 
-    {/* More Options */}
-    <section class="mt-20">
-      <h2 class="text-center text-2xl font-medium text-ink mb-8">
-        See more circle options for Brooklyn
-      </h2>
-      <div class="flex justify-center gap-4">
-        {
-          ["Mindfulness", "Support Groups", "Skills"].map((tab) => (
-            <button class="px-6 py-3 border border-line rounded-full text-sm font-medium text-ink-soft/90 hover:border-line hover:text-ink transition-all">
-              {tab}
-            </button>
-          ))
-        }
-      </div>
-    </section>
+
 
     {/* Nearby Searches */}
     <section class="mt-16 bg-raised/50 rounded-2xl p-8 lg:p-10">
@@ -269,64 +259,7 @@ const mapCircles = circleCompanions
       >
     </section>
 
-    {/* Stats */}
-    <section class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-      {
-        stats.map((stat) => (
-          <div class="bg-white rounded-2xl border border-line p-8 text-center">
-            <div class="w-12 h-12 rounded-full bg-raised flex items-center justify-center mx-auto mb-4 text-ink-soft">
-              {stat.icon === "users" && (
-                <svg
-                  class="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              )}
-              {stat.icon === "dollar" && (
-                <svg
-                  class="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              )}
-              {stat.icon === "calendar" && (
-                <svg
-                  class="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-              )}
-            </div>
-            <p class="text-3xl font-medium text-ink mb-1">{stat.value}</p>
-            <p class="text-sm font-light text-ink-soft/70">{stat.label}</p>
-          </div>
-        ))
-      }
-    </section>
+
 
     {/* Treatment Stats */}
     <section class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -391,7 +324,7 @@ const mapCircles = circleCompanions
     </section>
 
     {/* FAQ */}
-    <section class="flex flex-col justify-center mt-20 ">
+    <section class="flex flex-col justify-center mt-20">
       <h2 class="text-2xl font-medium text-ink mb-8">FAQs — About Circles</h2>
       <div class="space-y-3">
         {

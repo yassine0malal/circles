@@ -1,26 +1,26 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/homeSections/Hero.astro';
-import StatsSection from '../components/homeSections/StatsSection.astro';
-import CirclesSection from '../components/homeSections/CirclesSection.astro';
-import AboutSection from '../components/homeSections/AboutSection.astro';
-import CompanionSection from '../components/homeSections/CompanionSection.astro';
-import TestimonialsSection from '../components/homeSections/TestimonialsSection.astro';
-import Newsletter from '../components/homeSections/Newsletter.astro';
-import HeaderHome from '../components/headers/HeaderHome.astro';
-import KindsSection from '../components/homeSections/KindsSection.astro';
+import Layout from "../layouts/Layout.astro";
+import HeroSection from "../components/homeSections/HeroSection.astro";
+import CirclesSection from "../components/homeSections/CirclesSection.astro";
+import VoiceSection from "../components/homeSections/VoiceSection.astro";
+import HowSection from "../components/homeSections/HowSection.astro";
+import FacilitatorSection from "../components/homeSections/FacilitatorSection.astro";
+import TrustSection from "../components/homeSections/TrustSection.astro";
+
+import PathFinder from "../components/PathFinder.astro";
 
 export const prerender = true;
 ---
 
-<Layout title='Circle Share — A safe space for healing & connection' showHeader={false} >
-  <HeaderHome/>
-  <Hero />
-  <KindsSection/>
-  <StatsSection />
+<Layout
+  title="Circle Share — A safe space for healing & connection"
+  isHome={true}
+>
+  <HeroSection />
   <CirclesSection />
-  <AboutSection />
-  <!-- <CompanionSection /> -->
-  <TestimonialsSection />
-  <Newsletter />
+  <PathFinder triggerLabel="Find Your Path" openOnLoad={true} />
+  <VoiceSection />
+  <HowSection />
+  <FacilitatorSection />
+  <TrustSection />
 </Layout>

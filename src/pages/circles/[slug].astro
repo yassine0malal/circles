@@ -1,12 +1,18 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { circleCompanions } from "../../data/circle_companions";
-import { slugify } from "../../lib/slugify";
+import VoiceSection from "../../components/homeSections/VoiceSection.astro";
 
-// ── REQUIRED for dynamic routes ──
+// 🔌 Import your live API helper instead of the mock data file!
+import { getActiveCircles } from "../../api/circles";
+
+// ── REQUIRED for dynamic paths using live database ──
 export async function getStaticPaths() {
-  return circleCompanions.map((c) => ({
-    params: { slug: c.id || slugify(c.name) }, // <-- SAME as itemSlug above
+  // Fetch real circles from the database
+  const liveCircles = await getActiveCircles();
+  
+  return liveCircles.map((c) => ({
+    // If your list page links via c.id, we map it to the 'slug' parameter here
+    params: { slug: c.id }, 
     props: { companion: c },
   }));
 }
@@ -15,12 +21,12 @@ export const prerender = true;
 
 const { companion } = Astro.props;
 
-// Guard
+// Guard against missing items
 if (!companion) {
   return Astro.redirect("/404");
 }
 
-// Build title from category
+// Build page title dynamically
 const title = companion.category || "Therapy Group";
 ---
 
@@ -307,4 +313,5 @@ const title = companion.category || "Therapy Group";
       </div>
     </div>
   </main>
+  <VoiceSection/>
 </Layout>

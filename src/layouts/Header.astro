@@ -1,0 +1,389 @@
+---
+// components/Header.astro
+import "../styles/global.css";
+
+interface Props {
+  isHome?: boolean;
+}
+
+const { isHome = false } = Astro.props;
+
+const navLinks = [
+  {
+    label: "Find a circle",
+    href: "/circles",
+    mega: {
+      type: "search",
+      cities: [
+        { label: "Austin, TX", href: "/circles?location=austin-tx" },
+        { label: "Brooklyn, NY", href: "/circles?location=brooklyn-ny" },
+        { label: "Chicago, IL", href: "/circles?location=chicago-il" },
+        { label: "Denver, CO", href: "/circles?location=denver-co" },
+        { label: "Houston, TX", href: "/circles?location=houston-tx" },
+        { label: "Los Angeles, CA", href: "/circles?location=los-angeles-ca" },
+        { label: "New York, NY", href: "/circles?location=new-york-ny" },
+        { label: "Portland, OR", href: "/circles?location=portland-or" },
+        { label: "San Diego, CA", href: "/circles?location=san-diego-ca" },
+        {
+          label: "San Francisco, CA",
+          href: "/circles?location=san-francisco-ca",
+        },
+        { label: "Seattle, WA", href: "/circles?location=seattle-wa" },
+        { label: "Washington, DC", href: "/circles?location=washington-dc" },
+        { label: "Atlanta, GA", href: "/circles?location=atlanta-ga" },
+        { label: "Sacramento, CA", href: "/circles?location=sacramento-ca" },
+      ],
+    },
+  },
+  { label: "About", href: "/about" },
+];
+---
+
+<header
+  id="main-header"
+  class:list={[
+    "group/header fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-300 ease-in-out",
+    isHome
+      ? "bg-transparent"
+      : "bg-canvas/85 backdrop-blur-md border-b border-line",
+  ]}
+  data-home={isHome ? "true" : "false"}
+>
+  <div class="max-w-[1140px] mx-auto px-7 relative">
+    <div
+      class="flex justify-between items-center h-[74px] transition-all duration-700"
+    >
+      {/* Logo */}
+      <a
+        href="/"
+        class="flex items-center gap-[11px] no-underline z-50 relative group"
+      >
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 34 34"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle cx="13" cy="17" r="9" class="stroke-rose" stroke-width="2"
+          ></circle>
+          <circle cx="21" cy="17" r="9" class="stroke-sage" stroke-width="2"
+          ></circle>
+        </svg>
+        <span
+          id="logo-text"
+          class:list={[
+            "font-serif text-[23px] font-medium tracking-[-0.02em] leading-none transition-colors duration-300",
+            isHome ? "text-cream" : "text-ink",
+          ]}
+        >
+          circles
+        </span>
+      </a>
+
+      {/* Desktop Navigation */}
+      <nav class="hidden lg:flex items-center gap-2">
+        {
+          navLinks.map((link, index) => (
+            <div class="relative h-full flex items-center">
+              {link.mega ? (
+                <button
+                  class:list={[
+                    "mega-trigger relative px-[14px] py-[9px] h-full flex items-center gap-1.5 text-[0.9rem] font-medium rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2",
+                    isHome ? "nav-link-home" : "text-ink-soft hover:text-ink",
+                  ]}
+                  data-index={index}
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                >
+                  {link.label}
+                  <svg
+                    class="mega-arrow w-3.5 h-3.5 transition-transform duration-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+              ) : (
+                <a
+                  href={link.href}
+                  class:list={[
+                    "relative px-[14px] py-[9px] h-full flex items-center text-[0.9rem] font-medium rounded-full transition-all duration-300 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2",
+                    isHome ? "nav-link-home" : "text-ink-soft hover:text-ink",
+                  ]}
+                >
+                  {link.label}
+                </a>
+              )}
+            </div>
+          ))
+        }
+
+        <a
+          href="/facilitators"
+          class="btn-warm ml-2 inline-flex items-center gap-[9px] px-5 py-2.5 text-[0.95rem] font-semibold rounded-full bg-rose text-white no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 transition-all duration-200"
+        >
+          List a circle
+        </a>
+      </nav>
+
+      {/* Mobile Toggle */}
+      <div class="flex items-center gap-4 z-50 relative lg:hidden">
+        <button
+          id="mobile-menu-btn"
+          class="flex flex-col gap-1.5 p-2 group relative"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+        >
+          <span
+            id="menu-line-1"
+            class:list={[
+              "w-6 h-[1.5px] transition-all duration-500",
+              isHome ? "bg-cream" : "bg-ink",
+            ]}></span>
+          <span
+            id="menu-line-2"
+            class:list={[
+              "w-4 h-[1.5px] transition-all duration-500",
+              isHome ? "bg-cream" : "bg-ink",
+            ]}></span>
+          <span
+            id="menu-line-3"
+            class:list={[
+              "w-5 h-[1.5px] transition-all duration-500",
+              isHome ? "bg-cream" : "bg-ink",
+            ]}></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {/* Mega Menu Panels */}
+  <div
+    id="mega-menu-container"
+    class="absolute top-full left-0 right-0 opacity-0 invisible translate-y-4 transition-all duration-500 ease-out pointer-events-none"
+  >
+    {/* Caret lives here, not inside the card */}
+    <div
+      id="mega-caret"
+      class="absolute -top-[0px] w-5 h-5 rotate-45 bg-raised border-l border-t border-line pointer-events-none z-10"
+      style="left: 0px;"
+    >
+    </div>
+
+    <div class="max-w-[1140px] mx-auto px-7">
+      <div
+        id="mega-menu-card"
+        class="bg-raised border border-line border-b-2 shadow-[0_10px_30px_rgba(42,33,53,0.06)] overflow-hidden pointer-events-auto rounded-[22px] mt-2"
+      >
+        {
+          navLinks.map(
+            (link, index) =>
+              link.mega && (
+                <div class="mega-panel hidden" data-panel={index}>
+                  {link.mega.type === "search" && (
+                    <div class="p-10 lg:p-12">
+                      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                        <div class="lg:col-span-7 space-y-6">
+                          <div class="space-y-2">
+                            <h2 class="font-serif text-2xl font-medium text-ink tracking-tight">
+                              Find a Circle
+                            </h2>
+                            <p class="text-sm font-normal text-ink-soft">
+                              Enter your location to discover verified circles
+                              in your area.
+                            </p>
+                          </div>
+                          <form
+                            action="/circle"
+                            method="GET"
+                            class="flex flex-col sm:flex-row items-stretch w-full border border-line rounded-[22px] sm:rounded-full bg-white p-1.5 focus-within:border-sage focus-within:ring-4 focus-within:ring-sage/10 transition-all duration-200"
+                          >
+                            <div class="relative flex items-center border-b sm:border-b-0 sm:border-r border-line">
+                              <select
+                                name="type"
+                                class="w-full sm:w-auto bg-transparent text-ink-2 font-medium text-sm py-3.5 pl-5 pr-10 outline-none cursor-pointer appearance-none"
+                              >
+                                <option value="circles">Circles</option>
+                                <option value="companions">Companions</option>
+                              </select>
+                              <div class="absolute right-4 pointer-events-none text-ink-soft">
+                                <svg
+                                  class="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 9l-7 7-7-7"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                            <div class="flex-1 relative flex items-center min-w-0">
+                              <input
+                                type="text"
+                                name="geo"
+                                required
+                                placeholder="City or Zip"
+                                class="w-full py-3.5 px-5 text-sm text-ink placeholder-ink-soft/50 outline-none bg-transparent"
+                              />
+                            </div>
+                            <button
+                              type="submit"
+                              class="bg-ink hover:bg-rose text-cream font-medium text-sm px-7 py-3.5 sm:py-0 rounded-xl sm:rounded-full transition-colors duration-300 flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]"
+                            >
+                              <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                              >
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="M21 21l-4.35-4.35" />
+                              </svg>
+                              <span>Search</span>
+                            </button>
+                          </form>
+                          <div class="flex items-center gap-2 pt-2 text-xs font-bold text-ink-soft">
+                            <span class="font-semibold text-ink-2">
+                              Companions:
+                            </span>
+                            <a
+                              title="coming soon"
+                              href="#"
+                              class="hover:text-sage hover:underline underline-offset-2 transition"
+                            >
+                              Login
+                            </a>
+                            <span class="text-mist">•</span>
+                            <a
+                              title="coming soon"
+                              href="#"
+                              class="hover:text-sage hover:underline underline-offset-2 transition"
+                            >
+                              Sign Up & Get Listed
+                            </a>
+                          </div>
+                        </div>
+                        <div class="lg:col-span-5 relative lg:pl-12">
+                          <div class="hidden lg:block absolute left-0 top-0 bottom-0 w-px bg-mist" />
+                          <div class="space-y-4">
+                            <h3 class="text-xs font-bold tracking-[0.2em] text-ink-soft uppercase">
+                              United States Directory
+                            </h3>
+                            <div class="grid grid-cols-2 gap-x-6 gap-y-3">
+                              {link.mega.cities.map((city) => (
+                                <a
+                                  href={city.href}
+                                  class="text-lg text-ink hover:text-rose hover:underline underline-offset-4 decoration-line transition-colors py-0.5 truncate no-underline"
+                                >
+                                  {city.label}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ),
+          )
+        }
+      </div>
+    </div>
+  </div>
+
+  {/* Mobile Menu */}
+  <div
+    id="mobile-menu"
+    class="lg:hidden fixed inset-0 top-[74px] z-40 opacity-0 pointer-events-none transition-all duration-500 ease-out"
+    style="background: rgba(248, 242, 238, 0.95); backdrop-filter: blur(12px);"
+  >
+    <nav class="flex flex-col items-center justify-center h-full gap-8">
+      {
+        navLinks.map((link, i) => (
+          <a
+            href={link.href}
+            class="mobile-nav-link text-3xl font-medium text-ink hover:text-sage transition-colors duration-300 opacity-0 translate-y-4 no-underline"
+            style={`transition-delay: ${i * 75}ms`}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/facilitators"
+        class="mobile-nav-link mt-6 px-10 py-4 text-sm font-light tracking-[0.15em] uppercase rounded-[8px] opacity-0 translate-y-4 no-underline transition-all duration-500"
+        style={`transition-delay: ${navLinks.length * 75}ms; background: var(--color-rose); color: white;`}
+      >
+        List a circle
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* ── Home-only: transparent → solid on scroll ── */
+  #main-header[data-home="true"].solid {
+    background: rgba(248, 242, 238, 0.85) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  #main-header[data-home="true"].solid #logo-text {
+    color: var(--color-ink) !important;
+  }
+
+  #main-header[data-home="true"].solid .nav-link-home,
+  #main-header[data-home="true"].solid .mega-trigger {
+    color: var(--color-ink-soft) !important;
+  }
+
+  #main-header[data-home="true"].solid .nav-link-home:hover,
+  #main-header[data-home="true"].solid .mega-trigger:hover {
+    color: var(--color-ink) !important;
+  }
+
+  #main-header[data-home="true"].solid #menu-line-1,
+  #main-header[data-home="true"].solid #menu-line-2,
+  #main-header[data-home="true"].solid #menu-line-3 {
+    background: var(--color-ink) !important;
+  }
+
+  /* ── Home transparent nav hover ── */
+  .nav-link-home {
+    color: rgba(246, 236, 227, 0.85);
+  }
+  .nav-link-home:hover {
+    color: var(--color-cream) !important;
+    opacity: 1;
+  }
+
+  /* ── Shared ── */
+  .btn-warm:hover {
+    background: var(--color-rose-ink) !important;
+    transform: translateY(-1px);
+  }
+
+  .mega-trigger:focus-visible,
+  nav > div > a:focus-visible {
+    outline: 2px solid var(--color-rose);
+    outline-offset: 3px;
+  }
+</style>
+
+<script src="./client/header"></script>

@@ -1,0 +1,80 @@
+<section class="py-[68px] sm:py-[96px] overflow-hidden">
+  <div class="max-w-[1140px] mx-auto px-7 text-center">
+    
+    <div class="max-w-[640px] mx-auto mb-0 text-center scroll-reveal opacity-0 translate-y-8 transition-all duration-700 ease-out">
+      <span class="font-sans font-semibold text-[0.75rem] uppercase tracking-[0.16em] text-[var(--color-sage-deep)]">
+        A quiet kind of privacy
+      </span>
+      <h2 class="font-serif font-light text-[clamp(2rem,4vw,2.9rem)] tracking-[-0.025em] leading-[1.08] mt-[0.4em] mb-[0.35em]">
+        We help you find your circle —<br>then we <em class="italic text-[var(--color-rose)]">get out of the way</em>.
+      </h2>
+      <p class="text-[var(--color-ink-soft)] text-[1.06rem] m-0">
+        Looking for support shouldn't follow you around the internet. So it won't.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-[30px] mt-[48px] text-left">
+      
+      <div class="scroll-reveal opacity-0 translate-y-8 transition-all duration-700 delay-100 ease-out group p-[26px] border border-[var(--color-line)] rounded-[22px] bg-[var(--color-raised)] hover:-translate-y-2 hover:shadow-[0_18px_44px_rgba(42,33,53,0.08)] cursor-default">
+        <div class="w-[40px] h-[40px] rounded-full flex items-center justify-center mb-[16px] bg-[var(--color-sage)]/[0.14] text-[var(--color-sage-deep)] group-hover:scale-110 group-hover:bg-[var(--color-sage)]/[0.22] transition-all duration-500 ease-out">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2 4 4.5v5C4 14 7 17 10 18c3-1 6-4 6-8.5v-5L10 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="m7.3 10 1.8 1.8L13 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <b class="block font-serif font-normal text-[1.2rem] mb-[6px]">
+          Nothing tracked
+        </b>
+        <span class="text-[0.92rem] text-[var(--color-ink-soft)] block group-hover:text-[var(--color-ink)] transition-colors duration-300">
+          No Meta pixels, no Google Analytics, no ad tags — ever. We count visits without ever knowing it's you.
+        </span>
+      </div>
+
+      <div class="scroll-reveal opacity-0 translate-y-8 transition-all duration-700 delay-200 ease-out group p-[26px] border border-[var(--color-line)] rounded-[22px] bg-[var(--color-raised)] hover:-translate-y-2 hover:shadow-[0_18px_44px_rgba(42,33,53,0.08)] cursor-default">
+        <div class="w-[40px] h-[40px] rounded-full flex items-center justify-center mb-[16px] bg-[var(--color-sage)]/[0.14] text-[var(--color-sage-deep)] group-hover:scale-110 group-hover:bg-[var(--color-sage)]/[0.22] transition-all duration-500 ease-out">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="8" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M7 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <b class="block font-serif font-normal text-[1.2rem] mb-[6px]">
+          Nothing stored
+        </b>
+        <span class="text-[0.92rem] text-[var(--color-ink-soft)] block group-hover:text-[var(--color-ink)] transition-colors duration-300">
+          No diagnoses, no intake forms, no health history. There's simply nowhere here to leave them.
+        </span>
+      </div>
+
+      <div class="scroll-reveal opacity-0 translate-y-8 transition-all duration-700 delay-300 ease-out group p-[26px] border border-[var(--color-line)] rounded-[22px] bg-[var(--color-raised)] hover:-translate-y-2 hover:shadow-[0_18px_44px_rgba(42,33,53,0.08)] cursor-default">
+        <div class="w-[40px] h-[40px] rounded-full flex items-center justify-center mb-[16px] bg-[var(--color-sage)]/[0.14] text-[var(--color-sage-deep)] group-hover:scale-110 group-hover:bg-[var(--color-sage)]/[0.22] transition-all duration-500 ease-out">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7.5" cy="10" r="4.5" stroke="currentColor" stroke-width="1.4"/><circle cx="12.5" cy="10" r="4.5" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <b class="block font-serif font-normal text-[1.2rem] mb-[6px]">
+          No middleman
+        </b>
+        <span class="text-[0.92rem] text-[var(--color-ink-soft)] block group-hover:text-[var(--color-ink)] transition-colors duration-300">
+          You book and pay your facilitator directly. We never handle the money or the clinical relationship.
+        </span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // This script watches for elements with the 'scroll-reveal' class
+  // and removes the hidden state when they enter the viewport.
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('opacity-0', 'translate-y-8');
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          // Stop observing once it has been revealed
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { 
+      threshold: 0.1, // Triggers when 10% of the element is visible
+      rootMargin: "0px 0px -50px 0px" // Triggers slightly before it fully hits the bottom of the screen
+    });
+
+    document.querySelectorAll('.scroll-reveal').forEach((el) => {
+      observer.observe(el);
+    });
+  });
+</script>

@@ -1,14 +1,14 @@
 ---
 import Footer from '../components/Footer.astro';
-import Header from '../components/headers/Header.astro';
+import Header from './Header.astro';
 import "../styles/global.css";
 
 interface Props {
   title: string;
-  showHeader?:boolean;
+  isHome?:boolean;
 }
 
-const { title,showHeader=true } = Astro.props;
+const { title, isHome = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ const { title,showHeader=true } = Astro.props;
 
 </head>
 <body class="bg-white text-ink antialiased selection:bg-rose-ink selection:text-white">
- {showHeader && <Header />}
+ <Header isHome={isHome} />
   <slot />
   <Footer/>
 </body>

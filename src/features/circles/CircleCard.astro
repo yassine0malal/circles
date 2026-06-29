@@ -1,5 +1,5 @@
 ---
-import { slugify } from '../lib/slugify.ts';
+import { slugify } from '../../lib/slugify.ts';
 
 export interface Props {
   circle?: {
@@ -9,6 +9,7 @@ export interface Props {
     description?: string;
     facilitator?: {
       name?: string;
+      email?:string;
       image?: string;
       credentials?: string;
     };
