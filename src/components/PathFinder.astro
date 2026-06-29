@@ -1,17 +1,10 @@
 ---
-export interface Props {
-  triggerLabel?: string;
-  openOnLoad?: boolean;
-}
-
-const { triggerLabel = "Find Your Path", openOnLoad = false } = Astro.props;
-
 const stages = [
   {
     id: 1,
     title: "What do I need?",
     subtitle: "Primary Need",
-    description: "Choose the pathway that resonates most with where you are right now.",
+    description: "Choose the pathways and specific needs that resonate with you.",
     sections: [
       {
         header: "Deep Relational & Personal Growth",
@@ -27,7 +20,7 @@ const stages = [
     id: 2,
     title: "What kind of experience am I looking for?",
     subtitle: "Therapeutic Approach",
-    description: "Select the engagement style and group format that feels right for you.",
+    description: "Select all the engagement styles and formats that feel right for you.",
     options: [
       "Process Group",
       "Psychoeducational Group",
@@ -44,7 +37,7 @@ const stages = [
     id: 3,
     title: "Who feels like the right guide?",
     subtitle: "Companion Profile",
-    description: "What qualities do you want in your facilitator or companion?",
+    description: "What qualities do you want in your facilitator? Choose as many as you like.",
     options: [
       "Warm & Empathetic",
       "Direct & Honest",
@@ -83,12 +76,10 @@ const stages = [
   .pf-font-display { font-family: var(--font-display); }
   .pf-font-body { font-family: var(--font-body); }
 
-  /* Custom scrollbar for the modal content */
   .pf-scroll::-webkit-scrollbar { width: 6px; }
   .pf-scroll::-webkit-scrollbar-track { background: transparent; }
   .pf-scroll::-webkit-scrollbar-thumb { background-color: var(--color-mist); border-radius: 20px; }
 
-  /* Animations */
   .pf-fade-in { animation: pfFadeIn 0.3s ease-out forwards; }
   .pf-scale-in { animation: pfScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   @keyframes pfFadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -105,6 +96,16 @@ const stages = [
     border-color: var(--color-sage);
     background-color: rgba(110, 139, 122, 0.06);
     box-shadow: 0 0 0 1px var(--color-sage);
+  }
+
+  .pf-umbrella-toggle {
+    transition: all 0.2s ease;
+  }
+  .pf-umbrella-toggle:hover {
+    background-color: var(--color-cream);
+  }
+  .pf-umbrella-toggle.active {
+    background-color: rgba(110, 139, 122, 0.08);
   }
 
   .pf-step-line {
@@ -124,21 +125,10 @@ const stages = [
   .pf-step-item:last-child .pf-step-line { display: none; }
 </style>
 
-<!-- Trigger Button -->
-<button
-  type="button"
-  id="pf-trigger"
-  class="pf-font-body inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-95"
-  style="background-color: var(--color-sage);"
->
-  <span>{triggerLabel}</span>
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-</button>
-
-<!-- Modal -->
+<!-- Modal Overlay -->
 <div
   id="pf-modal"
-  class="fixed inset-0 z-50 hidden"
+  class="fixed inset-0 z-50"
   role="dialog"
   aria-modal="true"
   aria-labelledby="pf-modal-title"
@@ -146,7 +136,7 @@ const stages = [
   <!-- Backdrop -->
   <div
     id="pf-backdrop"
-    class="absolute inset-0 transition-opacity"
+    class="absolute inset-0 pf-fade-in"
     style="background-color: rgba(42, 33, 53, 0.45); backdrop-filter: blur(6px);"
   ></div>
 
@@ -154,9 +144,20 @@ const stages = [
   <div class="absolute inset-0 flex items-center justify-center p-4">
     <div
       id="pf-card"
-      class="pf-scale-in w-full max-w-4xl overflow-hidden rounded-2xl shadow-2xl flex flex-col md:flex-row"
+      class="pf-scale-in relative w-full max-w-4xl overflow-hidden rounded-2xl shadow-2xl flex flex-col md:flex-row"
       style="background-color: var(--color-raised); min-height: 580px; max-height: 90vh;"
     >
+      <!-- Close Button -->
+      <button
+        type="button"
+        id="pf-close"
+        class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+        style="background-color: var(--color-cream); color: var(--color-ink-soft);"
+        aria-label="Close"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+
       <!-- Left Sidebar -->
       <aside
         class="w-full md:w-72 flex flex-col border-b md:border-b-0 md:border-r p-6 md:p-8"
@@ -168,16 +169,13 @@ const stages = [
         </div>
 
         <nav class="flex-1 relative">
-          {stages.map((stage, idx) => (
+          {stages.map((stage) => (
             <div
               class="pf-step-item relative pl-10 pb-8 cursor-pointer group"
               data-step={stage.id}
               data-step-nav
             >
-              <!-- Connector Line -->
               <div class="pf-step-line"></div>
-
-              <!-- Indicator -->
               <div
                 class="pf-step-indicator absolute left-0 top-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
                 data-indicator={stage.id}
@@ -186,8 +184,6 @@ const stages = [
                 <span class="pf-step-number text-sm font-semibold" data-number={stage.id}>{stage.id}</span>
                 <svg class="pf-step-check hidden w-4 h-4 text-white" data-check={stage.id} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
-
-              <!-- Text -->
               <div
                 class="pf-step-content -mt-1 transition-all duration-300 rounded-lg p-2 -ml-2"
                 data-content={stage.id}
@@ -199,7 +195,6 @@ const stages = [
           ))}
         </nav>
 
-        <!-- Progress -->
         <div class="mt-auto pt-6 hidden md:block">
           <div class="flex items-center justify-between text-xs mb-2" style="color: var(--color-ink-soft);">
             <span>Progress</span>
@@ -217,53 +212,48 @@ const stages = [
 
       <!-- Right Content -->
       <main class="flex-1 flex flex-col overflow-hidden" style="background-color: var(--color-raised);">
-        <!-- Scrollable Content -->
-        <div class="flex-1 overflow-y-auto pf-scroll p-6 md:p-10">
+        <div class="flex-1 overflow-y-auto pf-scroll p-6 md:p-10 pt-14 md:pt-10">
           {stages.map((stage) => (
-            <div
-              class="pf-stage hidden"
-              data-stage={stage.id}
-            >
+            <div class="pf-stage" data-stage={stage.id} style="display: none;">
               <div class="mb-2">
                 <span class="inline-block text-xs font-bold tracking-wider uppercase rounded-full px-3 py-1 mb-3" style="background-color: var(--color-cream); color: var(--color-rose-ink);">
                   Step {stage.id}
                 </span>
               </div>
-              <h2
-                id="pf-modal-title"
-                class="pf-font-display text-2xl md:text-3xl font-semibold mb-2"
-                style="color: var(--color-ink);"
-              >
-                {stage.title}
-              </h2>
-              <p class="text-base md:text-lg mb-8 leading-relaxed" style="color: var(--color-ink-soft);">
-                {stage.description}
-              </p>
+              <h2 class="pf-font-display text-2xl md:text-3xl font-semibold mb-2" style="color: var(--color-ink);">{stage.title}</h2>
+              <p class="text-base md:text-lg mb-8 leading-relaxed" style="color: var(--color-ink-soft);">{stage.description}</p>
 
-              <!-- Options -->
-              <div class="space-y-6">
+              <div class="space-y-8">
                 {"sections" in stage ? (
                   stage.sections.map((section) => (
                     <div>
-                      <h4 class="text-xs font-bold tracking-wider uppercase mb-3" style="color: var(--color-ink-soft);">
-                        {section.header}
-                      </h4>
-                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        class="pf-umbrella-toggle pf-font-body w-full text-left rounded-xl border px-4 py-3 mb-3 flex items-center justify-between group"
+                        style="border-color: var(--color-line); color: var(--color-ink);"
+                        data-umbrella={section.header}
+                        data-stage-id={stage.id}
+                      >
+                        <span class="font-semibold text-sm md:text-base">{section.header}</span>
+                        <div class="pf-umbrella-dot w-5 h-5 rounded border-2 flex items-center justify-center transition-all" style="border-color: var(--color-mist);">
+                          <svg class="w-3.5 h-3.5 opacity-0 transition-all" style="color: var(--color-sage);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                      </button>
+
+                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-2">
                         {section.options.map((opt) => (
                           <button
                             type="button"
                             class="pf-option-card pf-font-body text-left rounded-xl border p-4 md:p-5 relative group"
                             style="border-color: var(--color-line); background-color: var(--color-raised); color: var(--color-ink);"
                             data-option={opt}
+                            data-parent={section.header}
                             data-stage-id={stage.id}
                           >
                             <div class="flex items-center justify-between">
                               <span class="font-medium text-sm md:text-base">{opt}</span>
-                              <div
-                                class="pf-option-dot w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all"
-                                style="border-color: var(--color-mist);"
-                              >
-                                <div class="w-2.5 h-2.5 rounded-full opacity-0 transition-all" style="background-color: var(--color-sage);"></div>
+                              <div class="pf-option-dot w-5 h-5 rounded border-2 flex items-center justify-center transition-all" style="border-color: var(--color-mist);">
+                                <svg class="w-3 h-3 opacity-0 transition-all" style="color: var(--color-sage);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                               </div>
                             </div>
                           </button>
@@ -283,11 +273,8 @@ const stages = [
                       >
                         <div class="flex items-center justify-between">
                           <span class="font-medium text-sm md:text-base">{opt}</span>
-                          <div
-                            class="pf-option-dot w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all"
-                            style="border-color: var(--color-mist);"
-                          >
-                            <div class="w-2.5 h-2.5 rounded-full opacity-0 transition-all" style="background-color: var(--color-sage);"></div>
+                          <div class="pf-option-dot w-5 h-5 rounded border-2 flex items-center justify-center transition-all" style="border-color: var(--color-mist);">
+                            <svg class="w-3 h-3 opacity-0 transition-all" style="color: var(--color-sage);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                           </div>
                         </div>
                       </button>
@@ -298,26 +285,15 @@ const stages = [
             </div>
           ))}
 
-          <!-- Summary / Completion -->
-          <div class="pf-stage hidden" data-stage="summary">
+          <div class="pf-stage" data-stage="summary" style="display: none;">
             <div class="text-center py-10">
-              <div
-                class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
-                style="background-color: var(--color-sage);"
-              >
+              <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background-color: var(--color-sage);">
                 <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               </div>
               <h2 class="pf-font-display text-2xl md:text-3xl font-semibold mb-3" style="color: var(--color-ink);">Your path is illuminated</h2>
-              <p class="text-base mb-8 max-w-md mx-auto" style="color: var(--color-ink-soft);">
-                Thank you for sharing. We've gathered your preferences and will use them to guide you toward the right experience.
-              </p>
-              <div id="pf-summary-details" class="text-left max-w-md mx-auto space-y-3 mb-8"></div>
-              <button
-                type="button"
-                id="pf-restart"
-                class="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
-                style="background-color: var(--color-sage);"
-              >
+              <p class="text-base mb-8 max-w-md mx-auto" style="color: var(--color-ink-soft);">Thank you for sharing. We've gathered your preferences and will use them to guide you toward the right experience.</p>
+              <div id="pf-summary-details" class="text-left max-w-lg mx-auto space-y-3 mb-8"></div>
+              <button type="button" id="pf-restart" class="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90" style="background-color: var(--color-sage);">
                 <span>Start Over</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
               </button>
@@ -326,28 +302,12 @@ const stages = [
         </div>
 
         <!-- Footer -->
-        <div
-          class="flex items-center justify-between p-6 md:px-10 md:py-6 border-t"
-          style="border-color: var(--color-line); background-color: var(--color-raised);"
-        >
-          <button
-            type="button"
-            id="pf-btn-back"
-            class="pf-font-body inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-black/5"
-            style="color: var(--color-ink);"
-            disabled
-          >
+        <div class="flex items-center justify-between p-6 md:px-10 md:py-6 border-t" style="border-color: var(--color-line); background-color: var(--color-raised);">
+          <button type="button" id="pf-btn-back" class="pf-font-body inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-black/5" style="color: var(--color-ink);" disabled>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             Back
           </button>
-
-          <button
-            type="button"
-            id="pf-btn-next"
-            class="pf-font-body inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
-            style="background-color: var(--color-ink);"
-            disabled
-          >
+          <button type="button" id="pf-btn-next" class="pf-font-body inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed" style="background-color: var(--color-ink);" disabled>
             <span id="pf-btn-next-text">Continue</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </button>
@@ -357,12 +317,11 @@ const stages = [
   </div>
 </div>
 
-<script>
+<script is:inline>
   (function() {
     const modal = document.getElementById('pf-modal');
     const backdrop = document.getElementById('pf-backdrop');
-    const trigger = document.getElementById('pf-trigger');
-    const card = document.getElementById('pf-card');
+    const closeBtn = document.getElementById('pf-close');
     const btnBack = document.getElementById('pf-btn-back');
     const btnNext = document.getElementById('pf-btn-next');
     const btnNextText = document.getElementById('pf-btn-next-text');
@@ -373,34 +332,31 @@ const stages = [
 
     let currentStage = 1;
     const totalStages = 3;
-    const selections = { 1: null, 2: null, 3: [] };
+    const selections = { 1: [], 2: [], 3: [] };
 
-    const stageData = [
-      { id: 1, title: "What do I need?", subtitle: "Primary Need" },
-      { id: 2, title: "What kind of experience am I looking for?", subtitle: "Therapeutic Approach" },
-      { id: 3, title: "Who feels like the right guide?", subtitle: "Companion Profile" },
-    ];
-
-    function openModal() {
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      render();
-    }
+    const stageSections = {
+      1: [
+        { header: "Deep Relational & Personal Growth", options: ["Heal", "Belong", "Grow", "Create"] },
+        { header: "Tools, Skills & Support for Daily Life", options: ["Learn", "Support", "Restore"] },
+      ]
+    };
 
     function closeModal() {
-      modal.classList.add('hidden');
+      modal.style.display = 'none';
       document.body.style.overflow = '';
+    }
+
+    function isStageComplete(stageId) {
+      return selections[stageId].length > 0;
     }
 
     function updateSidebar() {
       for (let i = 1; i <= totalStages; i++) {
-        const indicator = document.querySelector(`[data-indicator="${i}"]`);
-        const number = document.querySelector(`[data-number="${i}"]`);
-        const check = document.querySelector(`[data-check="${i}"]`);
-        const content = document.querySelector(`[data-content="${i}"]`);
-        const item = document.querySelector(`[data-step="${i}"]`);
+        const indicator = document.querySelector('[data-indicator="' + i + '"]');
+        const number = document.querySelector('[data-number="' + i + '"]');
+        const check = document.querySelector('[data-check="' + i + '"]');
+        const content = document.querySelector('[data-content="' + i + '"]');
 
-        // Reset
         indicator.style.cssText = '';
         indicator.style.border = '2px solid var(--color-mist)';
         indicator.style.color = 'var(--color-ink-soft)';
@@ -408,166 +364,187 @@ const stages = [
         number.classList.remove('hidden');
         check.classList.add('hidden');
         content.style.background = 'transparent';
-        content.style.marginLeft = '-0.5rem';
-        content.style.padding = '0.5rem';
-        content.style.borderRadius = '0.5rem';
+        content.style.opacity = '1';
 
         if (i < currentStage) {
-          // Completed
           indicator.style.background = 'var(--color-sage)';
           indicator.style.borderColor = 'var(--color-sage)';
           indicator.style.color = '#fff';
           number.classList.add('hidden');
           check.classList.remove('hidden');
-          content.style.opacity = '1';
         } else if (i === currentStage) {
-          // Current
           indicator.style.background = 'var(--color-ink)';
           indicator.style.borderColor = 'var(--color-ink)';
           indicator.style.color = '#fff';
           content.style.background = 'var(--color-cream)';
         } else {
-          // Pending
           content.style.opacity = '0.6';
         }
       }
 
-      // Progress bar
       const pct = currentStage > totalStages ? 100 : ((currentStage - 1) / totalStages) * 100;
       progressBar.style.width = pct + '%';
-      progressText.textContent = `${Math.min(currentStage, totalStages)} / ${totalStages}`;
+      progressText.textContent = Math.min(currentStage, totalStages) + ' / ' + totalStages;
+    }
+
+    function getUmbrellaState(header, stageId) {
+      const section = stageSections[stageId].find(s => s.header === header);
+      if (!section) return 'empty';
+      const selected = section.options.filter(o => selections[stageId].includes(o));
+      if (selected.length === 0) return 'empty';
+      if (selected.length === section.options.length) return 'full';
+      return 'partial';
+    }
+
+    function toggleUmbrella(header, stageId) {
+      const section = stageSections[stageId].find(s => s.header === header);
+      if (!section) return;
+      const state = getUmbrellaState(header, stageId);
+      if (state === 'full') {
+        selections[stageId] = selections[stageId].filter(o => !section.options.includes(o));
+      } else {
+        section.options.forEach(o => {
+          if (!selections[stageId].includes(o)) selections[stageId].push(o);
+        });
+      }
+    }
+
+    function updateUmbrellaVisuals() {
+      if (currentStage !== 1) return;
+      stageSections[1].forEach(section => {
+        const btn = document.querySelector('[data-umbrella="' + section.header + '"]');
+        if (!btn) return;
+        const dot = btn.querySelector('.pf-umbrella-dot');
+        const check = btn.querySelector('.pf-umbrella-dot svg');
+        const state = getUmbrellaState(section.header, 1);
+
+        if (state === 'full') {
+          btn.classList.add('active');
+          dot.style.borderColor = 'var(--color-sage)';
+          dot.style.background = 'var(--color-sage)';
+          check.style.opacity = '1';
+          check.style.color = '#fff';
+        } else if (state === 'partial') {
+          btn.classList.add('active');
+          dot.style.borderColor = 'var(--color-sage)';
+          dot.style.background = 'transparent';
+          check.style.opacity = '1';
+          check.style.color = 'var(--color-sage)';
+        } else {
+          btn.classList.remove('active');
+          dot.style.borderColor = 'var(--color-mist)';
+          dot.style.background = 'transparent';
+          check.style.opacity = '0';
+        }
+      });
+    }
+
+    function updateOptionVisuals() {
+      document.querySelectorAll('[data-option]').forEach(btn => {
+        const stageId = parseInt(btn.getAttribute('data-stage-id'));
+        const opt = btn.getAttribute('data-option');
+        const isSelected = selections[stageId].includes(opt);
+
+        if (isSelected) {
+          btn.classList.add('selected');
+          btn.querySelector('.pf-option-dot').style.borderColor = 'var(--color-sage)';
+          btn.querySelector('.pf-option-dot svg').style.opacity = '1';
+        } else {
+          btn.classList.remove('selected');
+          btn.querySelector('.pf-option-dot').style.borderColor = 'var(--color-mist)';
+          btn.querySelector('.pf-option-dot svg').style.opacity = '0';
+        }
+      });
     }
 
     function render() {
-      // Hide all stages
-      document.querySelectorAll('.pf-stage').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.pf-stage').forEach(el => el.style.display = 'none');
 
       if (currentStage > totalStages) {
-        // Show summary
-        document.querySelector('[data-stage="summary"]').classList.remove('hidden');
-        btnNext.classList.add('hidden');
+        document.querySelector('[data-stage="summary"]').style.display = 'block';
+        btnNext.style.display = 'none';
         btnBack.disabled = true;
         btnBack.style.visibility = 'hidden';
 
-        // Build summary
-        const s1 = selections[1] || '—';
-        const s2 = selections[2] || '—';
+        const s1 = selections[1].length ? selections[1].join(', ') : '—';
+        const s2 = selections[2].length ? selections[2].join(', ') : '—';
         const s3 = selections[3].length ? selections[3].join(', ') : '—';
 
-        summaryDetails.innerHTML = `
-          <div class="rounded-xl p-4 border" style="border-color: var(--color-line); background: var(--color-canvas);">
-            <div class="text-xs font-bold uppercase tracking-wider mb-1" style="color: var(--color-ink-soft);">Primary Need</div>
-            <div class="font-medium" style="color: var(--color-ink);">${s1}</div>
-          </div>
-          <div class="rounded-xl p-4 border" style="border-color: var(--color-line); background: var(--color-canvas);">
-            <div class="text-xs font-bold uppercase tracking-wider mb-1" style="color: var(--color-ink-soft);">Experience</div>
-            <div class="font-medium" style="color: var(--color-ink);">${s2}</div>
-          </div>
-          <div class="rounded-xl p-4 border" style="border-color: var(--color-line); background: var(--color-canvas);">
-            <div class="text-xs font-bold uppercase tracking-wider mb-1" style="color: var(--color-ink-soft);">Companion</div>
-            <div class="font-medium" style="color: var(--color-ink);">${s3}</div>
-          </div>
-        `;
+        summaryDetails.innerHTML =
+          '<div class="rounded-xl p-4 border" style="border-color: var(--color-line); background: var(--color-canvas);">' +
+            '<div class="text-xs font-bold uppercase tracking-wider mb-1" style="color: var(--color-ink-soft);">Primary Need</div>' +
+            '<div class="font-medium text-sm" style="color: var(--color-ink);">' + s1 + '</div>' +
+          '</div>' +
+          '<div class="rounded-xl p-4 border" style="border-color: var(--color-line); background: var(--color-canvas);">' +
+            '<div class="text-xs font-bold uppercase tracking-wider mb-1" style="color: var(--color-ink-soft);">Experience</div>' +
+            '<div class="font-medium text-sm" style="color: var(--color-ink);">' + s2 + '</div>' +
+          '</div>' +
+          '<div class="rounded-xl p-4 border" style="border-color: var(--color-line); background: var(--color-canvas);">' +
+            '<div class="text-xs font-bold uppercase tracking-wider mb-1" style="color: var(--color-ink-soft);">Companion</div>' +
+            '<div class="font-medium text-sm" style="color: var(--color-ink);">' + s3 + '</div>' +
+          '</div>';
       } else {
-        // Show active stage
-        document.querySelector(`[data-stage="${currentStage}"]`).classList.remove('hidden');
-        btnNext.classList.remove('hidden');
+        document.querySelector('[data-stage="' + currentStage + '"]').style.display = 'block';
+        btnNext.style.display = 'inline-flex';
         btnBack.style.visibility = 'visible';
         btnBack.disabled = currentStage === 1;
         btnNextText.textContent = currentStage === totalStages ? 'Finish' : 'Continue';
+        btnNext.disabled = !isStageComplete(currentStage);
 
-        // Enable next only if selection exists
-        const hasSelection = currentStage === 3 ? selections[3].length > 0 : selections[currentStage] !== null;
-        btnNext.disabled = !hasSelection;
-
-        // Update option cards visual state
-        document.querySelectorAll(`[data-stage-id="${currentStage}"]`).forEach(btn => {
-          const opt = btn.getAttribute('data-option');
-          const isSelected = currentStage === 3
-            ? selections[3].includes(opt)
-            : selections[currentStage] === opt;
-
-          if (isSelected) {
-            btn.classList.add('selected');
-            btn.querySelector('.pf-option-dot').style.borderColor = 'var(--color-sage)';
-            btn.querySelector('.pf-option-dot div').style.opacity = '1';
-          } else {
-            btn.classList.remove('selected');
-            btn.querySelector('.pf-option-dot').style.borderColor = 'var(--color-mist)';
-            btn.querySelector('.pf-option-dot div').style.opacity = '0';
-          }
-        });
+        updateOptionVisuals();
+        updateUmbrellaVisuals();
       }
 
       updateSidebar();
     }
 
-    // Event: option click
+    document.querySelectorAll('[data-umbrella]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const stageId = parseInt(btn.getAttribute('data-stage-id'));
+        const header = btn.getAttribute('data-umbrella');
+        toggleUmbrella(header, stageId);
+        if (currentStage === stageId) render();
+      });
+    });
+
     document.querySelectorAll('[data-option]').forEach(btn => {
       btn.addEventListener('click', () => {
         const stageId = parseInt(btn.getAttribute('data-stage-id'));
         const opt = btn.getAttribute('data-option');
+        const idx = selections[stageId].indexOf(opt);
 
-        if (stageId === 3) {
-          // Multi-select for stage 3
-          const idx = selections[3].indexOf(opt);
-          if (idx > -1) selections[3].splice(idx, 1);
-          else selections[3].push(opt);
-        } else {
-          // Single select
-          selections[stageId] = selections[stageId] === opt ? null : opt;
-        }
+        if (idx > -1) selections[stageId].splice(idx, 1);
+        else selections[stageId].push(opt);
 
         if (currentStage === stageId) render();
       });
     });
 
-    // Event: navigation
-    btnBack.addEventListener('click', () => {
-      if (currentStage > 1) {
-        currentStage--;
-        render();
-      }
-    });
+    btnBack.addEventListener('click', () => { if (currentStage > 1) { currentStage--; render(); } });
+    btnNext.addEventListener('click', () => { if (currentStage <= totalStages) { currentStage++; render(); } });
 
-    btnNext.addEventListener('click', () => {
-      if (currentStage <= totalStages) {
-        currentStage++;
-        render();
-      }
-    });
-
-    // Event: sidebar click to jump back
     document.querySelectorAll('[data-step-nav]').forEach(el => {
       el.addEventListener('click', () => {
         const step = parseInt(el.getAttribute('data-step'));
-        if (step < currentStage) {
-          currentStage = step;
-          render();
-        }
+        if (step < currentStage) { currentStage = step; render(); }
       });
     });
 
-    // Event: open/close
-    trigger.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
+
     restartBtn.addEventListener('click', () => {
       currentStage = 1;
-      selections[1] = null;
-      selections[2] = null;
-      selections[3] = [];
+      selections[1] = []; selections[2] = []; selections[3] = [];
       render();
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-        closeModal();
-      }
+      if (e.key === 'Escape') closeModal();
     });
 
-    // Open on load if requested
-    if ({openOnLoad}) {
-      openModal();
-    }
+    // Auto-open on page load
+    document.body.style.overflow = 'hidden';
+    render();
   })();
 </script>

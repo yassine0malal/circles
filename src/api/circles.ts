@@ -106,7 +106,7 @@ function mapCircleToCompanionFormat(apiCircle: Circle): CircleCompanion {
 }
 
 // The Clean Helper Function returning a Promise of your interface
-export async function getActiveCircles(limit: number = 20): Promise<CircleCompanion[]> {
+export async function getActiveCircles(filter: string = ''): Promise<CircleCompanion[]> {
   try {
     const response = await circleClient.listCircles({ pageSize: limit });
     

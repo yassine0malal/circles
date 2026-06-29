@@ -21,6 +21,7 @@
     "@tailwindcss/vite": "^4.3.1",
     "astro": "^6.4.8",
     "leaflet": "^1.9.4",
+    "lottie-web": "^5.13.0",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3"
   },

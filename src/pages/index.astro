@@ -18,7 +18,15 @@ export const prerender = true;
 >
   <HeroSection />
   <CirclesSection />
-  <PathFinder triggerLabel="Find Your Path" openOnLoad={true} />
+  <div class="min-h-screen" style="background-color: #F8F2EE;">
+    <PathFinder
+      lottieSrc="/animations/robot.json"
+      lottieWidth="140px"
+      lottieHeight="140px"
+      openOnLoad={true}
+    />
+  </div>
+
   <VoiceSection />
   <HowSection />
   <FacilitatorSection />
