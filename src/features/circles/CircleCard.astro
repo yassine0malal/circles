@@ -1,5 +1,5 @@
 ---
-import { slugify } from '../../lib/slugify.ts';
+import { slugify } from "../../lib/slugify.ts";
 
 export interface Props {
   circle?: {
@@ -9,7 +9,7 @@ export interface Props {
     description?: string;
     facilitator?: {
       name?: string;
-      email?:string;
+      email?: string;
       image?: string;
       credentials?: string;
     };
@@ -22,140 +22,153 @@ export interface Props {
 
 const { circle } = Astro.props;
 
-// Guard
 const c = circle || {};
-const circleSlug = c.id || slugify(c.title || 'untitled');
+const circleSlug = c.id || slugify(c.title || "untitled");
 
 const f = c.facilitator || {};
-const facilitatorImage = f.image || '';
-const facilitatorName  = f.name  || 'Facilitator';
-const facilitatorCred  = f.credentials || '';
+const facilitatorImage = f.image || "";
+const facilitatorName = f.name || "Facilitator";
+const facilitatorEmail = f.email || "";
+const facilitatorCred = f.credentials || "";
 
-const displayLocation = c.location || c.format || 'Virtual';
-const displayPrice    = c.price || c.phone || 'Pricing';
-const displayGoal     = c.goal || c.description || '';
-const detailUrl       = `/circles/${circleSlug}`;
+const displayLocation = c.location || c.format || "Virtual";
+const displayPrice = c.price || c.phone || "Pricing";
+const displayGoal = c.goal || c.description || "";
+const detailUrl = `/circles/${circleSlug}`;
 ---
 
-{!circle ? (
-  <div class="relative bg-white rounded-2xl border border-red-100 p-6">
-    <p class="text-sm text-red-600">
-      CircleCard expects a <code>circle</code> prop.
-    </p>
-  </div>
-) : (
-  <article 
-    class="relative bg-white rounded-2xl border border-line p-6 lg:p-8 hover:shadow-lg hover:shadow-ink/5 transition-all duration-500 group cursor-pointer"
-    data-navigate={detailUrl}
-  >
-    <div class="relative z-10 flex flex-col lg:flex-row gap-6 lg:gap-10">
-      {/* ── LEFT: Title + Description + Facilitator ── */}
-      <div class="flex-1 min-w-0 flex flex-col">
-        {/* Title — clickable link */}
-        <a href={detailUrl} class="block mb-3">
-          <h3 class="text-xl lg:text-2xl font-medium text-ink group-hover:text-rose transition-colors duration-300">
-            {c.title || 'Untitled Circle'}
-          </h3>
-        </a>
+{
+  !circle ? (
+    <div class="relative bg-white rounded-2xl border border-red-100 p-6">
+      <p class="text-sm text-red-600">
+        CircleCard expects a <code>circle</code> prop.
+      </p>
+    </div>
+  ) : (
+    <article
+      class="relative bg-white rounded-2xl border border-line p-6 lg:p-8 hover:shadow-lg hover:shadow-ink/5 transition-all duration-500 group cursor-pointer"
+      data-navigate={detailUrl}
+    >
+      <div class="relative z-10 flex flex-col lg:flex-row gap-6 lg:gap-10">
+        {/* LEFT */}
+        <div class="flex-1 min-w-0 flex flex-col">
+          <a href={detailUrl} class="block mb-3">
+            <h3 class="text-xl lg:text-2xl font-medium text-ink group-hover:text-rose transition-colors duration-300">
+              {c.title || "Untitled Circle"}
+            </h3>
+          </a>
 
-        {/* Description */}
-        {displayGoal && (
-          <p class="text-sm text-ink-soft/90 leading-relaxed mb-6 line-clamp-3">
-            {displayGoal}
-          </p>
-        )}
-
-        {/* Facilitator row */}
-        <div class="flex items-center gap-4 mt-auto">
-          <div class="w-14 h-14 rounded-full overflow-hidden bg-raised shrink-0 border border-line">
-            {facilitatorImage ? (
-              <img
-                src={facilitatorImage}
-                alt={facilitatorName}
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
-            ) : (
-              <div class="w-full h-full bg-raised flex items-center justify-center text-ink-soft/30">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
-              </div>
-            )}
-          </div>
-
-          <div>
-            <p class="text-md font-medium text-ink">
-              Hosted by {facilitatorName}
+          {displayGoal && (
+            <p class="text-sm text-ink-soft/90 leading-relaxed mb-6 line-clamp-3">
+              {displayGoal}
             </p>
-            {facilitatorCred && (
-              <p class="text-xs text-ink-soft/70 flex items-center gap-1 mt-0.5">
-                <svg class="w-4 h-4 text-sage shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 003.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
-                </svg>
-                {facilitatorCred}
-              </p>
-            )}
-            <p class="text-xs text-ink-soft/50 mt-0.5">
-              {displayLocation}
-            </p>
+          )}
+
+          <div class="flex items-center gap-4 mt-auto">
+            <div class="w-14 h-14 rounded-full overflow-hidden bg-raised shrink-0 border border-line">
+              {facilitatorImage ? (
+                <img
+                  src={facilitatorImage}
+                  alt={facilitatorName}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-full h-full bg-raised flex items-center justify-center text-ink-soft/30">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                  </svg>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <p class="text-md font-medium text-ink">Hosted by {facilitatorName}</p>
+              {facilitatorCred && (
+                <p class="text-xs text-ink-soft/70 flex items-center gap-1 mt-0.5">
+                  <svg class="w-4 h-4 text-sage shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 003.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                  </svg>
+                  {facilitatorCred}
+                </p>
+              )}
+              <p class="text-xs text-ink-soft/50 mt-0.5">{displayLocation}</p>
+            </div>
           </div>
         </div>
+
+        {/* RIGHT: Price + Buttons */}
+        <div class="hidden lg:flex flex-col items-end gap-3 shrink-0">
+          <span class="text-lg font-medium text-ink">{displayPrice}</span>
+
+          {/* EMAIL BUTTON — FIXED: added data-no-navigate and explicit onclick */}
+          {facilitatorEmail ? (
+            <a
+              href={`mailto:${facilitatorEmail}`}
+              data-no-navigate
+              class="relative z-20 px-6 py-2.5 border border-line rounded-full text-sm text-ink-soft/90 hover:text-ink hover:bg-canvas transition-colors pointer-events-auto text-center min-w-[8rem]"
+              onclick="event.stopPropagation();"
+            >
+              Email
+            </a>
+          ) : (
+            <span class="relative z-20 px-6 py-2.5 border border-line rounded-full text-sm text-ink-soft/30 cursor-not-allowed text-center min-w-[8rem]">
+              Email
+            </span>
+          )}
+
+          <a
+            href={detailUrl}
+            class="relative z-20 px-6 py-2.5 border border-line rounded-full text-sm text-ink-soft/90 hover:bg-ink hover:text-cream hover:border-ink transition-colors pointer-events-auto text-center min-w-[8rem]"
+          >
+            View
+          </a>
+        </div>
+
+        {/* MOBILE */}
+        <div class="flex lg:hidden items-center gap-3 mt-2">
+          <span class="text-sm font-medium text-ink">{displayPrice}</span>
+          
+          {facilitatorEmail ? (
+            <a
+              href={`mailto:${facilitatorEmail}`}
+              data-no-navigate
+              class="relative z-20 px-4 py-2 border border-line rounded-full text-sm text-ink-soft/90 bg-white hover:bg-canvas pointer-events-auto"
+              onclick="event.stopPropagation();"
+            >
+              Email
+            </a>
+          ) : (
+            <span class="relative z-20 px-4 py-2 border border-line rounded-full text-sm text-ink-soft/30 bg-white cursor-not-allowed">
+              Email
+            </span>
+          )}
+          
+          <a
+            href={detailUrl}
+            class="relative z-20 px-4 py-2 bg-ink text-cream rounded-full text-sm font-medium hover:bg-ink-2 pointer-events-auto"
+          >
+            View
+          </a>
+        </div>
       </div>
+    </article>
+  )
+}
 
-      {/* ── RIGHT: Price + Buttons ── */}
-      <div class="hidden lg:flex flex-col items-end gap-3 shrink-0">
-        <span class="text-lg font-medium text-ink">
-          {displayPrice}
-        </span>
+{/* JavaScript: make whole card clickable, but respect data-no-navigate */}
+<script is:inline>
+  document.addEventListener("click", function (e) {
+    const card = e.target.closest("[data-navigate]");
+    if (!card) return;
 
-        <a
-          href="#"
-          class="relative z-20 px-6 py-2.5 border border-line rounded-full text-sm text-ink-soft/90 hover:text-ink hover:bg-canvas transition-colors pointer-events-auto text-center min-w-[8rem]"
-        >
-          Email
-        </a>
+    // Don't navigate if clicking a link/button with data-no-navigate
+    const noNavigate = e.target.closest("[data-no-navigate]");
+    if (noNavigate) return;
 
-        {/* ── VIEW BUTTON — real link, works independently ── */}
-        <a
-          href={detailUrl}
-          class="relative z-20 px-6 py-2.5 border border-line rounded-full text-sm text-ink-soft/90 hover:bg-ink hover:text-cream hover:border-ink transition-colors pointer-events-auto text-center min-w-[8rem]"
-        >
-          View
-        </a>
-      </div>
+    // Don't navigate if clicking a real link or button
+    if (e.target.closest("a") || e.target.closest("button")) return;
 
-      {/* ── MOBILE: Inline actions ── */}
-      <div class="flex lg:hidden items-center gap-3 mt-2">
-        <span class="text-sm font-medium text-ink">
-          {displayPrice}
-        </span>
-        <a
-          href="#"
-          class="relative z-20 px-4 py-2 border border-line rounded-full text-sm text-ink-soft/90 bg-white hover:bg-canvas pointer-events-auto"
-        >
-          Email
-        </a>
-        <a
-          href={detailUrl}
-          class="relative z-20 px-4 py-2 bg-ink text-cream rounded-full text-sm font-medium hover:bg-ink-2 pointer-events-auto"
-        >
-          View
-        </a>
-      </div>
-    </div>
-  </article>
-
-)}
-  {/* JavaScript: make whole card clickable */}
-  <script is:inline>
-    document.addEventListener('click', function(e) {
-      const card = e.target.closest('[data-navigate]');
-      if (!card) return;
-      
-      // Don't navigate if clicking a real link or button
-      if (e.target.closest('a') || e.target.closest('button')) return;
-      
-      window.location.href = card.dataset.navigate;
-    });
-  </script>
+    window.location.href = card.dataset.navigate;
+  });
+</script>

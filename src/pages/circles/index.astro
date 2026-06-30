@@ -2,26 +2,12 @@
 import MapCircles from "../../features/circles/MapCircles.astro";
 import CircleCard from "../../features/circles/CircleCard.astro";
 import Layout from "../../layouts/Layout.astro";
-// import { circleCompanions } from "../../data/circle_companions";
 import { slugify } from "../../lib/slugify";
 import FilterModal from "../../features/filter/FilterModal.astro";
 import { getActiveCircles } from '../../api/circles';
 
-const circleCompanions = await getActiveCircles();
-
-
-const filters = {
-  gender: [
-    "All",
-    "Female",
-    "Male",
-    "In Person",
-    "Online",
-    "Relief-Oriented",
-    "Values-Oriented",
-  ],
-  modality: ["In Person", "Online"],
-};
+const state = Astro.url.searchParams.get('state') || '';
+const circleCompanions = await getActiveCircles(state);
 
 const nearby = [
   "Brooklyn Navy Yard",
@@ -72,19 +58,17 @@ const faqs = [
 ];
 
 // Map data for the map component (only items with lat/lng)
-const mapCircles = circleCompanions
-  .filter((c) => typeof c.lat === "number" && typeof c.lng === "number")
-  .map((c) => ({
-    id: c.id || slugify(c.name),
-    name: c.name,
-    image: c.image,
-    credentials: c.credentials,
-    location: c.location,
-    lat: c.lat,
-    lng: c.lng,
-    modality: c.modality,
-    price: c.price,
-  }));
+const mapCircles = circleCompanions.map((c) => ({
+  id: c.id || slugify(c.name),
+  name: c.name,
+  image: c.image,
+  credentials: c.credentials,
+  location: c.location,
+  lat: c.lat,
+  lng: c.lng,
+  modality: c.modality,
+  price: c.price,
+}));
 ---
 
 <Layout title="Circles in Brooklyn, NY — Circle Share">
@@ -147,11 +131,46 @@ const mapCircles = circleCompanions
         class="flex flex-wrap items-center justify-between gap-3 border border-line p-3 rounded-[8px] w-full"
       >
         <div class="flex flex-wrap items-center gap-3">
+          <!-- Gender filters -->
+          <!-- <span class="text-xs font-medium text-ink-soft/60 uppercase tracking-wider mr-1">Gender</span> -->
           {
-            filters.gender.map((filter, i) => (
+            ["All", "Female", "Male"].map((filter, i) => (
               <button
                 class={`filter-btn px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 ${i === 0 ? "bg-ink text-cream" : "border border-line text-ink-soft/90 hover:border-line hover:text-ink"}`}
                 data-filter={filter}
+                data-filter-type="gender"
+              >
+                {filter}
+              </button>
+            ))
+          }
+
+          <div class="w-px h-6 bg-line mx-2"></div>
+
+          <!-- Modality filters -->
+          <!-- <span class="text-xs font-medium text-ink-soft/60 uppercase tracking-wider mr-1">Format</span> -->
+          {
+            ["In Person", "Online"].map((filter) => (
+              <button
+                class="filter-btn px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 border border-line text-ink-soft/90 hover:border-line hover:text-ink"
+                data-filter={filter}
+                data-filter-type="modality"
+              >
+                {filter}
+              </button>
+            ))
+          }
+
+          <div class="w-px h-6 bg-line mx-2"></div>
+
+          <!-- Orientation filters -->
+          <!-- <span class="text-xs font-medium text-ink-soft/60 uppercase tracking-wider mr-1">Focus</span> -->
+          {
+            ["Relief-Oriented", "Values-Oriented"].map((filter) => (
+              <button
+                class="filter-btn px-5 py-2.5 rounded-[4px] text-sm font-medium transition-all duration-300 border border-line text-ink-soft/90 hover:border-line hover:text-ink"
+                data-filter={filter}
+                data-filter-type="orientation"
               >
                 {filter}
               </button>
@@ -179,7 +198,6 @@ const mapCircles = circleCompanions
     <div class="space-y-6" id="companion-list">
       {
         circleCompanions.map((c) => {
-          // Generate the EXACT same slug that getStaticPaths uses
           const itemSlug = c.id || slugify(c.name);
 
           return (
@@ -200,6 +218,7 @@ const mapCircles = circleCompanions
                     name: c.name,
                     image: c.image,
                     credentials: c.credentials,
+                    email: c.email
                   },
                   location: c.location,
                   format: c.modality,
@@ -233,8 +252,6 @@ const mapCircles = circleCompanions
       >
     </div>
 
-
-
     {/* Nearby Searches */}
     <section class="mt-16 bg-raised/50 rounded-2xl p-8 lg:p-10">
       <h3 class="text-lg font-medium text-ink mb-6">
@@ -258,8 +275,6 @@ const mapCircles = circleCompanions
         >See More Circles</a
       >
     </section>
-
-
 
     {/* Treatment Stats */}
     <section class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -377,24 +392,32 @@ const mapCircles = circleCompanions
     pill.style.left = `${btnRect.left - containerRect.left}px`;
   }
 
+  function hideMap() {
+    mapWrapper.style.maxHeight = `${mapWrapper.scrollHeight}px`;
+    requestAnimationFrame(() => {
+      mapWrapper.style.maxHeight = "0px";
+      mapWrapper.style.opacity = "0";
+      mapWrapper.style.marginBottom = "0px";
+    });
+  }
+
+  function showMap() {
+    mapWrapper.style.maxHeight = "500px";
+    mapWrapper.style.opacity = "1";
+    mapWrapper.style.marginBottom = "24px";
+  }
+
   function setMode(mode) {
     if (mode === "virtual") {
       positionPill(btnVirtual);
       btnVirtual.classList.replace("text-ink-soft", "text-cream");
       btnInPerson.classList.replace("text-cream", "text-ink-soft");
-      mapWrapper.style.maxHeight = `${mapWrapper.scrollHeight}px`;
-      requestAnimationFrame(() => {
-        mapWrapper.style.maxHeight = "0px";
-        mapWrapper.style.opacity = "0";
-        mapWrapper.style.marginBottom = "0px";
-      });
+      hideMap();
     } else {
       positionPill(btnInPerson);
       btnInPerson.classList.replace("text-ink-soft", "text-cream");
       btnVirtual.classList.replace("text-cream", "text-ink-soft");
-      mapWrapper.style.maxHeight = "500px";
-      mapWrapper.style.opacity = "1";
-      mapWrapper.style.marginBottom = "24px";
+      showMap();
     }
   }
 
@@ -409,47 +432,70 @@ const mapCircles = circleCompanions
   // ── Filter Buttons ──
   const filterButtons = document.querySelectorAll(".filter-btn");
   const companionCards = document.querySelectorAll(".companion-card");
-  let activeFilter = "All";
+  
+  let activeFilters = {
+    gender: "All",
+    modality: null,
+    orientation: null,
+  };
 
   function normalize(str) {
     return (str || "").toLowerCase().trim();
   }
 
-  function applyFilter(filter) {
-    activeFilter = filter;
+  function applyFilters() {
+    const { gender, modality, orientation } = activeFilters;
 
-    filterButtons.forEach((b) => {
-      const btnFilter = b.getAttribute("data-filter") || "All";
-      const isActive = btnFilter === filter;
+    // Sync the top toggle with the filter bar
+    if (modality === "Online") {
+      // Switch top toggle to Virtual and hide map
+      setMode("virtual");
+    } else if (modality === "In Person") {
+      // Switch top toggle to In Person and show map
+      setMode("inperson");
+    }
+
+    // Update button visual states
+    filterButtons.forEach((btn) => {
+      const btnFilter = btn.getAttribute("data-filter");
+      const btnType = btn.getAttribute("data-filter-type");
+      
+      const isActive =
+        (btnType === "gender" && btnFilter === gender) ||
+        (btnType === "modality" && btnFilter === modality) ||
+        (btnType === "orientation" && btnFilter === orientation);
 
       if (isActive) {
-        b.classList.remove("border", "border-line", "text-ink-soft/90");
-        b.classList.add("bg-ink", "text-cream");
+        btn.classList.remove("border", "border-line", "text-ink-soft/90");
+        btn.classList.add("bg-ink", "text-cream");
       } else {
-        b.classList.remove("bg-ink", "text-cream");
-        b.classList.add("border", "border-line", "text-ink-soft/90");
+        btn.classList.remove("bg-ink", "text-cream");
+        btn.classList.add("border", "border-line", "text-ink-soft/90");
       }
     });
 
+    // Filter cards
     companionCards.forEach((card) => {
       const cardGender = normalize(card.getAttribute("data-gender"));
       const cardModality = normalize(card.getAttribute("data-modality"));
       const cardOrientation = normalize(card.getAttribute("data-orientation"));
-      const normalizedFilter = normalize(filter);
 
-      let show = false;
-      if (filter === "All") {
-        show = true;
-      } else if (filter === "Female" || filter === "Male") {
-        show = cardGender === normalizedFilter;
-      } else if (filter === "In Person" || filter === "Online") {
-        show = cardModality === normalizedFilter;
-      } else if (filter === "Relief-Oriented") {
-        show = cardOrientation === "relief-oriented";
-      } else if (filter === "Values-Oriented") {
-        show =
-          cardOrientation === "values-driven" ||
-          cardOrientation === "values-oriented";
+      let show = true;
+
+      // Gender filter
+      if (gender !== "All") {
+        show = show && (cardGender === normalize(gender) || cardGender === "all");
+      }
+
+      // Modality filter
+      if (modality) {
+        show = show && cardModality === normalize(modality);
+      }
+
+      // Orientation filter
+      if (orientation) {
+        const targetOrientation = orientation === "Relief-Oriented" ? "relief-oriented" : "values-driven";
+        show = show && cardOrientation === targetOrientation;
       }
 
       card.style.display = show ? "" : "none";
@@ -458,19 +504,33 @@ const mapCircles = circleCompanions
 
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const filter = btn.getAttribute("data-filter") || "All";
-      applyFilter(filter);
+      const filter = btn.getAttribute("data-filter");
+      const type = btn.getAttribute("data-filter-type");
+
+      // Toggle: if clicking same filter, clear it (except "All" for gender)
+      if (type === "gender") {
+        activeFilters.gender = filter;
+      } else if (type === "modality") {
+        activeFilters.modality = activeFilters.modality === filter ? null : filter;
+      } else if (type === "orientation") {
+        activeFilters.orientation = activeFilters.orientation === filter ? null : filter;
+      }
+
+      applyFilters();
     });
   });
 
+  // Check URL params
   function checkUrlParams() {
     const url = new URL(window.location.href);
     const orientation = url.searchParams.get("orientation");
 
     if (orientation === "symptom-relief") {
-      applyFilter("Relief-Oriented");
+      activeFilters.orientation = "Relief-Oriented";
+      applyFilters();
     } else if (orientation === "values-driven") {
-      applyFilter("Values-Oriented");
+      activeFilters.orientation = "Values-Oriented";
+      applyFilters();
     }
   }
 

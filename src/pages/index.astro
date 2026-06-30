@@ -7,7 +7,8 @@ import HowSection from "../components/homeSections/HowSection.astro";
 import FacilitatorSection from "../components/homeSections/FacilitatorSection.astro";
 import TrustSection from "../components/homeSections/TrustSection.astro";
 
-import PathFinder from "../components/PathFinder.astro";
+import PathFinder from "../components/homeSections/PathFinder.astro";
+import ToastPopup from "../components/ToastPopup.astro";
 
 export const prerender = true;
 ---
@@ -18,7 +19,7 @@ export const prerender = true;
 >
   <HeroSection />
   <CirclesSection />
-  <div class="min-h-screen" style="background-color: #F8F2EE;">
+  <div class="min-h-screen bg-cream">
     <PathFinder
       lottieSrc="/animations/robot.json"
       lottieWidth="140px"
@@ -26,7 +27,12 @@ export const prerender = true;
       openOnLoad={true}
     />
   </div>
-
+ <ToastPopup 
+      id="toast-popup"
+      title="You're all set!"
+      message="Your selections have been saved. We'll match you with the perfect path and reach out soon."
+      buttonText="Got it"
+    />
   <VoiceSection />
   <HowSection />
   <FacilitatorSection />

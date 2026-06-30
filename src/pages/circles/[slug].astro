@@ -1,18 +1,13 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import VoiceSection from "../../components/homeSections/VoiceSection.astro";
-
-// 🔌 Import your live API helper instead of the mock data file!
+import ToastPopup from "../../components/ToastPopup.astro";
 import { getActiveCircles } from "../../api/circles";
 
-// ── REQUIRED for dynamic paths using live database ──
 export async function getStaticPaths() {
-  // Fetch real circles from the database
   const liveCircles = await getActiveCircles();
-  
   return liveCircles.map((c) => ({
-    // If your list page links via c.id, we map it to the 'slug' parameter here
-    params: { slug: c.id }, 
+    params: { slug: c.id },
     props: { companion: c },
   }));
 }
@@ -21,67 +16,42 @@ export const prerender = true;
 
 const { companion } = Astro.props;
 
-// Guard against missing items
 if (!companion) {
   return Astro.redirect("/404");
 }
 
-// Build page title dynamically
 const title = companion.category || "Therapy Group";
+const pageUrl = `https://circleshare.com/circles/${companion.id}`;
 ---
 
 <Layout title={`${title} — ${companion.name} — Circle Share`}>
   <div class="h-42"></div>
   <main class="max-w-6xl mx-auto px-6 lg:px-8 py-8 pb-24">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-      {/* ── LEFT COLUMN (main content) ── */}
+      {/* LEFT COLUMN */}
       <div class="lg:col-span-8 space-y-8">
-        {/* Category tag */}
-        <p
-          class="text-xs font-medium tracking-[0.2em] uppercase text-ink-soft/60"
-        >
+        <p class="text-xs font-medium tracking-[0.2em] uppercase text-ink-soft/60">
           {companion.category || "Therapy Group"}
         </p>
 
-        {/* Title */}
         <h1 class="text-3xl md:text-4xl font-medium text-ink leading-tight">
-          {companion.name}'s {
-            companion.category
-              ? companion.category.replace(/\//g, " ")
-              : "Group"
-          }
+          {companion.name}'s {companion.category ? companion.category.replace(/\//g, " ") : "Group"}
         </h1>
 
         {/* Facilitator row */}
         <div class="flex items-center gap-4">
-          <div
-            class="w-14 h-14 rounded-full overflow-hidden bg-raised border border-line shrink-0"
-          >
-            <img
-              src={companion.image}
-              alt={companion.name}
-              class="w-full h-full object-cover"
-            />
+          <div class="w-14 h-14 rounded-full overflow-hidden bg-raised border border-line shrink-0">
+            <img src={companion.image} alt={companion.name} class="w-full h-full object-cover" />
           </div>
           <div>
             <p class="text-sm text-ink-soft/90">
-              Hosted by: <span class="text-rose font-medium"
-                >{companion.name}</span
-              >
+              Hosted by: <span class="text-rose font-medium">{companion.name}</span>
             </p>
             {
               companion.verified && (
                 <p class="text-xs text-ink-soft/70 flex items-center gap-1 mt-0.5">
-                  <svg
-                    class="w-3.5 h-3.5 text-sage"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 003.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    />
+                  <svg class="w-3.5 h-3.5 text-sage" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 003.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
                   </svg>
                   Verified by {companion.verifiedBy || "Circle Share"}
                 </p>
@@ -91,154 +61,75 @@ const title = companion.category || "Therapy Group";
         </div>
 
         {/* Description */}
-        <h2
-          class="relative font-bold text-2xl pl-5 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[4px] before:h-[34px] before:rounded-2xl before:bg-ink-soft"
-        >
+        <h2 class="relative font-bold text-2xl pl-5 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[4px] before:h-[34px] before:rounded-2xl before:bg-ink-soft">
           Inside circle
         </h2>
-        <p class="text-base text-ink-soft/90 leading-[1.8]">
-          {companion.bio}
-        </p>
+        <p class="text-base text-ink-soft/90 leading-[1.8]">{companion.bio}</p>
 
         {/* Group Details */}
         <section>
           <h2 class="text-xl font-medium text-ink mb-5">Group Details</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Session Cost */}
             <div class="bg-white rounded-xl border border-line p-5">
-              <div
-                class="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-black/70"
-              >
-                <svg
-                  class="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-black/70">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
               <p class="text-[22px] font-semibold text-ink mb-1">Session Cost</p>
-              <p class="text-sm text-ink-soft/80">
-                {companion.sessionCost || companion.price || "Pricing"}
-              </p>
+              <p class="text-sm text-ink-soft/80">{companion.sessionCost || companion.price || "Pricing"}</p>
             </div>
 
-            {/* Group Meets */}
             <div class="bg-white rounded-xl border border-line p-5">
-              <div
-                class="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-black/70"
-              >
-                <svg
-                  class="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  ></path>
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-black/70">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
               </div>
               <p class="text-[22px] font-semibold text-ink mb-1">Group Meets</p>
-              <p class="text-sm text-ink-soft/80">
-                {companion.groupMeets || "Weekly"}
-              </p>
+              <p class="text-sm text-ink-soft/80">{companion.groupMeets || "Weekly"}</p>
             </div>
 
-            {/* Expertise */}
             <div class="bg-white rounded-xl border border-line p-5">
-              <div
-                class="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-black/70"
-              >
-                <svg
-                  class="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                  ></path>
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-black/70">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                 </svg>
               </div>
               <p class="text-[22px] font-semibold text-ink mb-1">Expertise</p>
-              <p class="text-sm text-ink-soft/80">
-                {
-                  companion.expertise
-                    ? companion.expertise.join(", ")
-                    : "General Support"
-                }
-              </p>
+              <p class="text-sm text-ink-soft/80">{companion.expertise ? companion.expertise.join(", ") : "General Support"}</p>
             </div>
 
-            {/* Age */}
             <div class="bg-white rounded-xl border border-line p-5">
-              <div
-                class="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-black/70"
-              >
-                <svg
-                  class="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"
-                  ></path>
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-black/70">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"/>
                 </svg>
               </div>
               <p class="text-[22px] font-semibold text-ink mb-1">Age</p>
-              <p class="text-sm text-ink-soft/80">
-                {companion.age || "Adults"}
-              </p>
+              <p class="text-sm text-ink-soft/80">{companion.age || "Adults"}</p>
             </div>
           </div>
         </section>
       </div>
 
-      {/* ── RIGHT COLUMN (sidebar) ── */}
+      {/* RIGHT COLUMN */}
       <div class="lg:col-span-4 space-y-6">
         {/* Let's Connect */}
         <div class="bg-white rounded-2xl border border-line p-6 shadow-sm">
           <div class="flex items-start justify-between mb-4">
             <div>
-              <p class="text-xs font-medium text-ink-soft/60 mb-1">
-                Let's Connect
-              </p>
-              <a
-                href={`tel:${companion.phone}`}
-                class="text-xl font-medium text-ink hover:text-rose transition-colors duration-300"
-              >
+              <p class="text-xs font-medium text-ink-soft/60 mb-1">Let's Connect</p>
+              <a href={`tel:${companion.phone}`} class="text-xl font-medium text-ink hover:text-rose transition-colors duration-300">
                 {companion.phone}
               </a>
             </div>
-            <div
-              class="w-12 h-12 rounded-full overflow-hidden bg-raised shrink-0"
-            >
-              <img
-                src={companion.image}
-                alt={companion.name}
-                class="w-full h-full object-cover"
-              />
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-raised shrink-0">
+              <img src={companion.image} alt={companion.name} class="w-full h-full object-cover" />
             </div>
           </div>
           <a
-            href="#"
+            href={`mailto:${companion.email}`}
             class="block w-full text-center px-6 py-3 text-cream text-sm font-medium rounded-full bg-[linear-gradient(135deg,var(--color-ink-2)_50%,var(--color-rose)_50%)] bg-[length:300%_300%] bg-right-bottom hover:bg-left-top transition-all duration-500 ease-out shadow-sm hover:shadow-md"
           >
             Email Us
@@ -247,34 +138,17 @@ const title = companion.category || "Therapy Group";
 
         {/* Therapy Group at a Glance */}
         <div class="bg-white rounded-2xl border border-line p-6 shadow-sm">
-          <h3 class="text-lg font-medium text-ink mb-5">
-            Therapy Group at a Glance
-          </h3>
+          <h3 class="text-lg font-medium text-ink mb-5">Therapy Group at a Glance</h3>
 
           <div class="flex items-center gap-3 mb-5 text-sm text-ink-soft/90">
-            <svg
-              class="w-5 h-5 text-ink-soft/50 shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-              ></path>
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <svg class="w-5 h-5 text-ink-soft/50 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
             {companion.location}
           </div>
 
           <div class="grid grid-cols-1 xs:grid-cols-3 gap-2.5 w-full">
-            {/* Secondary Action Button */}
             <a
               href="#"
               class="xs:col-span-1 text-center px-4 py-2.5 border border-line backdrop-blur-sm rounded-full text-sm font-medium active:scale-[0.98] transition-all duration-500 ease-out bg-[linear-gradient(135deg,var(--color-rose)_50%,rgba(255,255,255,0.5)_50%)] bg-[length:300%_300%] bg-right-bottom hover:bg-left-top text-ink-soft hover:text-cream hover:border-rose"
@@ -282,13 +156,15 @@ const title = companion.category || "Therapy Group";
               My website
             </a>
 
-            {/* Tertiary Action Button (Ghost Style) */}
-            <a
-              href="#"
-              class="xs:col-span-1 text-center px-4 py-2.5 border border-line backdrop-blur-sm rounded-full text-sm font-medium active:scale-[0.98] transition-all duration-500 ease-out bg-[linear-gradient(135deg,var(--color-rose)_50%,rgba(255,255,255,0.5)_50%)] bg-[length:300%_300%] bg-right-bottom hover:bg-left-top text-ink-soft hover:text-cream hover:border-rose"
+            {/* SHARE BUTTON */}
+            <button
+              type="button"
+              id="share-btn"
+              class="xs:col-span-1 text-center px-4 py-2.5 border border-line backdrop-blur-sm rounded-full text-sm font-medium active:scale-[0.98] transition-all duration-500 ease-out bg-[linear-gradient(135deg,var(--color-rose)_50%,rgba(255,255,255,0.5)_50%)] bg-[length:300%_300%] bg-right-bottom hover:bg-left-top text-ink-soft hover:text-cream hover:border-rose cursor-pointer"
             >
-              Share
-            </a>
+              <span id="share-label">Share</span>
+              <span id="share-copied" class="hidden text-sage">Copied!</span>
+            </button>
           </div>
         </div>
 
@@ -296,13 +172,10 @@ const title = companion.category || "Therapy Group";
         {
           companion.otherGroups && companion.otherGroups.length > 0 && (
             <div class="bg-white rounded-2xl border border-line p-6 shadow-sm">
-              <h3 class="text-lg font-medium text-ink mb-4">My Other Groups</h3>
+              <h3 class="text-lg font-medium text-ink mb-4">My Other Circles</h3>
               <div class="space-y-3">
                 {companion.otherGroups.map((group) => (
-                  <a
-                    href="#"
-                    class="block text-sm text-rose hover:text-rose-ink hover:underline underline-offset-4 transition-colors duration-300"
-                  >
+                  <a href="#" class="block text-sm text-rose hover:text-rose-ink hover:underline underline-offset-4 transition-colors duration-300">
                     {group}
                   </a>
                 ))}
@@ -315,3 +188,71 @@ const title = companion.category || "Therapy Group";
   </main>
   <VoiceSection/>
 </Layout>
+
+{/* Toast Popup — shows after successful copy */}
+<ToastPopup
+  id="share-success"
+  title="Link copied!"
+  message="The circle URL has been copied to your clipboard. You can now share it with anyone."
+  buttonText="Okay"
+/>
+
+<script is:inline>
+  (function() {
+    const shareBtn = document.getElementById('share-btn');
+    const shareLabel = document.getElementById('share-label');
+    const shareCopied = document.getElementById('share-copied');
+
+    if (!shareBtn) return;
+
+    shareBtn.addEventListener('click', async function() {
+      const url = window.location.href;
+
+      try {
+        await navigator.clipboard.writeText(url);
+        
+        // Show inline "Copied!" feedback on button
+        shareLabel.classList.add('hidden');
+        shareCopied.classList.remove('hidden');
+
+        setTimeout(() => {
+          shareLabel.classList.remove('hidden');
+          shareCopied.classList.add('hidden');
+        }, 2000);
+
+        // Show the ToastPopup
+        if (window.showshare_success) {
+          window.showshare_success();
+        }
+
+      } catch (err) {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = url;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+          document.execCommand('copy');
+          shareLabel.classList.add('hidden');
+          shareCopied.classList.remove('hidden');
+          setTimeout(() => {
+            shareLabel.classList.remove('hidden');
+            shareCopied.classList.add('hidden');
+          }, 2000);
+
+          // Show the ToastPopup
+          if (window.showshare_success) {
+            window.showshare_success();
+          }
+        } catch (e) {
+          console.error('Failed to copy URL:', e);
+        }
+        
+        document.body.removeChild(textarea);
+      }
+    });
+  })();
+</script>

@@ -58,9 +58,8 @@ function mapCircleToCompanionFormat(apiCircle: Circle): CircleCompanion {
   // 3. Map Numeric Gender Focus Enums
   const genderMap: Record<number, string> = {
     [GenderFocus.ALL]: 'All',
-    [GenderFocus.WOMEN]: 'Women',
-    [GenderFocus.MEN]: 'Men',
-    [GenderFocus.LGBTQIA_PLUS]: 'LGBTQIA+',
+    [GenderFocus.WOMEN]: 'Female',
+    [GenderFocus.MEN]: 'Male',
     [GenderFocus.UNSPECIFIED]: 'All',
   };
 
@@ -106,9 +105,9 @@ function mapCircleToCompanionFormat(apiCircle: Circle): CircleCompanion {
 }
 
 // The Clean Helper Function returning a Promise of your interface
-export async function getActiveCircles(filter: string = ''): Promise<CircleCompanion[]> {
+export async function getActiveCircles(state: string = ''): Promise<CircleCompanion[]> {
   try {
-    const response = await circleClient.listCircles({ pageSize: limit });
+    const response = await circleClient.listCircles({ state });
     
     if (!response.circles || response.circles.length === 0) {
       console.log("⚠️ BACKEND RETURNED EMPTY ARRAY");
